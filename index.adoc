@@ -181,7 +181,7 @@ image::DGBD-invert.png[][width=100%]
 [[diagrama-casos-us]]
 === 3.3 Diagrama de casos d'us
 
-image::DiagramaCasosUs.drawio.png[][width=100%]
+image::DiagramaCasosUs.png[][width=100%]
 
 [[cu-usuari]]
 === Casos d'us Usuari - ciclista
@@ -232,13 +232,15 @@ https://www.figma.com/design/rAshsR79pkUvgFZsz6nLzY/EntreBicis?m=auto&t=6QxGtz0K
 [[mobile]]
 === 4.1 Mobile - usuaris
 
-image:images/mobile_inici.png[width=200] image:images/mobile_reserva.png[width=205]
+image::mobile_inici.png[width=200] image::mobile_reserva.png[width=205]
+
+'''
 
 [[web]]
 === 4.2 Web - admin
 
-image::images\web_inici.png[width= 500]
-image::images\web_reserva.png[width= 500]
+image::web_inici.png[width= 500]
+image::web_reserva.png[width= 500]
 
 [[roganitzacio]]
 == *5. Organitzaciò*
@@ -251,4 +253,4 @@ https://trello.com/invite/b/67db06148d123d058d19ecc6/ATTIad36646a96671d6f9f37341
 [[sprint1-planning]]
 === 5.1 Sprint 1 - Planning
 
-image::images\trello_1.png[]
+image::trello_1.png[]

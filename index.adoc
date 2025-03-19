@@ -1,0 +1,254 @@
+= *Memòria Tècnica - Entre bicis*
+:author: Carlos Mendoza Jiménez
+:date:
+:doctype: book
+:encoding: utf-8
+:lang: ca
+:icons: font
+:toc: left
+:toclevels: 4
+:imagesdir: /images
+
+ 2DAMM 24-25
+ 
+ Equip docent 
+    · Manel Orós Cuenca
+    · Esther Sanchez Batlló
+    · Jordi Cardenas Guia
+    · Merce Sitges Querol
+
+image::EntreBicisLogoClean.png[][width=25%]
+[[presentacio-idea-del-projecate]]
+== *1. Proposta de projecte: Entre bicis*
+
+[[introduccio]]
+=== 1.1 Introducció
+
+L’empresa que impulsa el desenvolupament d’aquesta aplicació és una iniciativa comunitària basada en el suport mutu i la sostenibilitat. Inicialment, el projecte EntreBicis va fomentar la mobilitat sostenible a través del ciclisme, La creació d’aquesta aplicació s’alinea perfectament amb els valors de l’organització, ja que incentiva l’ús de la bicicleta mitjançant un sistema de recompenses i punts, promovent un estil de vida saludable i sostenible. 
+
+[[resum]]
+=== 1.2 Què es?
+
+L’aplicació és una plataforma per a ciclistes que permet enregistrar rutes mitjançant GPS i obtenir recompenses en funció dels quilòmetres recorreguts. Els usuaris acumulen punts que poden bescanviar per productes o serveis en establiments associats. A través d’un panell web, l’administrador pot gestionar els usuaris, validar rutes i administrar les recompenses.
+
+[[requeriments]]
+== *2. Requisits del sistema*
+
+[[requisits-no-funcionals]]
+=== 2.1 Requisits no funcionals
+
+    
+[[requisits-no-funcionals-globals]]
+==== 2.1.1 globals
+    
+* *RN01:* L'aplicació ha de ser multilloc, amb un màxim de 50 usuaris de tipus ciclista.
+
+* *RN02:* L’aplicació ha de tenir l’arquitectura client-servidor basada en una API REST desenvolupada amb Spring Boot al servidor. Tindrà dos clients: un front-end web per a l'administrador creat amb HTML+CSS+Thymeleaf i una app mòbil per a Android, desenvolupada en Kotlin i Jetpack Compose.
+* *RN03:* L’administrador i/o el personal de manteniment de l’aplicació han de tenir el suport d’un sistema de logs (registres en fitxers) on es vagin desant els errors, excepcions, avisos o situacions que requereixin atenció.
+* *RN04*: El codi ha de ser optimitzat, eficient i sense redundàncies, seguint les bones pràctiques de desenvolupament per a cada tecnologia emprada.
+* *RN05:* S’han d’utilitzar les classes, interfícies, mètodes i packages de manera òptima i adequada, seguint les bones pràctiques d’arquitectura de software.
+* *RN06:* Les capçaleres de mètodes i classes rellevants (sobretot mètodes de negoci) han d’estar degudament comentades en format JavaDoc per al backend i KDoc per al codi Kotlin de l'app mòbil.
+* *RN07:* Qualsevol excepció que es produeixi durant l’execució ha de ser degudament informada a l’usuari amb informació concreta i comprensible, en el llenguatge de l’aplicació.
+* *RN09:* S’ha d'utilitzar Git/GitLab per implementar el projecte de forma òptima i adequada. S’han de fer servir les següents branques: main/master, developer i branques per features, encara que el projecte el faci un únic integrant.
+* *RN10:* Tots els merges de funcionalitats s’han de fer per merge-request a developer. Les branques fusionades s’eliminen després del merge-request.
+* **RN12**: La comunicació entre el frontend mòbil i el backend s’ha de portar a terme mitjançant els principis REST, assegurant una arquitectura desacoblada i escalable.
+* **RN14**: Tota la interfície d'usuari (UI) dels front-ends i tots els missatges d’avís, error i altres informacions mostrades a l’usuari han d’estar en català.
+
+[[requisits-del-frontend-mobil]]
+
+==== 2.1.2 frontend mòbil
+
+* **RN20**: L’app s’ha de desenvolupar utilitzant l’IDE Android Studio, implementant el llenguatge Kotlin per crear una aplicació nativa compatible amb dispositius Android.
+* **RN21**: L’app ha de seguir l’arquitectura Feature Layer juntament amb “Clean Architecture” (UI layer - Domain layer - Data layer).
+* **RN22**: En la capa UI ha de seguir l’arquitectura moderna MVVM (Model-View-ViewModel). El ViewModel ha de gestionar l'estat de l’aplicació amb MutableStateFlow.
+* **RN23**: S’ha d’utilitzar Jetpack Compose per implementar la interfície gràfica de l’app.
+* **RN24**: La interfície d'usuari (UI) de l’app ha de complir amb les directrius de disseny Material Design. El disseny visual ha de ser atractiu, amb coherència en colors, tipografies, icones i una distribució eficient dels elements.
+* **RN25**: Reutilització i coherència de components: Els elements visuals de la interfície han d'estar definits de manera modular i reutilitzable en diversos composables.
+* **RN26**: Usabilitat (UX) i accessibilitat: La interfície de l’app ha de ser intuïtiva, eficient i fàcil d’usar. No hi pot haver passos innecessaris per accedir a les funcionalitats.
+* **RN27**: Fluïdesa garantida: L’app ha de respondre a les entrades de l'usuari en tot moment, evitant bloquejos o congelacions durant operacions intensives.
+* **RN28**: S’ha d'utilitzar un component visual de navegació per facilitar l’accés a les funcionalitats principals de l’aplicació.
+* **RN29**: L’app s’ha de poder executar en qualsevol emulador i dispositiu mòbil amb sistema operatiu Android.
+
+[[requisits-del-backend]]
+==== 2.1.3 Requisits del backend
+
+* **RN41**: L’estructura del projecte ha de ser de tipus Maven.
+* **RN42**: Les capes de servei, lògica de negoci i de persistència han d’estar ubicades al backend.
+* **RN43**: El backend s’ha d’implementar mitjançant Spring Boot.
+* **RN44**: El backend ha de ser portable i totalment funcional entre sistemes Linux i Windows.
+
+[[requisits-del-frontend-web]]
+==== 2.1.4 Requisits del frontend web
+
+* **RN51**: L'usuari administrador ha de poder accedir a l’aplicació mitjançant Internet i un navegador web.
+* **RN52**: Coherència de colors, fonts, icones, distribució i agrupació de components.
+* **RN53**: Responsive: En cas de poder variar la grandària de la pantalla, s’ha d’adaptar el seu contingut de forma proporcionada.
+* **RN54**: Atenció a la diversitat (tenir en compte discapacitats visuals, motrius, dislèxia, etc.).
+* **RN55**: Fluïdesa: L’aplicació ha de respondre a les entrades de l'usuari en tot moment. Si ha de quedar “congelada” mentre realitza qualsevol operació, l’usuari ha d’estar degudament informat.
+* **RN56**: Amigable i intuïtiu: Coherència i comprensió ràpida de les funcionalitats disponibles i no disponibles en cada moment.
+
+[[requisits-de-seguretat]]
+==== 2.1.5 Seguretat
+
+* **RN61**: L’accés als front-ends ha de disposar d’un sistema d’autenticació mitjançant usuari i contrasenya, assegurant intents d'accés no autoritzats.
+* **RN63**: L’emmagatzematge de la contrasenya d’usuari ha de ser un procés segur en tot moment utilitzant tècniques de hash robustes.
+* **RN64**: L’aplicació ha de protegir en tot moment les dades personals dels usuaris davant accessos no autoritzats tant de la part client com de la part d’API REST. Aquestes mai poden quedar exposades a altres usuaris de l’aplicació.
+
+[[requisits-de-despelgament]]
+==== 2.1.6 Desplegament (Deploy)
+
+* **RN71**: El backend i el SGBD han d'estar allotjats al mateix servidor. Aquest ha de ser accessible des d'Internet i amb alta disponibilitat (24x7).
+* **RN72**: El desplegament de l’aplicació i del SGBD s’ha de poder realitzar mitjançant contenidors Docker.
+
+[[requisits-fucnionals-gpa]]
+=== 2.2 Requisits funcionals - Guions per actor
+
+[[guio-per-ciclista]]
+==== 2.2.1 Guió del Ciclista (Usuari Comú)
+
+    El ciclista és l’usuari principal de l’aplicació mòbil. Pot registrar rutes, acumular saldo i bescanviar recompenses.
+
+[[autenticacio]]
+==== Autenticació i gestió d’usuari
+
+* **RF29**: Iniciar sessió a l’app amb el seu correu i contrasenya.
+* **RF27**: Recuperar la seva contrasenya en cas d’oblit.
+* **RF23**: Modificar la seva informació personal (nom, correu, foto de perfil).
+* **RF25**: Veure la llista d’usuaris (només el seu propi perfil).
+* **RF26**: Veure els detalls del seu usuari, incloent-hi el saldo acumulat i les rutes realitzades.
+
+[[gestio-de-rutes]]
+==== Gestió de rutes
+
+* **RF03**: Iniciar una nova ruta (si no n’hi ha cap en curs).
+* **RF05**: Finalitzar una ruta en curs.
+* **RF04**: Visualitzar detalls de les seves rutes (distància, temps, velocitat, mapa interactiu).
+* **RF06**: Veure la llista de rutes realitzades.
+
+[[us-de-recompenses]]
+==== Ús de recompenses
+
+* **RF21**: Mostrar detall de la recompensa
+* **RF12**: Reservar una recompensa si té saldo suficient.
+* **RF16**: Recollir una recompensa al punt de bescanvi corresponent.
+* **RF18**: Veure la llista de recompenses disponibles o reservades.
+
+[[guio-de-admin]]
+==== 2.2.2 Guió del Ciclista (Usuari Comú)
+
+    L’administrador és l’usuari amb accés al panell web, també podrà accedir a tots els requisits.
+
+[[autenticacio-gestio-usuaris]]
+==== Autenticació i gestió d’usuaris
+
+* **RF29**: Iniciar sessió al panell web.
+* **RF22**: Crear nous usuaris ciclistes.
+* **RF23**: Modificar la informació de qualsevol usuari.
+
+[[gestio-de-rutes]]
+==== Gestió de rutes
+
+* **RF01**: Validar una ruta per atorgar saldo al ciclista.
+* **RF02**: Invalidar una ruta (només si no s’ha fet servir el saldo generat).
+* **RF36**: Modificar paràmetres del sistema
+
+[[gestio-de-recompenses]]
+==== Gestió de recompenses
+
+* **RF09**: Crear noves recompenses.
+* **RF11**: Eliminar recompenses disponibles.
+* **RF14**: Assignar recompenses als ciclistes que les han reservat.
+
+[[regles-generals]]
+=== Regles generals
+
+* **Autenticació**: Tots els accessos han d’estar protegits amb inici de sessió.
+* **Seguretat**: No es poden exposar dades personals d’altres usuaris.
+* **Gestió d’estat**: Les rutes y recompenses tenen estats específicas que han de respetarse.
+
+[[diagrames]]
+== *3. Diagrames*
+
+[[diagrama-arquitectura]]
+=== 3.1 Diagrama d'arquitectura
+
+image::DiagramaArquitectura.drawio.png[][width=100%]
+[[diagrama-base-de-dades]]
+
+=== 3.2 Diagrama de base de dades
+image::DGBD-invert.png[][width=100%]
+
+[[diagrama-casos-us]]
+=== 3.3 Diagrama de casos d'us
+
+image::DiagramaCasosUs.drawio.png[][width=100%]
+
+[[cu-usuari]]
+=== Casos d'us Usuari - ciclista
+
+[cols="1,3,5,2,2,2"]
+
+|===
+| **ID**  | *Nom del Cas d'Ús*  | *Descripció*  | *Actors*  | *Relació*  | **RF Relacionat**| CU01 | Iniciar sessió | L'usuari introdueix el seu correu i contrasenya per accedir a l'aplicació. | Usuari Comú | Base | RF29
+| CU02 | Recuperar contrasenya | Permet a l'usuari recuperar la seva contrasenya en cas d'oblit. | Usuari Comú | Extensió de CU01 | RF27
+| CU03 | Modificar informació personal | L'usuari pot editar el seu nom, correu i foto de perfil. | Usuari Comú | Inclou CU04 | RF23
+| CU04 | Veure perfil i saldo | L'usuari pot consultar la seva informació personal i saldo acumulat. | Usuari Comú | Inclòs en CU03 | RF25, RF26
+| CU05 | Iniciar una nova ruta | L'usuari pot iniciar una nova ruta si no n'hi ha cap en curs. | Usuari Comú | Base | RF03
+| CU06 | Pausar automàticament la ruta | La ruta es pausa si es detecta una aturada de més de 5 minuts. | Usuari Comú | Extensió de CU05 | RF06
+| CU07 | Finalitzar una ruta | L'usuari finalitza manualment una ruta en curs. | Usuari Comú | Base | RF05
+| CU08 | Validació automàtica de ruta | Es valida la ruta automàticament si compleix els criteris predefinits. | Sistema | Extensió de CU07 | RF01
+| CU09 | Veure detalls d'una ruta | L'usuari pot consultar la distància, temps, velocitat i veure el mapa interactiu d'una ruta realitzada. | Usuari Comú | Inclou CU10 | RF04
+| CU10 | Llistar rutes realitzades | L'usuari pot veure la llista de rutes realitzades. | Usuari Comú | Inclòs en CU09 | RF06
+| CU11 | Consultar recompenses | L'usuari pot veure la llista de recompenses disponibles o reservades. | Usuari Comú | Base | RF18
+| CU12 | Veure detall d’una recompensa | L'usuari pot veure la informació detallada d'una recompensa. | Usuari Comú | Inclòs en CU11 | RF21
+| CU13 | Reservar una recompensa | L'usuari reserva una recompensa si té saldo suficient. | Usuari Comú | Inclou CU14 | RF12
+| CU14 | Validació de la reserva | Requereix aprovació de l'administrador abans de completar la reserva. | Administrador | Extensió de CU13 | RF14
+| CU15 | Recollir una recompensa | L'usuari recull la recompensa al punt de bescanvi corresponent. | Usuari Comú | Base | RF16
+|===
+
+[[cu-admin]]
+=== Casos d'us Admin
+
+[cols="1,3,5,2,2,2"]
+|===
+| *ID*  | *Nom del Cas d'ús*  | *Descripció*  | *Actors*  | *Relació * | **RF Relacionat**| CU16 | Iniciar sessió en el panell web | L'administrador inicia sessió al panell de gestió. | Administrador | Base | RF29
+| CU17 | Crear nous usuaris ciclistes | L'administrador pot afegir nous usuaris ciclistes al sistema. | Administrador | Base | RF22
+| CU18 | Modificar informació d’un usuari | L'administrador pot editar la informació de qualsevol usuari registrat. | Administrador | Inclou CU19 | RF23
+| CU19 | Consultar informació d’un usuari | L'administrador pot veure els detalls d'un usuari registrat. | Administrador | Inclòs en CU18 | RF25, RF26
+| CU20 | Validar una ruta | L'administrador revisa i valida una ruta per atorgar saldo al ciclista. | Administrador | Base | RF01
+| CU21 | Invalidar una ruta | L'administrador pot invalidar una ruta si encara no s'ha fet servir el saldo generat. | Administrador | Extensió de CU20 | RF02
+| CU22 | Crear una nova recompensa | L'administrador pot afegir noves recompenses al sistema. | Administrador | Base | RF09
+| CU23 | Eliminar una recompensa | L'administrador pot eliminar recompenses que ja no estiguin disponibles. | Administrador | Base | RF11
+| CU24 | Assignar recompenses reservades | L'administrador assigna recompenses als ciclistes que les han reservat. | Administrador | Base | RF14
+|===
+
+[[mockups]]
+== *4. Mockups*
+    exemple d'alguns mockups, per a més exemples consultar el figma del projecte
+    
+https://www.figma.com/design/rAshsR79pkUvgFZsz6nLzY/EntreBicis?m=auto&t=6QxGtz0Ki2YH7qyx-6[EntreBicis figma]
+
+
+[[mobile]]
+=== 4.1 Mobile - usuaris
+
+image:images/mobile_inici.png[width=200] image:images/mobile_reserva.png[width=205]
+
+[[web]]
+=== 4.2 Web - admin
+
+image::images\web_inici.png[width= 500]
+image::images\web_reserva.png[width= 500]
+
+[[roganitzacio]]
+== *5. Organitzaciò*
+
+    Tota l'informaciò al respecte al trello del projecte
+    
+    
+https://trello.com/invite/b/67db06148d123d058d19ecc6/ATTIad36646a96671d6f9f37341b2d6e2f3f3F1FA063/entrebicis[EntreBicis Trello]
+
+[[sprint1-planning]]
+=== 5.1 Sprint 1 - Planning
+
+image::images\trello_1.png[]

@@ -232,7 +232,8 @@ https://www.figma.com/design/rAshsR79pkUvgFZsz6nLzY/EntreBicis?m=auto&t=6QxGtz0K
 [[mobile]]
 === 4.1 Mobile - usuaris
 
-image::mobile_inici.png[width=200] image::mobile_reserva.png[width=205]
+image::mobile_inici.png[role="left" width=200]
+image::mobile_reserva.png[width=205]
 
 '''
 

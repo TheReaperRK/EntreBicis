@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="/styles/userListStyles.css">
+    <link rel="stylesheet" href="/styles/sideBarStyle.css">
+</head>
+<body>
+
+    <!-- Botón para abrir/cerrar el sidebar -->
+    <button id="toggle-sidebar">☰</button>
+
+    <main class="content">
+        <header class="user-list-header">
+            <h1>Lista de Usuarios</h1>
+            <a href="/users/create" class="btn btn-create">➕ Crear usuario</a>
+        </header>
+
+        <section class="table-section">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Correo</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Población</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Balance</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iteramos sobre la lista de usuarios -->
+                        <tr th:each="user : ${users}">
+                            <td>
+                                <img th:if="${user.image != null}" th:src="@{'data:image/jpeg;base64,' + user.image}" alt="Imagen de usuario">
+                                <span th:if="${user.image == null}">Sin imagen</span>
+                            </td>
+                            <td th:text="${user.mail}"></td>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.surnames}"></td>
+                            <td th:text="${user.population}"></td>
+                            <td th:text="${user.phone_number}"></td>
+                            <td th:text="${user.role}"></td>
+                            <td th:text="${user.balance} + ' €'"></td>
+                            <td>
+                                <a th:href="@{/users/edit/{mail}(mail=${user.mail})}" class="btn btn-edit">✏️ Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="/scripts/sidebar.js"></script>
+</body>
+</html>

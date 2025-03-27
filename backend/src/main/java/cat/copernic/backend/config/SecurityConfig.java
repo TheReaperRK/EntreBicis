@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cat.copernic.backend.config;
 
 import cat.copernic.backend.logic.auth.CustomUserDetailsService;
@@ -13,10 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- *
- * @author carlo
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -24,9 +16,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll() // ✅ permite libre acceso a la API
                 .requestMatchers("/login", "/register", "/css/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
+            )
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/api/**") // ✅ desactiva CSRF solo en API
             )
             .formLogin(form -> form
                 .loginPage("/login")
@@ -37,7 +33,8 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
-                .permitAll());
+                .permitAll())
+            .httpBasic(); // ✅ importante si usas API con auth por cabecera, no obligatorio
 
         return http.build();
     }
@@ -55,3 +52,4 @@ public class SecurityConfig {
         return provider;
     }
 }
+

@@ -33,7 +33,7 @@ public class AuthController {
     public String login() {
         return "/auth/login";
     }
-
+   
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("user", new User());

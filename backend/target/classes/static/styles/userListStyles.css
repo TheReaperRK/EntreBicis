@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #0e6837;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 20px;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+th {
+    background-color: #166C4E;
+    color: white;
+}
+tr:hover {
+    background-color: #f1f1f1;
+}
+img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Contenedor de la tabla con scroll */
+.table-container {
+    width: 100%;
+    max-height: 500px; /* Ajusta el valor según necesites */
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.user-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-create {
+    background-color: #166C4E;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn-create:hover {
+    background-color: #27C08A;
+}
+
+.btn-edit {
+    background-color: #f0ad4e;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #ec971f;
+}

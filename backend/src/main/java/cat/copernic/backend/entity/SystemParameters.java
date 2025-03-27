@@ -40,4 +40,6 @@ public class SystemParameters {
     @Column(name = "pickup_time", nullable = false, columnDefinition = "INT DEFAULT 72")
     private int pickupTime = 72;
     
+    
+    
 }

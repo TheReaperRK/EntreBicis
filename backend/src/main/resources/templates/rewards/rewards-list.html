@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Llista de Recompenses</title>
+        <link rel="stylesheet" href="/styles/sideBarStyle.css">
+        <link rel="stylesheet" href="/styles/rewardStyle.css">
+    </head>
+    <body>
+        <!-- Botón para abrir/cerrar el sidebar -->
+        <button id="toggle-sidebar">☰</button>
+        <h1>Llista de Recompenses</h1>
+        <a th:href="@{/rewards/create}">➕ Crear nova recompensa</a>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Preu</th>
+                    <th>Usuari</th>
+                    <th>Estat</th>
+                    <th>Accions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reward : ${rewards}">
+                    <td th:text="${reward.id}"></td>
+                    <td th:text="${reward.nom}"></td>
+                    <td th:text="${reward.preu}"></td>
+                    <td th:text="${reward.user?.mail}">-</td>
+                    <td th:text="${reward.estat}"></td>
+                    <td>
+                        <a th:href="@{'/rewards/edit/' + ${reward.id}}" class="btn-edit">✏️ Editar</a>
+                        <a th:href="@{'/rewards/delete/' + ${reward.id}}" class="btn-delete" onclick="return confirm('Estàs segur?')">🗑️ Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <script src="/scripts/sidebar.js"></script>
+    </body>
+</html>

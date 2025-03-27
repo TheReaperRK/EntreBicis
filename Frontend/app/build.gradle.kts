@@ -59,4 +59,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences.v110)
+    implementation(libs.logging.interceptor)
+
+
+    //retrofit2
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.ui)
+    //noinspection GradleDependency
+    implementation(libs.androidx.material)
+    implementation(libs.ui.tooling.preview)
+    //noinspection GradleDependency
+    implementation(libs.androidx.runtime)
+    //noinspection GradleDependency
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v262)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.coil.compose.v200)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation (libs.material3)
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="${formMode == 'create'} ? 'Crear Usuario' : 'Editar Usuario'"></title>
+        <link rel="stylesheet" href="/styles/userFormStyles.css">
+    </head>
+    <body>
+        <h1 th:text="${formMode == 'create'} ? 'Crear Nuevo Usuario' : 'Editar Usuario'"></h1>
+
+        <form th:action="@{${formMode == 'create'} ? '/users/create' : '/users/edit/' + ${user.mail}}" th:object="${user}" method="post">
+
+            <label>Correo:</label>
+            <input type="email" th:field="*{mail}" th:readonly="${formMode == 'edit'}"/>
+            <br/>
+
+            <label>Nombre:</label>
+            <input type="text" th:field="*{name}" />
+            <br/>
+
+            <label>Apellidos:</label>
+            <input type="text" th:field="*{surnames}" />
+            <br/>
+
+            <label>Población:</label>
+            <input type="text" th:field="*{population}" />
+            <br/>
+
+            <label>Teléfono:</label>
+            <input type="text" th:field="*{phone_number}" />
+            <br/>
+
+            <label>Rol:</label>
+            <select th:field="*{role}">
+                <option th:each="r : ${T(cat.copernic.backend.entity.enums.Role).values()}"
+                        th:value="${r}"
+                        th:text="${r}"></option>
+            </select>
+
+            <br/>
+
+            <label>Balance:</label>
+            <input type="number" step="1" th:field="*{balance}" />
+
+            <!-- Aquí podrías añadir imagen si es necesario -->
+
+            <button type="submit" th:text="${formMode == 'create'} ? 'Crear' : 'Guardar Cambios'"></button>
+        </form>
+
+        <a href="/users/list">🔙 Volver a la lista</a>
+    </body>
+</html>

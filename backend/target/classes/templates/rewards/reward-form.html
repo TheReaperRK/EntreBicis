@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${formMode == 'edit' ? 'Editar Recompensa' : 'Crear Recompensa'}"></title>
+    </head>
+    <body>
+        <h1 th:text="${formMode == 'edit' ? 'Editar Recompensa' : 'Crear Recompensa'}"></h1>
+
+        <form th:action="@{${formMode == 'edit'} ? '/rewards/edit/' + ${reward.id} : '/rewards/create'}" th:object="${reward}" method="post">
+
+            <label>Nom:</label>
+            <input type="text" th:field="*{nom}" required/><br/>
+
+            <label>Preu:</label>
+            <input type="number" th:field="*{preu}" step="0.01" required/><br/>
+
+            <label>Direcció:</label>
+            <input type="text" th:field="*{direccio}" required/><br/>
+
+            <label>Descripció:</label>
+            <textarea th:field="*{descripcio}"></textarea><br/>
+            <!--
+                        <label>Data Sol·licitud:</label>
+                        <input type="datetime-local" th:field="*{dataSolicitud}" required/><br/>
+            
+                        <label>Data Recollida:</label>
+                        <input type="datetime-local" th:field="*{dataRecollida}"/><br/>
+            -->
+            <label>Estat:</label>
+            <select th:field="*{estat}">
+                <option th:each="est : ${T(cat.copernic.backend.entity.enums.RewardStatus).values()}"
+                        th:value="${est}" th:text="${est}"></option>
+            </select><br/>
+            <!--
+                        <label>Usuari:</label>
+                        <select th:field="*{user}">
+                            <option th:each="u : ${users}" th:value="${u}" th:text="${u.mail}"></option>
+                        </select>
+            <br/>-->
+
+            <button type="submit">💾 Guardar</button>
+            <a th:href="@{/rewards/list}">⬅️ Cancel·lar</a>
+        </form>
+    </body>
+</html>

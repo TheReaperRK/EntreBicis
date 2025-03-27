@@ -255,3 +255,8 @@ https://trello.com/invite/b/67db06148d123d058d19ecc6/ATTIad36646a96671d6f9f37341
 === 5.1 Sprint 1 - Planning
 
 image::trello_1.png[]
+
+[[sprint2-planning]]
+=== 5.2 Sprint 2 - Planning
+
+image::trello_2.png[]

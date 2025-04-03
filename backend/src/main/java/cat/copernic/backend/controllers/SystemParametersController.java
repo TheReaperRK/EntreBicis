@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin/system-parameters")
 public class SystemParametersController {
+
     private final SystemParametersLogic logic;
 
     public SystemParametersController(SystemParametersLogic logic) {
@@ -29,6 +30,13 @@ public class SystemParametersController {
     @GetMapping
     public String showForm(Model model) {
         SystemParameters parameters = logic.getParameters();
+
+        if (parameters == null) {
+            // Creamos e insertamos una instancia vacía
+            parameters = new SystemParameters();
+            logic.updateParameters(parameters); // o logic.createParameters(parameters) si tienes un método distinto para crear
+        }
+
         model.addAttribute("params", parameters);
         return "systemParameters/system-parameters";
     }

@@ -2,9 +2,10 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 h1 {
+    margin-right: 40%;
     text-align: center;
     color: #0e6837;
 }
@@ -38,6 +39,7 @@ img {
     width: 100%;
     max-height: 500px; /* Ajusta el valor según necesites */
     overflow-y: auto;
+    overflow-x: auto;
     margin-top: 20px;
 }
 
@@ -50,6 +52,11 @@ img {
     margin-top: 20px;
 }
 
+.user-list-header h1 {
+    flex: 1;
+    text-align: center;
+}
+
 .btn-create {
     background-color: #166C4E;
     color: white;
@@ -57,6 +64,7 @@ img {
     border-radius: 5px;
     text-decoration: none;
     transition: background 0.3s;
+    margin-left: 50px;
 }
 
 .btn-create:hover {
@@ -75,4 +83,10 @@ img {
 
 .btn-edit:hover {
     background-color: #ec971f;
+}
+
+/* Ajuste para evitar que el contenido se solape con la sidebar */
+.content {
+    margin-left: 250px; /* Mismo ancho que la sidebar */
+    padding: 20px;
 }

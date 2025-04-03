@@ -68,6 +68,7 @@ tr:hover {
 }
 
 a.btn-edit, a.btn-delete {
+    
     padding: 6px 10px;
     border-radius: 4px;
     text-decoration: none;

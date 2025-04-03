@@ -44,6 +44,7 @@ fun LoginScreen(navController: NavController) {
                 println("Intentando login con: $email")
                 try {
                     println("pulsado")
+
                     val response = AuthRetrofitInstance.authApi.login(email, word)
                     println(response)
                     if (response.isSuccessful) {

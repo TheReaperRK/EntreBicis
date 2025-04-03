@@ -1,32 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Configuración del Sistema</title>
+        <title>Configuració del Sistema</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/styles/sideBarStyle.css">
+        <link rel="stylesheet" href="/styles/systemParametersStyle.css">
     </head>
     <body>
-        <h1>Parámetros del Sistema</h1>
+        <!-- Botó per obrir/tancar la barra lateral -->
+        <button id="toggle-sidebar">☰</button>
+        
+        <h1>Paràmetres del Sistema</h1>
 
-        <form th:action="@{/admin/system-parameters}" th:object="${params}" method="post">
-            <label>Velocidad válida promedio (km/h):</label>
-            <input type="number" th:field="*{averageValidSpeed}" min="1" required /><br/>
+        <div class="system-form-container">
+            <form th:action="@{/admin/system-parameters}" th:object="${params}" method="post">
+                <label for="avgSpeed">Velocitat vàlida mitjana (km/h):</label>
+                <input id="avgSpeed" type="number" th:field="*{averageValidSpeed}" min="1" required />
 
-            <label>Máximo tiempo de inactividad (segundos):</label>
-            <input type="number" th:field="*{maxInactivity}" min="1" required /><br/>
+                <label for="maxInactivity">Temps màxim d'inactivitat (segons):</label>
+                <input id="maxInactivity" type="number" th:field="*{maxInactivity}" min="1" required />
 
-            <label>Puntos por kilómetro:</label>
-            <input type="number" th:field="*{pointsPerKilometer}" min="1" required /><br/>
+                <label for="pointsKm">Punts per quilòmetre:</label>
+                <input id="pointsKm" type="number" th:field="*{pointsPerKilometer}" min="1" required />
 
-            <label>Tiempo máximo para recoger recompensa (horas):</label>
-            <input type="number" th:field="*{pickupTime}" min="1" required /><br/>
+                <label for="pickupTime">Temps màxim per recollir la recompensa (hores):</label>
+                <input id="pickupTime" type="number" th:field="*{pickupTime}" min="1" required />
 
-            <button type="submit">Guardar</button>
-        </form>
+                <button type="submit" class="btn-save">Desar</button>
+            </form>
 
-        <div th:if="${param.success}">
-            <p style="color:green;">Parámetros actualizados correctamente.</p>
+            <div th:if="${param.success}" class="success-message">
+                Paràmetres actualitzats correctament.
+            </div>
         </div>
+
         <script src="/scripts/sidebar.js"></script>
     </body>
 </html>

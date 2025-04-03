@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:text="${formMode == 'edit' ? 'Editar Recompensa' : 'Crear Recompensa'}"></title>
+        <meta charset="UTF-8">
+        <title th:text="${formMode == 'create'} ? 'Crear Recompensa' : 'Editar Recompensa'"></title>
+        <link rel="stylesheet" href="/styles/userFormStyles.css">
+        <link rel="stylesheet" href="/styles/sideBarStyle.css">
     </head>
     <body>
-        <h1 th:text="${formMode == 'edit' ? 'Editar Recompensa' : 'Crear Recompensa'}"></h1>
 
-        <form th:action="@{${formMode == 'edit'} ? '/rewards/edit/' + ${reward.id} : '/rewards/create'}" th:object="${reward}" method="post">
+        <!-- Botó per obrir/tancar la barra lateral -->
+        <button id="toggle-sidebar">☰</button>
 
-            <label>Nom:</label>
-            <input type="text" th:field="*{nom}" required/><br/>
+        <main class="user-form-wrapper">
+            <div class="user-form-card">
+                <a href="/rewards/list" class="back-button">←</a>
 
-            <label>Preu:</label>
-            <input type="number" th:field="*{preu}" step="0.01" required/><br/>
+                <form th:action="@{${formMode == 'create'} ? '/rewards/create' : '/rewards/edit/' + ${reward.id}}"
+                      th:object="${reward}" method="post" class="user-form-content">
 
-            <label>Direcció:</label>
-            <input type="text" th:field="*{direccio}" required/><br/>
+                    <div class="form-section">
+                        <h2 th:text="${formMode == 'create'} ? 'Crear Recompensa' : 'Editar Recompensa'"></h2>
 
-            <label>Descripció:</label>
-            <textarea th:field="*{descripcio}"></textarea><br/>
-            <!--
-                        <label>Data Sol·licitud:</label>
-                        <input type="datetime-local" th:field="*{dataSolicitud}" required/><br/>
-            
-                        <label>Data Recollida:</label>
-                        <input type="datetime-local" th:field="*{dataRecollida}"/><br/>
-            -->
-            <label>Estat:</label>
-            <select th:field="*{estat}">
-                <option th:each="est : ${T(cat.copernic.backend.entity.enums.RewardStatus).values()}"
-                        th:value="${est}" th:text="${est}"></option>
-            </select><br/>
-            <!--
-                        <label>Usuari:</label>
-                        <select th:field="*{user}">
-                            <option th:each="u : ${users}" th:value="${u}" th:text="${u.mail}"></option>
-                        </select>
-            <br/>-->
+                        <div class="field-group">
+                            <label for="nom">Nom:</label>
+                            <input type="text" id="nom" th:field="*{nom}" required />
+                        </div>
 
-            <button type="submit">💾 Guardar</button>
-            <a th:href="@{/rewards/list}">⬅️ Cancel·lar</a>
-        </form>
+                        <div class="field-group">
+                            <label for="preu">Preu (punts):</label>
+                            <input type="number" id="preu" th:field="*{preu}" step="0.01" required />
+                        </div>
+
+                        <div class="field-group">
+                            <label for="direccio">Direcció:</label>
+                            <input type="text" id="direccio" th:field="*{direccio}" required />
+                        </div>
+
+                        <div class="field-group vertical">
+                            <label for="descripcio">Descripció:</label>
+                            <textarea id="descripcio" th:field="*{descripcio}"></textarea>
+                        </div>
+
+                        <!-- ESTAT: ocult, sempre "AVAILABLE" (opcional si ja ho fas al backend) -->
+                        <input type="hidden" th:field="*{estat}" value="AVAILABLE"/>
+
+                        <div class="save-btn-container">
+                            <button type="submit" class="btn save-btn" th:text="${formMode == 'create'} ? 'crear' : 'guardar'"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <script src="/scripts/sidebar.js"></script>
     </body>
 </html>

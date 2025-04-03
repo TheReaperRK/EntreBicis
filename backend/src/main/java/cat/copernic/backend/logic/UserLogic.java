@@ -37,6 +37,17 @@ public class UserLogic {
         return userRepo.getById(mail);
     }
 
+    public void saveWithEncoder(User user){
+        Optional<User> existingOpt = userRepo.findById(user.getMail());
+
+        if (existingOpt.isPresent()) {
+            User existing = existingOpt.get();
+            user.setReward(existing.getReward());
+            user.setRoute(existing.getRoute());
+        }
+        user.setWord(passwordEncoder.encode(user.getWord()));
+        userRepo.save(user);
+    }
     public void saveUser(User user) {
         Optional<User> existingOpt = userRepo.findById(user.getMail());
 
@@ -85,7 +96,7 @@ public class UserLogic {
         user.setImage(new byte[0]); // o puedes cargar desde archivo
 
 // Observaciones (ejemplo vacío)
-        user.setObservations(new byte[0]);
+        user.setObservations("");
 
 // Inicializar listas por si quieres añadir rutas o recompensas
         user.setReward(new ArrayList<>());

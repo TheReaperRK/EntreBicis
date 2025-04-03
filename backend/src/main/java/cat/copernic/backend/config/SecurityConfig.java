@@ -8,33 +8,43 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // ✅ permite libre acceso a la API
-                .requestMatchers("/login", "/register", "/css/**").permitAll()
+                .requestMatchers(
+                    "/login",
+                    "/styles/**",
+                    "/scripts/**",
+                    "/images/**",
+                    "/css/**"
+                ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-            )
-            .csrf(csrf -> csrf
+                )
+                .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/**") // ✅ desactiva CSRF solo en API
-            )
-            .formLogin(form -> form
+                )
+                .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
                 .usernameParameter("mail")
                 .passwordParameter("word")
                 .permitAll()
-            )
-            .logout(logout -> logout
+                )
+                .logout(logout -> logout
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/login?logout")
-                .permitAll())
-            .httpBasic(); // ✅ importante si usas API con auth por cabecera, no obligatorio
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                );
 
         return http.build();
     }
@@ -52,4 +62,3 @@ public class SecurityConfig {
         return provider;
     }
 }
-

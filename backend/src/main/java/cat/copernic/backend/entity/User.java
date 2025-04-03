@@ -15,6 +15,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,7 +49,7 @@ public class User {
     private String phone_number;
 
     private Role role;
-    
+
     private String word;
 
     private int balance;
@@ -57,7 +58,7 @@ public class User {
     private byte[] image;
 
     @Lob
-    private byte[] observations;
+    private String observations;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reward> reward = new ArrayList<>();
@@ -67,5 +68,9 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public String getImageBase64() {
+        return image != null ? Base64.getEncoder().encodeToString(image) : null;
     }
 }

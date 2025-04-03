@@ -10,6 +10,7 @@ import cat.copernic.backend.entity.enums.Role;
 import cat.copernic.backend.logic.UserLogic;
 import cat.copernic.backend.logic.UserSessionLogic;
 import cat.copernic.backend.repository.UserRepo;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
+        userLogic.createSampleUser();
         return "/auth/login";
     }
     
@@ -84,5 +86,12 @@ public class AuthController {
         user.setRole(Role.USER); // Por defecto
         userRepo.save(user);
         return "redirect:/login?registered";
+    }
+    
+    
+    @GetMapping("/auth/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 🔐 Invalida la sessió
+        return "redirect:/login?logout"; // 🔁 Redirigeix al login
     }
 }

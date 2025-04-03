@@ -50,7 +50,7 @@ public class AuthApiControllers {
     @ResponseBody 
     public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String word) {
 
-        //userLogic.createSampleUser();
+        userLogic.createSampleUser();
         
         User user = userLogic.authUser(email, word);
 

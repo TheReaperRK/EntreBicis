@@ -10,6 +10,7 @@ package cat.copernic.backend.controllers;
  */
 
 import cat.copernic.backend.entity.Reward;
+import cat.copernic.backend.entity.enums.RewardStatus;
 import cat.copernic.backend.logic.RewardLogic;
 import cat.copernic.backend.logic.UserLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class RewardController {
     // ✅ Crear recompensa
     @PostMapping("/create")
     public String createReward(@ModelAttribute Reward reward) {
+        reward.setEstat(RewardStatus.AVAILABLE);
         rewardLogic.saveReward(reward);
         return "redirect:/rewards/list";
     }

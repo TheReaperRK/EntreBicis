@@ -38,8 +38,8 @@
                             <!-- Iterem sobre la llista d'usuaris -->
                             <tr th:each="user : ${users}">
                                 <td>
-                                    <img th:if="${user.image != null}" th:src="@{'data:image/jpeg;base64,' + user.image}" alt="Imatge de l'usuari">
-                                    <span th:if="${user.image == null}">Sense imatge</span>
+                                    <img th:if="${user.image != null}" th:src="@{'data:image/jpeg;base64,' + ${user.imageBase64}}" class="user-image" alt="Imatge de perfil"/>
+                                    <img th:if="${user.image == null}" src="/images/BlankProfilePic.png" class="user-image" alt="Imatge per defecte"/>
                                 </td>
                                 <td th:text="${user.mail}"></td>
                                 <td th:text="${user.name}"></td>

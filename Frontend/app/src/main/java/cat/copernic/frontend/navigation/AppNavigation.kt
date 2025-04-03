@@ -10,6 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cat.copernic.frontend.auth_management.ui.screens.LoginScreen
 import cat.copernic.frontend.auth_management.ui.screens.RegisterScreen
+import cat.copernic.frontend.auth_management.ui.screens.StartScreen
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
 import cat.copernic.frontend.profile_management.ui.screens.ProfileScreen
@@ -31,14 +32,16 @@ fun AppNavigation() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screens.Login.route,
+            startDestination = Screens.Start.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screens.Login.route) { LoginScreen(navController) }
             composable(Screens.Register.route) {RegisterScreen()}
             composable(Screens.Home.route) { HomeScreen() }
             composable(Screens.Rewards.route) { RewardsScreen() }
-            composable(Screens.Profile.route) { ProfileScreen() }
+            composable(Screens.Profile.route) { ProfileScreen(navController) }
+            composable(Screens.Start.route) { StartScreen(navController) }
+
         }
     }
 }

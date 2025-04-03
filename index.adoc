@@ -260,3 +260,8 @@ image::trello_1.png[]
 === 5.2 Sprint 2 - Planning
 
 image::trello_2.png[]
+
+[[sprint3-planning]]
+=== 5.3 Sprint 3 - Planning
+
+image::trello_3.png[]

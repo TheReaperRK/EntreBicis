@@ -23,6 +23,7 @@ public class SystemParametersLogic {
     public SystemParameters getParameters() {
         return repository.findById("default").orElseGet(() -> {
             SystemParameters defaults = new SystemParameters();
+            defaults.setNameConfig("default"); // Aseguramos que el ID sea el correcto
             repository.save(defaults);
             return defaults;
         });

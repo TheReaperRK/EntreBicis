@@ -9,19 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import cat.copernic.frontend.R
-import cat.copernic.frontend.auth_management.data.management.SessionManager
+import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.auth_management.data.source.AuthRetrofitInstance
 import cat.copernic.frontend.navigation.Screens
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, sessionViewModel: UserSessionViewModel) {
     var email by remember { mutableStateOf("") }
     var word by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val sessionManager = remember { SessionManager(context) }
 
     Column(
         modifier = Modifier
@@ -48,13 +46,10 @@ fun LoginScreen(navController: NavController) {
                     val response = AuthRetrofitInstance.authApi.login(email, word)
                     println(response)
                     if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        if (loginResponse != null) {
-                            sessionManager.saveSession(
-                                email = loginResponse.email,
-                                sessionKey = loginResponse.sessionKey
-                            )
-
+                        val user = response.body()
+                        if (user != null) {
+                            println(user)
+                            sessionViewModel.setUser(user)
                             navController.navigate(Screens.Home.route) {
                                 popUpTo(Screens.Login.route) { inclusive = true }
                             }

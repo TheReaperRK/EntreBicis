@@ -18,7 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // ✅ permite libre acceso a la API
+                .requestMatchers("/api/auth/**","/api/user/**").permitAll() // ✅ permite libre acceso a la API
                 .requestMatchers(
                     "/login",
                     "/styles/**",

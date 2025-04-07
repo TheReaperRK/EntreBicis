@@ -6,6 +6,7 @@
         <title>Llista de Recompenses</title>
         <link rel="stylesheet" href="/styles/userListStyles.css">
         <link rel="stylesheet" href="/styles/sideBarStyle.css">
+        <link rel="stylesheet" href="/styles/rewardTable.css">
     </head>
     <body>
 
@@ -26,7 +27,6 @@
                                 <th>ID</th>
                                 <th>Nom</th>
                                 <th>Preu</th>
-                                <th>Direcció</th>
                                 <th>Usuari</th>
                                 <th>Estat</th>
                                 <th>Data Sol·licitud</th>
@@ -38,8 +38,7 @@
                             <tr th:each="reward : ${rewards}">
                                 <td th:text="${reward.id}"></td>
                                 <td th:text="${reward.nom}"></td>
-                                <td th:text="${reward.preu} + ' punts'"></td>
-                                <td th:text="${reward.direccio}"></td>
+                                <td th:text="${reward.preu}"></td>
                                 <td th:text="${reward.user?.mail} ?: '-'"></td>
                                 <td th:text="${reward.estat}"></td>
                                 <td th:text="${reward.dataSolicitud != null ? #temporals.format(reward.dataSolicitud, 'dd/MM/yyyy HH:mm') : '-'}"></td>

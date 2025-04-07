@@ -50,18 +50,15 @@ public class AuthApiControllers {
     @ResponseBody 
     public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String word) {
 
-        userLogic.createSampleUser();
+       // userLogic.createSampleUser();
         
         User user = userLogic.authUser(email, word);
 
         System.out.println(user);
         if (user != null) {
             System.out.println("in");
-            UserSession sessio = userSessionLogic.createSession(email);
-            return ResponseEntity.ok(Map.of(
-                    "email", email,
-                    "sessionKey", sessio.getSessionKey()
-            ));
+            return ResponseEntity.ok(user)
+            ;
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales incorrectas"));
     }

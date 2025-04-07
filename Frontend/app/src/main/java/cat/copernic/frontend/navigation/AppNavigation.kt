@@ -4,13 +4,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.auth_management.ui.screens.LoginScreen
 import cat.copernic.frontend.auth_management.ui.screens.RegisterScreen
-import cat.copernic.frontend.auth_management.ui.screens.StartScreen
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
 import cat.copernic.frontend.profile_management.ui.screens.ProfileScreen
@@ -19,6 +20,8 @@ import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val userSessionViewModel: UserSessionViewModel = viewModel()
+
 
     val showBottomBar = navController
         .currentBackStackEntryAsState().value?.destination?.route !in listOf(Screens.Login.route)
@@ -32,16 +35,14 @@ fun AppNavigation() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screens.Start.route,
+            startDestination = Screens.Login.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screens.Login.route) { LoginScreen(navController) }
+            composable(Screens.Login.route) { LoginScreen(navController, userSessionViewModel) }
             composable(Screens.Register.route) {RegisterScreen()}
             composable(Screens.Home.route) { HomeScreen() }
             composable(Screens.Rewards.route) { RewardsScreen() }
-            composable(Screens.Profile.route) { ProfileScreen(navController) }
-            composable(Screens.Start.route) { StartScreen(navController) }
-
+            composable(Screens.Profile.route) { ProfileScreen(navController, userSessionViewModel) }
         }
     }
 }

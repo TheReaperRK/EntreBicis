@@ -34,9 +34,8 @@ public class User {
 
     private int balance;
 
-    private byte[] image;
-
-    private byte[] observations;
+    private String image;         // Imagen en base64 como String
+    private String observations;  // Observaciones también como texto
 
     private List<Reward> reward = new ArrayList<>();
 
@@ -106,19 +105,19 @@ public class User {
         this.balance = balance;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public byte[] getObservations() {
+    public String getObservations() {
         return observations;
     }
 
-    public void setObservations(byte[] observations) {
+    public void setObservations(String observations) {
         this.observations = observations;
     }
 

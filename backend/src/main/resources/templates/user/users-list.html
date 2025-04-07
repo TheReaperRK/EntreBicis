@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Llista d'Usuaris</title>
         <link rel="stylesheet" href="/styles/userListStyles.css">
+        <link rel="stylesheet" href="/styles/userTable.css">
         <link rel="stylesheet" href="/styles/sideBarStyle.css">
     </head>
     <body>
@@ -15,7 +16,7 @@
         <main class="content">
             <header class="user-list-header">
                 <h1>Llista d'Usuaris</h1>
-                <a href="/users/create" class="btn btn-create">➕ Crear usuari</a>
+                <button class="btn-create" onclick="location.href = '/users/create'">➕ Crear usuari</button>
             </header>
 
             <section class="table-section">
@@ -47,7 +48,7 @@
                                 <td th:text="${user.population}"></td>
                                 <td th:text="${user.phone_number}"></td>
                                 <td th:text="${user.role}"></td>
-                                <td th:text="${user.balance} + ' €'"></td>
+                                <td th:text="${user.balance}"></td>
                                 <td>
                                     <a th:href="@{/users/edit/{mail}(mail=${user.mail})}" class="btn btn-edit">✏️ Editar</a>
                                 </td>

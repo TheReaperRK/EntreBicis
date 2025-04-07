@@ -15,7 +15,7 @@ interface AuthApiRest {
     suspend fun login(
         @Query("email") email: String,
         @Query("word") word: String
-    ): Response<LoginResponse>
+    ): Response<User>
 
     @Multipart
     @POST("register")

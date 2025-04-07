@@ -4,6 +4,7 @@ import cat.copernic.backend.entity.User;
 import cat.copernic.backend.logic.UserLogic;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -117,6 +118,11 @@ public class UserController {
         }
 
         return "redirect:/users/list";
-    }   
+    }
 
+    @GetMapping("/api/users/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        User usuari = userLogic.getUserByMail(email);
+        return ResponseEntity.ok(usuari);
+    }
 }

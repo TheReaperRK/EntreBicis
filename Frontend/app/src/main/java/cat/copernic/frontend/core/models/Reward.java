@@ -27,6 +27,7 @@ public class Reward {
 
     private String nom;
 
+    private String comerc;
     private String direccio;
 
     private String descripcio;
@@ -83,6 +84,14 @@ public class Reward {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getComerc() {
+        return comerc;
+    }
+
+    public void setComerc(String comerc) {
+        this.comerc = comerc;
     }
 
     public String getDireccio() {

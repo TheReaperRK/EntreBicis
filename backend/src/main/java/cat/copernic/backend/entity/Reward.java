@@ -44,6 +44,9 @@ public class Reward {
     @Column(length = 150, nullable = false)
     private String direccio;
 
+    @Column(length = 100)
+    private String comerc;
+    
     @Column(length = 255)
     private String descripcio;
 

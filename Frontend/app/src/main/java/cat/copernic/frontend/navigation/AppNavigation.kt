@@ -15,6 +15,7 @@ import cat.copernic.frontend.auth_management.ui.screens.RegisterScreen
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
 import cat.copernic.frontend.profile_management.ui.screens.ProfileScreen
+import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
 
 @Composable
@@ -41,8 +42,15 @@ fun AppNavigation() {
             composable(Screens.Login.route) { LoginScreen(navController, userSessionViewModel) }
             composable(Screens.Register.route) {RegisterScreen()}
             composable(Screens.Home.route) { HomeScreen() }
-            composable(Screens.Rewards.route) { RewardsScreen() }
+            composable(Screens.Rewards.route) { RewardsScreen(navController) }
             composable(Screens.Profile.route) { ProfileScreen(navController, userSessionViewModel) }
+            /*composable(Screens.RewardDetail.route) { backStack ->
+                val nom = backStack.arguments?.getString("nom")
+                val preu = backStack.arguments?.getString("preu")?.toDoubleOrNull()
+                RewardDetailScreen(nom, preu)
+            }
+
+             */
         }
     }
 }

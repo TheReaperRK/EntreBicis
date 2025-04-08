@@ -1,7 +1,9 @@
 package cat.copernic.backend.logic;
 
 import cat.copernic.backend.entity.Reward;
+import cat.copernic.backend.entity.User;
 import cat.copernic.backend.repository.RewardRepo;
+import cat.copernic.backend.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ public class RewardLogic {
 
     @Autowired
     private RewardRepo rewardRepo;
+    
+    @Autowired
+    private UserRepo userRepo;
 
     public List<Reward> getAllRewards() {
         return rewardRepo.findAll();
@@ -27,5 +32,13 @@ public class RewardLogic {
 
     public void deleteReward(Long id) {
         rewardRepo.deleteById(id);
+    }
+    
+    public void rewardRequest(Long id, User user){
+        Reward reward = rewardRepo.getById(id);
+        
+        user.setBalance(user.getBalance()-reward.getPreu());
+        
+        userRepo.save(user);
     }
 }

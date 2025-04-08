@@ -52,7 +52,7 @@ public class User {
 
     private String word;
 
-    private int balance;
+    private double balance;
 
     @Lob
     private byte[] image;

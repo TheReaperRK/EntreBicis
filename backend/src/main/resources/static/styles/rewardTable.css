@@ -1,0 +1,47 @@
+
+/* Establece anchos mínimos o fijos para columnas clave */
+th:nth-child(1), td:nth-child(1) { /* Imatge */
+    width: 70px;
+    min-width: 70px;
+}
+
+th:nth-child(2), td:nth-child(2) { /* Correu */
+    width: 200px;
+    min-width: 200px;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th:nth-child(3), td:nth-child(3) { /* Nom */
+    width: 120px;
+    min-width: 100px;
+}
+
+th:nth-child(4), td:nth-child(4) { /* Cognoms */
+    width: 180px;
+    min-width: 150px;
+}
+
+th:nth-child(5), td:nth-child(5) { /* Població */
+    width: 140px;
+    min-width: 100px;
+}
+
+th:nth-child(6), td:nth-child(6) { /* Telèfon */
+    width: 130px;
+    min-width: 110px;
+}
+
+th:nth-child(7), td:nth-child(7) { /* Rol */
+    width: 80px;
+    min-width: 70px;
+    text-transform: uppercase;
+}
+
+th:nth-child(8), td:nth-child(8) { /* Balanç */
+    width: 90px;
+    min-width: 130px;
+}
+

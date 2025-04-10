@@ -39,7 +39,7 @@ public class RewardApiController {
     // ✅ Lista de recompensas
     @GetMapping("/list")
     public List<Reward> listRewards() {
-        return rewardLogic.getAllRewards();
+        return rewardLogic.getAvailableRewards();
     }
 
     // ✅ Lista de recompensas

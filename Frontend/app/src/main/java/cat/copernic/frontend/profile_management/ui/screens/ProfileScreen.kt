@@ -29,10 +29,17 @@ import android.util.Base64
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import cat.copernic.frontend.profile_management.ui.components.ReservaActivaCard
 
 @Composable
 fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionViewModel, ) {
+    val context = LocalContext.current
     val user by sessionViewModel.user.collectAsState()
+
+
+    LaunchedEffect(true) {
+        sessionViewModel.refreshUserData(context)
+    }
 
     user?.let { userData ->
         val profileBitmap = base64ToImageBitmap(user!!.image)
@@ -113,10 +120,12 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
 
             Divider(modifier = Modifier.padding(vertical = 24.dp))
 
-            if (userData.reward.isNotEmpty()) {
+            val reservaActiva = userData.reward.firstOrNull { it.estat?.name == "ACCEPTED" && it.nom != null && it.direccio != null }
+
+            if (reservaActiva != null) {
                 Text("Reserva activa", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(8.dp))
-                // Aquí iría la tarjeta de reserva activa
+                ReservaActivaCard(reservaActiva)
             }
         }
     } ?: run {
@@ -128,6 +137,7 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
 
 @Composable
 fun ProfileInfoField(text: String) {
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()

@@ -56,6 +56,8 @@ public class User {
     private String word;
 
     private double balance;
+    
+    private String resetToken; // Token para restablecer contraseña
 
     @Lob
     private byte[] image;
@@ -170,6 +172,13 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-    
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
     
 }

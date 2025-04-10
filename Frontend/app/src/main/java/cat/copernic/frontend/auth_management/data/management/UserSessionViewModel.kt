@@ -80,6 +80,32 @@ class UserSessionViewModel : ViewModel() {
         }
     }
 
+    fun refreshUserData(context: Context) {
+        val prefs = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
+        val email = prefs.getString("user_email", null)
+
+        if (!email.isNullOrBlank()) {
+            viewModelScope.launch {
+                try {
+                    val api = UserRetrofitInstance.getApi(context)
+                    val response = api.getUserByEmail(email)
+
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            _user.value = it
+                            Log.d("REFRESH", "Usuario actualizado: $it")
+                        }
+                    } else {
+                        Log.w("REFRESH", "No se pudo refrescar el usuario. Code=${response.code()}")
+                    }
+                } catch (e: Exception) {
+                    Log.e("REFRESH", "Excepción al refrescar usuario", e)
+                }
+            }
+        }
+    }
+
+
 
     fun clearSession(context: Context) {
         // Borra el token del almacenamiento local

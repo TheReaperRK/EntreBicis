@@ -31,10 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cat.copernic.frontend.R
+import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.core.models.Reward
 import cat.copernic.frontend.rewards_management.ui.viewmodels.RewardsViewModel
 
@@ -47,7 +50,7 @@ fun RewardCard(reward: Reward, onClick: () -> Unit) {
     ) {
         Surface(
             shape = RoundedCornerShape(8.dp),
-            color = Color.LightGray,
+            color = Color(0xFF166C4E),
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
@@ -68,6 +71,9 @@ fun RewardDetailContent(reward: Reward, viewModel: RewardsViewModel, onBack: () 
     val showDialog = remember { mutableStateOf(false) }
     val showErrorDialog = remember { mutableStateOf(false) }
     val errorMessage = remember { mutableStateOf("") }
+    val userSessionViewModel: UserSessionViewModel = viewModel()
+    // Restaurar sesión al iniciar app
+    val context = LocalContext.current // ✅ permitido aquí
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -148,7 +154,7 @@ fun RewardDetailContent(reward: Reward, viewModel: RewardsViewModel, onBack: () 
                                     errorMessage.value = error
                                     showErrorDialog.value = true
                                 } else {
-                                    // Aquí puedes hacer navegación o mostrar éxito con Snackbar, etc.
+                                    // TODO
                                 }
                             }
                         }

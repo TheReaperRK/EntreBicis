@@ -34,7 +34,6 @@ import lombok.experimental.SuperBuilder;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Entity
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -69,6 +68,7 @@ public class User {
     private List<Reward> reward = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Route> route = new ArrayList<>();
 
     public Role getRole() {
@@ -78,4 +78,98 @@ public class User {
     public String getImageBase64() {
         return image != null ? Base64.getEncoder().encodeToString(image) : null;
     }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurnames() {
+        return surnames;
+    }
+
+    public void setSurnames(String surnames) {
+        this.surnames = surnames;
+    }
+
+    public String getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(String population) {
+        this.population = population;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public List<Reward> getReward() {
+        return reward;
+    }
+
+    public void setReward(List<Reward> reward) {
+        this.reward = reward;
+    }
+
+    public List<Route> getRoute() {
+        return route;
+    }
+
+    public void setRoute(List<Route> route) {
+        this.route = route;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    
+    
 }

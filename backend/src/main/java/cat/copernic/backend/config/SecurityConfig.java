@@ -47,7 +47,7 @@ public class SecurityConfig {
             .formLogin(login -> login.disable())
             .logout(logout -> logout.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/loginMobile").permitAll()
+                .requestMatchers("/api/auth/loginMobile", "/api/auth/recover", "/api/auth/reset").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex
@@ -66,7 +66,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/styles/**", "/scripts/**", "/images/**", "/css/**").permitAll()
+                .requestMatchers("/login", "/styles/**", "/scripts/**", "/images/**", "/css/**", "/api/auth/recover", "/api/auth/reset").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

@@ -28,14 +28,14 @@ public class SystemParameters {
     @Column(name = "name_config", length = 20, nullable = false)
     private String nameConfig = "default";
     
-    @Column(name = "average_valid_speed", nullable = false, columnDefinition = "INT DEFAULT 25")
-    private int averageValidSpeed = 25;
+    @Column(name = "average_valid_speed", nullable = false, columnDefinition = "DOUBLE DEFAULT 25")
+    private double averageValidSpeed = 25;
     
     @Column(name = "max_inactivity", nullable = false, columnDefinition = "INT DEFAULT 300")
     private int maxInactivity = 300;
     
-    @Column(name = "points_per_kilometer", nullable = false, columnDefinition = "INT DEFAULT 100")
-    private int pointsPerKilometer = 100;
+    @Column(name = "points_per_kilometer", nullable = false, columnDefinition = "DOUBLE DEFAULT 100")
+    private double pointsPerKilometer = 100;
     
     @Column(name = "pickup_time", nullable = false, columnDefinition = "INT DEFAULT 72")
     private int pickupTime = 72;

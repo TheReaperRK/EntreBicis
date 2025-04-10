@@ -4,7 +4,10 @@ import cat.copernic.frontend.core.models.DTO.LoginResponse
 import cat.copernic.frontend.core.models.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -28,6 +31,20 @@ interface AuthApiRest {
         @Part("password") password: RequestBody,
         @Part image: MultipartBody.Part?
     ): Response<User>
+
+    @FormUrlEncoded
+    @POST("/api/auth/recover")
+    suspend fun recoverMailSender(
+        @Field("email") email: String,
+    ): Response<ResponseBody>
+
+    @Multipart
+    @POST("/api/auth/reset")
+    suspend fun resetPassword(
+        @Part("email") email: RequestBody,
+        @Part("token") token: RequestBody,
+        @Part("word") word: RequestBody
+    ): Response<ResponseBody>
 }
 
 

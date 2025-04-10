@@ -1,3 +1,4 @@
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\EmailConfig.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtAuthenticationFilter.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtConfig.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtKeyProvider.java
@@ -22,6 +23,7 @@ C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\cope
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\UserSession.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\EntreBicis.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\logic\auth\CustomUserDetailsService.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\logic\EmailLogic.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\logic\RewardLogic.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\logic\SystemParametersLogic.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\logic\UserLogic.java

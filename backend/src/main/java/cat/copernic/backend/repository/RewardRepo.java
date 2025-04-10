@@ -5,6 +5,8 @@
 package cat.copernic.backend.repository;
 
 import cat.copernic.backend.entity.Reward;
+import cat.copernic.backend.entity.enums.RewardStatus;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,4 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RewardRepo extends JpaRepository<Reward, Long> {
     
+    List<Reward> findByEstat(RewardStatus estat);
 }

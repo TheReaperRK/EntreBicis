@@ -1,6 +1,6 @@
 package cat.copernic.frontend.profile_management.management
 
-import cat.copernic.frontend.core.models.LoginResponse
+import cat.copernic.frontend.core.models.DTO.LoginResponse
 import cat.copernic.frontend.core.models.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -13,6 +13,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserApiRest {
-    @GET("/api/user/{email}")
+    @GET("/api/auth/user/{email}")
     suspend fun getUserByEmail(@Path("email") email: String): Response<User>
 }

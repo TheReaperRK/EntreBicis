@@ -16,4 +16,5 @@ val bottomNavItems = listOf(
     BottomNavItem(Screens.Home.route, Icons.Filled.Home, "Inicio"),
     BottomNavItem(Screens.Rewards.route, Icons.Filled.Star, "Recompensas"),
     BottomNavItem(Screens.Profile.route, Icons.Filled.Person, "Perfil")
+
 )

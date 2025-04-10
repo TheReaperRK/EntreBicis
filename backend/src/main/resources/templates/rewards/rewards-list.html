@@ -44,9 +44,16 @@
                                 <td th:text="${reward.dataSolicitud != null ? #temporals.format(reward.dataSolicitud, 'dd/MM/yyyy HH:mm') : '-'}"></td>
                                 <td th:text="${reward.dataRecollida != null ? #temporals.format(reward.dataRecollida, 'dd/MM/yyyy HH:mm') : '-'}"></td>
                                 <td>
-                                    <a th:href="@{'/rewards/edit/' + ${reward.id}}" class="btn btn-edit">✏️ Editar</a>
-                                    <a th:href="@{'/rewards/delete/' + ${reward.id}}" class="btn btn-delete"
-                                       onclick="return confirm('Estàs segur que vols eliminar aquesta recompensa?')">🗑️ Eliminar</a>
+                                    <div class="btn-group">
+                                        <a th:href="@{'/rewards/edit/' + ${reward.id}}" class="btn btn-edit">✏️ Editar</a>
+                                        <a th:href="@{'/rewards/delete/' + ${reward.id}}" class="btn btn-delete"
+                                           onclick="return confirm('Estàs segur que vols eliminar aquesta recompensa?')">🗑️ Eliminar</a>
+                                        <!-- Botó acceptar només si l'estat és PENDING -->
+                                        <a th:if="${reward.estat.name() == 'PENDING'}"
+                                           th:href="@{'/rewards/accept/' + ${reward.id}}"
+                                           class="btn btn-accept"
+                                           onclick="return confirm('Estàs segur que vols acceptar aquesta recompensa?')">✅ Acceptar</a>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>

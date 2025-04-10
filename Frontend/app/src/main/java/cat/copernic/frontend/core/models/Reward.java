@@ -4,10 +4,11 @@ package cat.copernic.frontend.core.models;/*
  */
 
 
-import cat.copernic.backend.entity.enums.RewardStatus;
-;
+
 
 import java.time.LocalDateTime;
+
+import cat.copernic.frontend.core.models.enums.RewardStatus;
 
 /**
  *
@@ -32,14 +33,14 @@ public class Reward {
 
     private String descripcio;
 
-    private LocalDateTime dataSolicitud;
+    private String dataSolicitud;
 
 
-    private LocalDateTime dataRecollida;
+    private String dataRecollida;
 
     private RewardStatus estat;
 
-    public Reward(Long id, User user, double preu, String nom, String direccio, String descripcio, LocalDateTime dataSolicitud, LocalDateTime dataRecollida, RewardStatus estat) {
+    public Reward(Long id, User user, double preu, String nom, String direccio, String descripcio, String dataSolicitud, String dataRecollida, RewardStatus estat) {
         this.id = id;
         this.user = user;
         this.preu = preu;
@@ -110,19 +111,19 @@ public class Reward {
         this.descripcio = descripcio;
     }
 
-    public LocalDateTime getDataSolicitud() {
+    public String getDataSolicitud() {
         return dataSolicitud;
     }
 
-    public void setDataSolicitud(LocalDateTime dataSolicitud) {
+    public void setDataSolicitud(String dataSolicitud) {
         this.dataSolicitud = dataSolicitud;
     }
 
-    public LocalDateTime getDataRecollida() {
+    public String getDataRecollida() {
         return dataRecollida;
     }
 
-    public void setDataRecollida(LocalDateTime dataRecollida) {
+    public void setDataRecollida(String dataRecollida) {
         this.dataRecollida = dataRecollida;
     }
 

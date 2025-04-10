@@ -81,4 +81,5 @@ dependencies {
     implementation(libs.coil.compose.v200)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation (libs.material3)
+    implementation(libs.androidx.material.icons.extended)
 }

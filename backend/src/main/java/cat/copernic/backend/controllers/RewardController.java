@@ -13,6 +13,8 @@ import cat.copernic.backend.entity.Reward;
 import cat.copernic.backend.entity.enums.RewardStatus;
 import cat.copernic.backend.logic.RewardLogic;
 import cat.copernic.backend.logic.UserLogic;
+import cat.copernic.backend.repository.RewardRepo;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class RewardController {
 
     @Autowired
     private RewardLogic rewardLogic;
+    
+    @Autowired
+    private RewardRepo rewardRepo;
 
     @Autowired
     private UserLogic userLogic; // Necesario si quieres seleccionar usuario en el formulario
@@ -78,6 +83,18 @@ public class RewardController {
     @GetMapping("/delete/{id}")
     public String deleteReward(@PathVariable("id") Long id) {
         rewardLogic.deleteReward(id);
+        return "redirect:/rewards/list";
+    }
+    
+    // ✅ Editar recompensa
+    @GetMapping("/accept/{id}")
+    public String acceptReward(@PathVariable("id") Long id) {
+        Reward reward = rewardLogic.getRewardById(id);
+        
+        reward.setEstat(RewardStatus.ACCEPTED);
+        reward.setDataSolicitud(LocalDateTime.now());
+        rewardRepo.save(reward);
+        
         return "redirect:/rewards/list";
     }
 }

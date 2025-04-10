@@ -12,7 +12,7 @@ object AuthRetrofitInstance {
 
     // Logging para depurar peticiones/respuestas
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = HttpLoggingInterceptor.Level.NONE
     }
 
     private val client = OkHttpClient.Builder()

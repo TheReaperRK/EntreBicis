@@ -31,11 +31,12 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 
 @Composable
-fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionViewModel) {
+fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionViewModel, ) {
     val user by sessionViewModel.user.collectAsState()
-    val profileBitmap = base64ToImageBitmap(user!!.image)
 
     user?.let { userData ->
+        val profileBitmap = base64ToImageBitmap(user!!.image)
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

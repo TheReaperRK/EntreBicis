@@ -1,13 +1,15 @@
 package cat.copernic.frontend.auth_management.data.management
 
-import cat.copernic.frontend.core.models.LoginResponse
+import cat.copernic.frontend.core.models.DTO.LoginResponse
 import cat.copernic.frontend.core.models.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AuthApiRest {
@@ -15,7 +17,7 @@ interface AuthApiRest {
     suspend fun login(
         @Query("email") email: String,
         @Query("word") word: String
-    ): Response<User>
+    ): Response<LoginResponse>
 
     @Multipart
     @POST("register")

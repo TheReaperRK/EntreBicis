@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,15 +25,24 @@ import cat.copernic.frontend.core.models.Reward
 import cat.copernic.frontend.navigation.Screens
 import cat.copernic.frontend.rewards_management.management.RewardRepo
 import cat.copernic.frontend.rewards_management.management.RewardRetrofitInstance
+import cat.copernic.frontend.rewards_management.ui.components.RewardCard
 import cat.copernic.frontend.rewards_management.ui.viewmodels.RewardsViewModel
 import cat.copernic.frontend.rewards_management.viewmodels.RewardsViewModelFactory
 
 @Composable
 fun RewardsScreen(navController: NavController) {
-    val viewModel: RewardsViewModel = viewModel(factory = RewardsViewModelFactory(RewardRepo(
-        RewardRetrofitInstance.rewardApi)))
+    val viewModel: RewardsViewModel = viewModel(
+        factory = RewardsViewModelFactory(
+            RewardRepo(RewardRetrofitInstance.getInstance(LocalContext.current))
+        )
+    )
     val rewards by viewModel.rewards.collectAsState()
     val loading by viewModel.loading.collectAsState()
+
+    // Llama solo una vez
+    LaunchedEffect(Unit) {
+        viewModel.loadRewards()
+    }
 
     var search by remember { mutableStateOf("") }
 
@@ -83,7 +93,7 @@ fun RewardsScreen(navController: NavController) {
                     it.nom?.contains(search, ignoreCase = true) == true
                 }) { reward ->
                     RewardCard(reward = reward) {
-                        navController.navigate("reward_detail/${reward.nom}/${reward.preu}/${reward.descripcio}/${reward.comerc}/${reward.direccio}")
+                        navController.navigate("api/rewards/${reward.id}")
                     }
                 }
             }
@@ -91,100 +101,3 @@ fun RewardsScreen(navController: NavController) {
     }
 }
 
-@Composable
-fun RewardCard(reward: Reward, onClick: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable { onClick() }
-    ) {
-        Surface(
-            shape = RoundedCornerShape(8.dp),
-            color = Color.LightGray,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-        ) {
-            // Placeholder de imagen
-        }
-
-        Spacer(Modifier.height(8.dp))
-
-        Text("${reward.preu.toInt()} Pts", fontWeight = FontWeight.Bold)
-        Text(reward.nom ?: "Sense nom", style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-@Composable
-fun RewardDetailScreen(
-    nom: String?,
-    preu: Double?,
-    descripcio: String?,
-    comerc: String?,
-    direccio: String?,
-    onBack: () -> Unit = {},
-    onSolicitarClick: () -> Unit = {}
-) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        // Header con color de fondo
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp)
-                .background(Color(0xFF166C4E))
-        ) {
-            IconButton(
-                onClick = { onBack() },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.TopStart)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Enrere",
-                    tint = Color.White
-                )
-            }
-            // Imagen (placeholder de momento)
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background), // cambia si usas imagen real
-                contentDescription = "Recompensa",
-                modifier = Modifier
-                    .size(180.dp)
-                    .align(Alignment.BottomCenter)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        ) {
-            Text(text = "${preu?.toInt()} Pts", style = MaterialTheme.typography.titleLarge)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = nom ?: "", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = descripcio ?: "", style = MaterialTheme.typography.bodyMedium)
-            Divider(modifier = Modifier.padding(vertical = 16.dp))
-            Text(text = comerc ?: "", style = MaterialTheme.typography.bodyMedium)
-            Text(text = direccio ?: "", style = MaterialTheme.typography.bodySmall)
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Botón solicitar
-        Button(
-            onClick = { onSolicitarClick() },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF166C4E)),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp)
-                .height(56.dp),
-            shape = RoundedCornerShape(50)
-        ) {
-            Text("Sol·licitar", color = Color.White)
-        }
-    }
-}

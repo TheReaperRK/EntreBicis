@@ -40,8 +40,35 @@ th:nth-child(7), td:nth-child(7) { /* Rol */
     text-transform: uppercase;
 }
 
-th:nth-child(8), td:nth-child(8) { /* Balanç */
-    width: 90px;
-    min-width: 130px;
+
+/* Última columna: accions */
+th:last-child,
+td:last-child {
+    min-width: 240px; /* más espacio para botones */
 }
 
+.btn-accept {
+    background-color: #27C08A;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+    margin-left: 4px;
+}
+
+.btn-accept:hover {
+    background-color: #1ea374;
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.action-buttons {
+    min-width: 240px; /* ajusta este valor según necesidad */
+}

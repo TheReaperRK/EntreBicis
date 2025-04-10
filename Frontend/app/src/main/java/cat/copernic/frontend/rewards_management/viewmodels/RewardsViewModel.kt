@@ -13,12 +13,11 @@ class RewardsViewModel(private val repo: RewardRepo) : ViewModel() {
     private val _rewards = MutableStateFlow<List<Reward>>(emptyList())
     val rewards: StateFlow<List<Reward>> = _rewards
 
+    private val _reward = MutableStateFlow<Reward?>(null)
+    val reward: StateFlow<Reward?> = _reward
+
     private val _loading = MutableStateFlow(true)
     val loading: StateFlow<Boolean> = _loading
-
-    init {
-        loadRewards()
-    }
 
     fun loadRewards() {
         viewModelScope.launch {
@@ -26,10 +25,38 @@ class RewardsViewModel(private val repo: RewardRepo) : ViewModel() {
             try {
                 _rewards.value = repo.fetchRewards()
             } catch (e: Exception) {
-                // Podrías notificar con un log o Toast si lo necesitas
+
                 _rewards.value = emptyList()
             }
             _loading.value = false
+        }
+    }
+
+    fun loadRewardById(id: Long) {
+        viewModelScope.launch {
+            try {
+                val result = repo.getRewardById(id)
+                _reward.value = result
+            } catch (e: Exception) {
+                _reward.value = null
+            }
+        }
+    }
+
+    fun solicitarRecompensa(id: Long, onResult: (String?) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response = repo.solicitarRecompensa(id)
+                if (response.isSuccessful) {
+                    onResult(null) // Éxito
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = errorBody ?: "Error desconegut"
+                    onResult(message)
+                }
+            } catch (e: Exception) {
+                onResult(e.message ?: "Error inesperat")
+            }
         }
     }
 }

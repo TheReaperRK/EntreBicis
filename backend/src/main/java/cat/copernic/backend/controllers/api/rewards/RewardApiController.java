@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author carlo
  */
-
 @RestController // 👈 importante para API REST
 @RequestMapping("/api/rewards")
 public class RewardApiController {
@@ -52,15 +51,21 @@ public class RewardApiController {
     @PostMapping("/{id}/request")
     @ResponseBody
     public ResponseEntity<?> solicitarRecompensa(@PathVariable Long id, Principal principal) {
-        
-        System.out.println(principal);
         try {
             User user = userLogic.getUserByMail(principal.getName());
-            System.out.println(user);
-            rewardLogic.rewardRequest(id, user);
+            Reward reward = rewardLogic.getRewardById(id);
+
+            if (user.getBalance() < reward.getPreu()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Saldo insuficient per bescanviar aquesta recompensa.");
+            }
+
+            rewardLogic.rewardRequest(id, user); // Aquí ya puedes cambiar el estado internamente
             return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al sol·licitar la recompensa: " + e.getMessage());
         }
     }
 }

@@ -15,7 +15,11 @@ class RewardRepo(private val api: RewardApiRest) {
         }
     }
 
-    suspend fun getAllRewards(): Response<List<Reward>> {
-        return api.getAllRewards()
+    suspend fun getRewardById(id: Long): Reward {
+        return api.getRewardById(id)
+    }
+
+    suspend fun solicitarRecompensa(id: Long): Response<Unit> {
+        return api.solicitarRecompensa(id)
     }
 }

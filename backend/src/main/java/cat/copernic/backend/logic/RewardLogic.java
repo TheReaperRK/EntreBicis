@@ -2,8 +2,10 @@ package cat.copernic.backend.logic;
 
 import cat.copernic.backend.entity.Reward;
 import cat.copernic.backend.entity.User;
+import cat.copernic.backend.entity.enums.RewardStatus;
 import cat.copernic.backend.repository.RewardRepo;
 import cat.copernic.backend.repository.UserRepo;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,10 @@ public class RewardLogic {
         Reward reward = rewardRepo.getById(id);
         
         user.setBalance(user.getBalance()-reward.getPreu());
+        reward.setEstat(RewardStatus.PENDING);
+        reward.setUser(user);
         
+        rewardRepo.save(reward);
         userRepo.save(user);
     }
 }

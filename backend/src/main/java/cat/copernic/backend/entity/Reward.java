@@ -5,6 +5,7 @@
 package cat.copernic.backend.entity;
 
 import cat.copernic.backend.entity.enums.RewardStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class Reward {
 
     @ManyToOne
     @JoinColumn(name = "email_user", nullable = true)
+    @JsonBackReference
     private User user;
 
     @Column(nullable = false)

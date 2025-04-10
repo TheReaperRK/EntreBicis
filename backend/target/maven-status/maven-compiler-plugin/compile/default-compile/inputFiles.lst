@@ -1,3 +1,6 @@
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtAuthenticationFilter.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtConfig.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtKeyProvider.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtUtil.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\SecurityConfig.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\api\rewards\RewardApiController.java
@@ -6,6 +9,7 @@ C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\cope
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\RewardController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\SystemParametersController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\UserController.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\LoginResponse.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\RewardStatus.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\Role.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\State.java

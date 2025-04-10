@@ -1,35 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cat.copernic.backend.config;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
+import javax.crypto.SecretKey;
+import org.springframework.stereotype.Component;
 
 /**
- *
- * @author carlo
+ * Utility class for JWT token management
  */
+@Component
 public class JwtUtil {
-    
-    private final String SECRET_KEY = "entrebicis_jwt_secret";
+
+    private final SecretKey secretKey;
     private final long EXPIRATION_TIME = 86400000; // 1 día
-    
+
+    public JwtUtil(SecretKey secretKey) {
+        this.secretKey = secretKey;
+    }
+
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 
     public String extractEmail(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -37,10 +40,10 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            extractEmail(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (Exception e) {
             return false;
         }
     }
-}
+} 

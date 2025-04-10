@@ -1,6 +1,7 @@
 cat\copernic\backend\entity\GpsPoint.class
 cat\copernic\backend\entity\DTO\LoginResponse.class
 cat\copernic\backend\logic\auth\CustomUserDetailsService.class
+cat\copernic\backend\logic\EmailLogic.class
 cat\copernic\backend\controllers\SystemParametersController.class
 cat\copernic\backend\entity\UserSession.class
 cat\copernic\backend\entity\Route.class
@@ -33,6 +34,7 @@ cat\copernic\backend\entity\Reward$RewardBuilder.class
 cat\copernic\backend\repository\RewardRepo.class
 cat\copernic\backend\entity\Reward$RewardBuilderImpl.class
 cat\copernic\backend\controllers\UserController.class
+cat\copernic\backend\config\EmailConfig.class
 cat\copernic\backend\entity\enums\RewardStatus.class
 cat\copernic\backend\config\JwtKeyProvider.class
 cat\copernic\backend\config\JwtUtil.class

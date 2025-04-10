@@ -9,4 +9,6 @@ sealed class Screens(val route: String) {
     object RewardDetail : Screens("reward_detail/{id}/"){
         fun createRoute(id: Long): String = "reward_detail/$id"
     }
+    object Recover : Screens("recover")
+    object Reset : Screens("reset")
 }

@@ -58,7 +58,6 @@ public class AuthController {
     @ResponseBody 
     public ResponseEntity<?> loginWeb(@RequestParam String email, @RequestParam String word) {
 
-        //userLogic.createSampleUser();
         
         User user = userLogic.authUser(email, word);
 

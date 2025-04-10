@@ -18,6 +18,8 @@ import androidx.navigation.navArgument
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.auth_management.ui.screens.LoginScreen
 import cat.copernic.frontend.auth_management.ui.screens.RegisterScreen
+import cat.copernic.frontend.auth_management.ui.screens.recover.PasswordRecover
+import cat.copernic.frontend.auth_management.ui.screens.recover.ResetWordScreen
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
 import cat.copernic.frontend.profile_management.ui.screens.ProfileScreen
@@ -74,6 +76,8 @@ fun AppNavigation() {
                 val id = backStackEntry.arguments?.getLong("id") ?: return@composable
                 RewardDetailScreen(id = id, navController = navController)
             }
+            composable(Screens.Recover.route) { PasswordRecover(navController)}
+            composable(Screens.Reset.route) { ResetWordScreen(navController)}
         }
     }
 }

@@ -107,7 +107,7 @@ fun LoginScreen(navController: NavController, sessionViewModel: UserSessionViewM
 
         // Recuperar contraseña
         TextButton(onClick = {
-            //navController.navigate(Screens.Recover.route)
+            navController.navigate(Screens.Recover.route)
         }) {
             Text("he oblidat la contrasenya", color = Color.White, fontSize = 14.sp)
         }

@@ -16,7 +16,7 @@ public class RewardLogic {
 
     @Autowired
     private RewardRepo rewardRepo;
-    
+
     @Autowired
     private UserRepo userRepo;
 
@@ -35,14 +35,18 @@ public class RewardLogic {
     public void deleteReward(Long id) {
         rewardRepo.deleteById(id);
     }
-    
-    public void rewardRequest(Long id, User user){
+
+    public List<Reward> getAvailableRewards() {
+        return rewardRepo.findByEstat(RewardStatus.AVAILABLE);
+    }
+
+    public void rewardRequest(Long id, User user) {
         Reward reward = rewardRepo.getById(id);
-        
-        user.setBalance(user.getBalance()-reward.getPreu());
+
+        user.setBalance(user.getBalance() - reward.getPreu());
         reward.setEstat(RewardStatus.PENDING);
         reward.setUser(user);
-        
+
         rewardRepo.save(reward);
         userRepo.save(user);
     }

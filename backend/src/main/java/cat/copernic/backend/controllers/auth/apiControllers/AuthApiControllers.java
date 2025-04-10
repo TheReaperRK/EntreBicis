@@ -72,7 +72,6 @@ public class AuthApiControllers {
         try {
             System.out.println(email);
             User user = userLogic.getUserByMail(email);
-            System.out.println(user);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {

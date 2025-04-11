@@ -25,6 +25,7 @@ import cat.copernic.frontend.R
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.auth_management.data.source.AuthRetrofitInstance
 import cat.copernic.frontend.auth_management.ui.components.ErrorMessageBox
+import cat.copernic.frontend.core.ui.theme.SecondaryGreen
 import cat.copernic.frontend.navigation.Screens
 import kotlinx.coroutines.launch
 
@@ -40,7 +41,7 @@ fun LoginScreen(navController: NavController, sessionViewModel: UserSessionViewM
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF166C4E))
+            .background(SecondaryGreen)
             .padding(32.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

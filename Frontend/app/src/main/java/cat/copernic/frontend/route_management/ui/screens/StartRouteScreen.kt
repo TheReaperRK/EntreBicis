@@ -1,9 +1,7 @@
 package cat.copernic.frontend.route_management.ui.screens
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Build
 import android.os.Looper
 import android.util.Log
@@ -12,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,26 +22,30 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
+import cat.copernic.frontend.route_management.ui.components.MapaRuta
 import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
 import com.google.android.gms.location.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StartRouteScreen(navController: NavController, routeViewModel: RouteViewModel = viewModel(), sessionViewModel: UserSessionViewModel) {
+fun StartRouteScreen(navController: NavController, sessionViewModel: UserSessionViewModel) {
     val context = LocalContext.current
+    val routeViewModel: RouteViewModel = viewModel()
     val fusedClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+
+    val user by sessionViewModel.user.collectAsState()
+    val location by routeViewModel.currentLocation.collectAsState()
+
     var isRecording by remember { mutableStateOf(false) }
     var startTime by remember { mutableStateOf(0L) }
     var timerText by remember { mutableStateOf("00:00") }
     var hasPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                context, Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         )
     }
@@ -51,11 +54,24 @@ fun StartRouteScreen(navController: NavController, routeViewModel: RouteViewMode
     val coroutineScope = rememberCoroutineScope()
     var timerJob by remember { mutableStateOf<Job?>(null) }
 
-    val user by sessionViewModel.user.collectAsState()
-
+    // PEDIR UBICACIÓN ACTUAL al iniciar si hay permisos
+    LaunchedEffect(Unit) {
+        sessionViewModel.refreshUserData(context)
+        if (hasPermission) {
+            fusedClient.lastLocation.addOnSuccessListener { loc ->
+                loc?.let {
+                    routeViewModel.addLocation(it)
+                    Log.d("ROUTE", "Ubicación inicial capturada: ${it.latitude}, ${it.longitude}")
+                }
+            }
+        }
+    }
 
     LaunchedEffect(true) {
         sessionViewModel.refreshUserData(context)
+        if (hasPermission) {
+            routeViewModel.obtenirUbicacioActual(context)
+        }
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -64,7 +80,6 @@ fun StartRouteScreen(navController: NavController, routeViewModel: RouteViewMode
         hasPermission = granted
         if (!granted) {
             Log.e("ROUTE", "Permís rebutjat per l'usuari")
-            println("PErmis rebutjat")
         }
     }
 
@@ -101,7 +116,6 @@ fun StartRouteScreen(navController: NavController, routeViewModel: RouteViewMode
                     result.lastLocation?.let {
                         routeViewModel.addLocation(it)
                         Log.d("ROUTE", "Punt capturat: ${it.latitude}, ${it.longitude}")
-                        println("Punt capturat: ${it.latitude}, ${it.longitude}")
                     }
                 }
             }
@@ -126,50 +140,59 @@ fun StartRouteScreen(navController: NavController, routeViewModel: RouteViewMode
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .background(Color.White),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Ruta en curs", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("Duració: $timerText")
-        Spacer(modifier = Modifier.height(32.dp))
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Mapa de fondo
+        MapaRuta(location)
 
-        Button(
-            onClick = {
-                if (!isRecording) {
-                    onStartRoutePressed()
-                } else {
-                    isRecording = false
-                    routeViewModel.stopLocationUpdates()
-                    routeViewModel.stopRoute()
-                    routeViewModel.sendRoute(context) { success ->
-                        snackbarMessage = if (success) {
-                            "Ruta enviada correctament"
-                        } else {
-                            "Error en enviar la ruta"
-                        }
-                        showSnackbar = true
-                        navController.popBackStack()
-                    }
-                    println(snackbarMessage)
-                }
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A))
+        // Controles sobrepuestos
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(24.dp)
+                )
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(if (isRecording) "Finalitzar Ruta" else "Iniciar Ruta", color = Color.White)
-        }
+            Text("Ruta en curs", style = MaterialTheme.typography.labelLarge, color = Color.Gray)
+            Text(timerText, style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(16.dp))
 
-        if (showSnackbar) {
-            Snackbar(
-                modifier = Modifier.padding(top = 16.dp),
-                containerColor = Color.Gray
+            Button(
+                onClick = {
+                    if (!isRecording) {
+                        onStartRoutePressed()
+                    } else {
+                        isRecording = false
+                        routeViewModel.stopLocationUpdates()
+                        routeViewModel.stopRoute()
+                        routeViewModel.sendRoute(context) { success ->
+                            snackbarMessage = if (success) {
+                                "Ruta enviada correctament"
+                            } else {
+                                "Error en enviar la ruta"
+                            }
+                            showSnackbar = true
+                        }
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A)),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = snackbarMessage)
+                Text(
+                    text = if (isRecording) "Finalitzar Ruta" else "Iniciar Ruta",
+                    color = Color.White
+                )
+            }
+
+            if (showSnackbar) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Snackbar(containerColor = Color.Gray) {
+                    Text(text = snackbarMessage)
+                }
             }
         }
     }

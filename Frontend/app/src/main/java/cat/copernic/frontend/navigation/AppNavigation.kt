@@ -105,7 +105,7 @@ fun AppNavigation() {
             }
 
             composable(Screens.Route.route) {
-                StartRouteScreen(navController, routeViewModel, userSessionViewModel)
+                StartRouteScreen(navController, userSessionViewModel)
             }
         }
     }

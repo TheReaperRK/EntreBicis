@@ -13,8 +13,12 @@ import cat.copernic.frontend.core.models.DTO.RouteDTO
 import cat.copernic.frontend.core.models.GpsPoint
 import cat.copernic.frontend.core.models.Route
 import cat.copernic.frontend.route_management.management.RouteRepository
+import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -31,6 +35,9 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
 
     private var locationPoints = mutableListOf<Location>()
     private var startTimestamp: Long = 0
+
+    private val _currentLocation = MutableStateFlow<Location?>(null)
+    val currentLocation: StateFlow<Location?> get() = _currentLocation
 
     private var currentRoute: Route = Route()
     private var totalTimeString: String = "00:00:00"
@@ -61,6 +68,7 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun addLocation(location: Location) {
         locationPoints.add(location)
+        _currentLocation.value = location
     }
 
     /**
@@ -139,4 +147,30 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    fun obtenirUbicacioActual(context: Context) {
+        if (fusedClient == null) {
+            fusedClient = LocationServices.getFusedLocationProviderClient(context)
+        }
+
+        val locationRequest = CurrentLocationRequest.Builder()
+            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+            .build()
+
+        val cancellationToken = CancellationTokenSource()
+
+        fusedClient?.getCurrentLocation(locationRequest, cancellationToken.token)
+            ?.addOnSuccessListener { location ->
+                if (location != null) {
+                    _currentLocation.value = location
+                    Log.d("ROUTE", "Ubicació inicial obtinguda: ${location.latitude}, ${location.longitude}")
+                } else {
+                    Log.w("ROUTE", "Ubicació inicial nul·la")
+                }
+            }
+            ?.addOnFailureListener {
+                Log.e("ROUTE", "Error obtenint ubicació inicial", it)
+            }
+    }
+
 }

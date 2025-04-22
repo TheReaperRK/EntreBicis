@@ -1,0 +1,142 @@
+package cat.copernic.frontend.route_management.ui.viewmodels
+
+import android.app.Application
+import android.content.Context
+import android.location.Location
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import cat.copernic.frontend.core.models.DTO.GpsPointDTO
+import cat.copernic.frontend.core.models.DTO.RouteDTO
+import cat.copernic.frontend.core.models.GpsPoint
+import cat.copernic.frontend.core.models.Route
+import cat.copernic.frontend.route_management.management.RouteRepository
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+class RouteViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository = RouteRepository()
+
+    private val _isRecording = MutableStateFlow(false)
+    val isRecording: StateFlow<Boolean> get() = _isRecording
+
+    private var locationPoints = mutableListOf<Location>()
+    private var startTimestamp: Long = 0
+
+    private var currentRoute: Route = Route()
+    private var totalTimeString: String = "00:00:00"
+
+    init {
+        // Limpieza al iniciar ViewModel por seguridad
+        locationPoints.clear()
+    }
+
+    /**
+     * Inicia la grabación de una ruta.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun startRoute(userEmail: String) {
+        _isRecording.value = true
+        startTimestamp = System.currentTimeMillis()
+
+        locationPoints.clear() // Limpieza por si quedó algo anterior
+
+        currentRoute = Route().apply {
+            start_date = LocalDateTime.now()
+            user = repository.getDummyUser(userEmail)
+        }
+    }
+
+    /**
+     * Agrega una nueva ubicación real.
+     */
+    fun addLocation(location: Location) {
+        locationPoints.add(location)
+    }
+
+    /**
+     * Finaliza la ruta y calcula los valores.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun stopRoute() {
+        _isRecording.value = false
+        val endTimestamp = System.currentTimeMillis()
+
+        val totalTimeSec = (endTimestamp - startTimestamp) / 1000.0
+        totalTimeString = String.format(
+            "%02d:%02d:%02d",
+            (totalTimeSec / 3600).toInt(),
+            ((totalTimeSec % 3600) / 60).toInt(),
+            (totalTimeSec % 60).toInt()
+        )
+
+        val totalDistanceMeters = locationPoints.zipWithNext()
+            .sumOf { (a, b) -> a.distanceTo(b).toDouble() }
+        val totalDistanceKm = totalDistanceMeters / 1000.0
+        val averageSpeed = if (totalTimeSec > 0) totalDistanceKm / (totalTimeSec / 3600.0) else 0.0
+
+        currentRoute.apply {
+            end_date = LocalDateTime.now()
+            distance = totalDistanceKm
+            average_speed = averageSpeed
+            generated_balance = totalDistanceKm.toInt()
+        }
+    }
+
+    /**
+     * Envía la ruta finalizada y los puntos GPS al backend.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendRoute(context: Context, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+
+            val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+
+            val gpsPoints = locationPoints.map {
+                GpsPointDTO(
+                    latitud = BigDecimal(it.latitude),
+                    longitud = BigDecimal(it.longitude),
+                    timestamp = LocalDateTime.now().format(formatter)
+                )
+            }
+
+            val routeDTO = RouteDTO(
+                startDate = currentRoute.start_date.format(formatter),
+                endDate = currentRoute.end_date.format(formatter),
+                distance = currentRoute.distance,
+                averageSpeed = currentRoute.average_speed,
+                totalTime = totalTimeString,
+                generatedBalance = currentRoute.generated_balance,
+                userEmail = currentRoute.user.mail,
+                gpsPoints = gpsPoints
+            )
+
+            val success = repository.sendRoute(routeDTO, context)
+            onResult(success)
+
+            // Limpieza tras envío
+            locationPoints.clear()
+        }
+    }
+
+    var locationCallback: LocationCallback? = null
+    var fusedClient: FusedLocationProviderClient? = null
+
+    fun stopLocationUpdates() {
+        fusedClient?.let { client ->
+            locationCallback?.let { callback ->
+                client.removeLocationUpdates(callback)
+                Log.d("ROUTE", "Localització aturada manualment")
+            }
+        }
+    }
+}

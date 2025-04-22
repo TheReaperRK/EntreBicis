@@ -4,6 +4,8 @@
  */
 package cat.copernic.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +24,8 @@ import lombok.experimental.SuperBuilder;
  *
  * @author carlo
  */
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -35,6 +39,7 @@ public class GpsPoint {
     private Long idPunt;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "id_ruta", nullable = false)
     private Route route;
 

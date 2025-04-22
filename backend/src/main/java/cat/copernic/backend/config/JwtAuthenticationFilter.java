@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  * @author carlo
  */
-public class JwtAuthenticationFilter extends OncePerRequestFilter{
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
@@ -34,30 +34,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+            HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
 
         String token = extractTokenFromHeader(request);
 
-        if (StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
-            String username = jwtUtil.extractEmail(token);
+        if (StringUtils.hasText(token)) {
+            if (jwtUtil.validateToken(token)) {
+                String username = jwtUtil.extractEmail(token);
 
-            var userDetails = userDetailsService.loadUserByUsername(username);
+                var userDetails = userDetailsService.loadUserByUsername(username);
 
-            var authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
+                var authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
 
-            authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
-            );
+                authentication.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                // Token incorrecto → responder 401 y detener el filtro
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
+                return;
+            }
         }
 
+        // Si no hay token y es ruta protegida, luego lo manejará la configuración
         filterChain.doFilter(request, response);
     }
 
@@ -68,5 +75,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
         return null;
     }
-    
+
 }

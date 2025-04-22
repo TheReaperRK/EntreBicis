@@ -6,8 +6,13 @@ package cat.copernic.backend.entity;
 
 import cat.copernic.backend.entity.enums.State;
 import cat.copernic.backend.entity.enums.Validation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -23,6 +28,7 @@ import lombok.experimental.SuperBuilder;
  * @author carlo
  */
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -32,6 +38,7 @@ public class Route {
     
     @Id
     @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_route;
     
     private LocalDateTime start_date;
@@ -54,5 +61,8 @@ public class Route {
     
     @ManyToOne
     @JoinColumn(name = "user", nullable = false)
+    @JsonIgnore // 💥 ESTA LÍNEA ROMPE EL BUCLE INFINITO
     private User user;
+    
+    
 }

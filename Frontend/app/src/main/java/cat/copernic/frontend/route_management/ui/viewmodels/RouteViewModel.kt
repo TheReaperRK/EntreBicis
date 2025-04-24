@@ -18,6 +18,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +30,9 @@ import java.time.format.DateTimeFormatter
 class RouteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = RouteRepository()
+
+    private val _routePoints = MutableStateFlow<List<LatLng>>(emptyList())
+    val routePoints: StateFlow<List<LatLng>> = _routePoints
 
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> get() = _isRecording
@@ -69,6 +73,10 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
     fun addLocation(location: Location) {
         locationPoints.add(location)
         _currentLocation.value = location
+
+        val updatedList = _routePoints.value.toMutableList()
+        updatedList.add(LatLng(location.latitude, location.longitude))
+        _routePoints.value = updatedList
     }
 
     /**

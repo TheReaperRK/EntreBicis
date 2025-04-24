@@ -12,9 +12,10 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.Polyline
 
 @Composable
-fun MapaRuta(location: Location?) {
+fun MapaRuta(location: Location?, routePoints: List<LatLng>) {
     val cameraPositionState = rememberCameraPositionState()
 
     // Mueve la cámara cuando se actualiza la ubicación
@@ -36,6 +37,10 @@ fun MapaRuta(location: Location?) {
                 state = MarkerState(position = LatLng(it.latitude, it.longitude)),
                 title = "Ubicació actual"
             )
+        }
+        // Dibujar la línea de la ruta
+        if (routePoints.size >= 2) {
+            Polyline(points = routePoints)
         }
     }
 }

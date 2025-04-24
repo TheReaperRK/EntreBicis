@@ -141,8 +141,10 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+        val routePoints by routeViewModel.routePoints.collectAsState()
+
         // Mapa de fondo
-        MapaRuta(location)
+        MapaRuta(location, routePoints)
 
         // Controles sobrepuestos
         Column(

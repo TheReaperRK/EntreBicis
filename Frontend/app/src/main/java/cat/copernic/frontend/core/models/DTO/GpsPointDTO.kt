@@ -7,10 +7,13 @@ import java.time.LocalDateTime
 data class GpsPointDTO(
     val latitud: BigDecimal,
     val longitud: BigDecimal,
-    val timestamp: String
+    val timestamp: String,
+    val idPunt : Long,
+    val idRouteDTO: RouteDTO? = null
 )
 
 data class RouteDTO(
+    val idRouteDTO: Long? = null,
     val startDate: String,
     val endDate: String,
     val distance: Double,

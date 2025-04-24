@@ -1,6 +1,7 @@
 package cat.copernic.frontend.navigation
 
 import android.content.Context
+import android.location.Location
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
@@ -31,8 +32,10 @@ import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModel
 import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModelFactory
 import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
+import cat.copernic.frontend.route_management.ui.components.FinalRouteScreen
 import cat.copernic.frontend.route_management.ui.screens.StartRouteScreen
 import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
+import com.google.android.gms.maps.model.LatLng
 import okhttp3.internal.platform.android.ConscryptSocketAdapter.Companion.factory
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -107,6 +110,17 @@ fun AppNavigation() {
             composable(Screens.Route.route) {
                 StartRouteScreen(navController, userSessionViewModel)
             }
+
+            composable("final_route") {
+                val navBackStackEntry = rememberNavController().currentBackStackEntry
+                val points = navBackStackEntry?.savedStateHandle?.get<List<LatLng>>("points")
+                val finalLocation = navBackStackEntry?.savedStateHandle?.get<Location>("finalLocation")
+
+                if (points != null && finalLocation != null) {
+                    FinalRouteScreen(routePoints = points, ubicacioFinal = finalLocation)
+                }
+            }
+
         }
     }
 }

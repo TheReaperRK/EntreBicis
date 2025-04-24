@@ -38,15 +38,16 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
 
     val user by sessionViewModel.user.collectAsState()
     val location by routeViewModel.currentLocation.collectAsState()
+    val routePoints by routeViewModel.routePoints.collectAsState()
+    val ubicacioActual by routeViewModel.ubicacioActual.collectAsState()
 
     var isRecording by remember { mutableStateOf(false) }
     var startTime by remember { mutableStateOf(0L) }
     var timerText by remember { mutableStateOf("00:00") }
     var hasPermission by remember {
         mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                context, Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED
         )
     }
     var showSnackbar by remember { mutableStateOf(false) }
@@ -54,20 +55,8 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
     val coroutineScope = rememberCoroutineScope()
     var timerJob by remember { mutableStateOf<Job?>(null) }
 
-    // PEDIR UBICACIÓN ACTUAL al iniciar si hay permisos
+    // Refrescar datos del usuario y ubicación
     LaunchedEffect(Unit) {
-        sessionViewModel.refreshUserData(context)
-        if (hasPermission) {
-            fusedClient.lastLocation.addOnSuccessListener { loc ->
-                loc?.let {
-                    routeViewModel.addLocation(it)
-                    Log.d("ROUTE", "Ubicación inicial capturada: ${it.latitude}, ${it.longitude}")
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(true) {
         sessionViewModel.refreshUserData(context)
         if (hasPermission) {
             routeViewModel.obtenirUbicacioActual(context)
@@ -78,7 +67,9 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         hasPermission = granted
-        if (!granted) {
+        if (granted) {
+            routeViewModel.obtenirUbicacioActual(context)
+        } else {
             Log.e("ROUTE", "Permís rebutjat per l'usuari")
         }
     }
@@ -109,14 +100,11 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
         }
     }
 
-    if (isRecording && hasPermission) {
+    if (hasPermission) {
         val callback = remember {
             object : LocationCallback() {
                 override fun onLocationResult(result: LocationResult) {
-                    result.lastLocation?.let {
-                        routeViewModel.addLocation(it)
-                        Log.d("ROUTE", "Punt capturat: ${it.latitude}, ${it.longitude}")
-                    }
+                    routeViewModel.onLocationResult(result)
                 }
             }
         }
@@ -140,22 +128,19 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
         }
     }
 
+    // Vista general
     Box(modifier = Modifier.fillMaxSize()) {
-        val routePoints by routeViewModel.routePoints.collectAsState()
+        MapaRuta(
+            ubicacioActual = ubicacioActual,
+            routePoints = routePoints
+        )
 
-        // Mapa de fondo
-        MapaRuta(location, routePoints)
-
-        // Controles sobrepuestos
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(16.dp)
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(24.dp)
-                )
+                .background(color = Color.White, shape = RoundedCornerShape(24.dp))
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -171,7 +156,7 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
                         isRecording = false
                         routeViewModel.stopLocationUpdates()
                         routeViewModel.stopRoute()
-                        routeViewModel.sendRoute(context) { success ->
+                        routeViewModel.sendRoute(context) { success, newRouteId ->
                             snackbarMessage = if (success) {
                                 "Ruta enviada correctament"
                             } else {

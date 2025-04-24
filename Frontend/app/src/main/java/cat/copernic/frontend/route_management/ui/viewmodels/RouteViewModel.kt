@@ -16,6 +16,7 @@ import cat.copernic.frontend.route_management.management.RouteRepository
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
@@ -40,6 +41,9 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
     private var locationPoints = mutableListOf<Location>()
     private var startTimestamp: Long = 0
 
+    private val _ubicacioActual = MutableStateFlow<Location?>(null)
+    val ubicacioActual: StateFlow<Location?> = _ubicacioActual
+
     private val _currentLocation = MutableStateFlow<Location?>(null)
     val currentLocation: StateFlow<Location?> get() = _currentLocation
 
@@ -59,7 +63,8 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         _isRecording.value = true
         startTimestamp = System.currentTimeMillis()
 
-        locationPoints.clear() // Limpieza por si quedó algo anterior
+        //locationPoints.clear() // Limpieza por si quedó algo anterior
+        //_routePoints.value = emptyList() // ← LIMPIA la línea anterior
 
         currentRoute = Route().apply {
             start_date = LocalDateTime.now()
@@ -74,9 +79,11 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         locationPoints.add(location)
         _currentLocation.value = location
 
-        val updatedList = _routePoints.value.toMutableList()
-        updatedList.add(LatLng(location.latitude, location.longitude))
-        _routePoints.value = updatedList
+        if (_isRecording.value) {
+            val updatedList = _routePoints.value.toMutableList()
+            updatedList.add(LatLng(location.latitude, location.longitude))
+            _routePoints.value = updatedList
+        }
     }
 
     /**
@@ -112,20 +119,22 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
      * Envía la ruta finalizada y los puntos GPS al backend.
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendRoute(context: Context, onResult: (Boolean) -> Unit) {
+    fun sendRoute(context: Context, onResult: (Boolean, Route?) -> Unit) {
         viewModelScope.launch {
-
             val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
-            val gpsPoints = locationPoints.map {
+            val gpsPoints = locationPoints.mapIndexed { index, location ->
                 GpsPointDTO(
-                    latitud = BigDecimal(it.latitude),
-                    longitud = BigDecimal(it.longitude),
+                    idRouteDTO = null, // aún no tienes el ID, se asignará en el backend
+                    idPunt = (index + 1).toLong(), // empieza en 1
+                    latitud = BigDecimal(location.latitude),
+                    longitud = BigDecimal(location.longitude),
                     timestamp = LocalDateTime.now().format(formatter)
                 )
             }
 
             val routeDTO = RouteDTO(
+                idRouteDTO = null,
                 startDate = currentRoute.start_date.format(formatter),
                 endDate = currentRoute.end_date.format(formatter),
                 distance = currentRoute.distance,
@@ -136,11 +145,19 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
                 gpsPoints = gpsPoints
             )
 
-            val success = repository.sendRoute(routeDTO, context)
-            onResult(success)
+            repository.sendRoute(routeDTO, context) { success, newRouteId ->
+                if (success && newRouteId != null) {
+                    viewModelScope.launch {
+                        val gpsPointsFromBackend = repository.getGpsPointsByRouteId(newRouteId, context)
+                        _routePoints.value = gpsPointsFromBackend.map {
+                            LatLng(it.latitud.toDouble(), it.longitud.toDouble())
+                        }
+                    }
+                }
+                onResult(success, newRouteId)
+            }
 
-            // Limpieza tras envío
-            locationPoints.clear()
+            _isRecording.value = false
         }
     }
 
@@ -181,4 +198,14 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
+
+    fun onLocationResult(result: LocationResult) {
+        result.lastLocation?.let {
+            _ubicacioActual.value = it
+
+            if (isRecording.value) {
+                addLocation(it) // solo guarda si está grabando
+            }
+        }
+    }
 }

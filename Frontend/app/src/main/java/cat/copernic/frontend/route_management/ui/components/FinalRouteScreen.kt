@@ -8,28 +8,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import cat.copernic.frontend.core.ui.theme.PrimaryGreen
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.Polyline
-import com.google.maps.android.compose.*
-
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun MapaRuta(
-    ubicacioActual: Location?,
-    routePoints: List<LatLng>
-) {
+fun FinalRouteScreen(routePoints: List<LatLng>, ubicacioFinal: Location?) {
     val cameraPositionState = rememberCameraPositionState()
 
-    // Centra el mapa si hay ubicación
-    LaunchedEffect(ubicacioActual) {
-        ubicacioActual?.let {
-            val novaPos = LatLng(it.latitude, it.longitude)
-            cameraPositionState.move(CameraUpdateFactory.newLatLngZoom(novaPos, 18f))
+    LaunchedEffect(ubicacioFinal) {
+        ubicacioFinal?.let {
+            cameraPositionState.move(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 17f))
         }
     }
 
@@ -37,33 +29,26 @@ fun MapaRuta(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState
     ) {
-        // Marcador actual
-        ubicacioActual?.let {
-            Marker(
-                state = MarkerState(LatLng(it.latitude, it.longitude)),
-                title = "La teva ubicació"
-            )
-        }
-
-        // Polyline de la ruta (aunque esté finalizada)
-        if (routePoints.size > 1) {
+        if (routePoints.isNotEmpty()) {
             Polyline(
                 points = routePoints,
                 color = PrimaryGreen,
                 width = 5f
             )
+
+            routePoints.forEachIndexed { index, point ->
+                Marker(
+                    state = MarkerState(position = point),
+                    title = "Punt ${index + 1}"
+                )
+            }
         }
 
-        // Marcadores para cada punto (opcional)
-        routePoints.forEachIndexed { i, point ->
+        ubicacioFinal?.let {
             Marker(
-                state = MarkerState(point),
-                title = "Punt ${i + 1}"
+                state = MarkerState(position = LatLng(it.latitude, it.longitude)),
+                title = "Final"
             )
         }
     }
 }
-
-
-
-

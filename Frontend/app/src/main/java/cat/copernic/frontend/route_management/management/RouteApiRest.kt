@@ -18,5 +18,5 @@ interface RouteApiRest {
     suspend fun sendPoints(@Body points: List<GpsPoint>): Response<Void>
 
     @POST("/api/routes/pointsByRoute")
-    suspend fun getGpsPointsByRouteId(@Body routeId: Route): Response<List<GpsPointDTO>>
+    suspend fun getGpsPointsByRoute(@Body route: Route): Response<List<GpsPointDTO>>
 }

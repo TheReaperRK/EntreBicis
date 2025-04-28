@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
+import cat.copernic.frontend.navigation.Screens
 import cat.copernic.frontend.route_management.ui.components.MapaRuta
 import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
 import com.google.android.gms.location.*
@@ -41,6 +42,7 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
     val routePoints by routeViewModel.routePoints.collectAsState()
     val ubicacioActual by routeViewModel.ubicacioActual.collectAsState()
 
+    val routeFinished by routeViewModel.routeFinished.collectAsState()
     var isRecording by remember { mutableStateOf(false) }
     var startTime by remember { mutableStateOf(0L) }
     var timerText by remember { mutableStateOf("00:00") }
@@ -55,7 +57,6 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
     val coroutineScope = rememberCoroutineScope()
     var timerJob by remember { mutableStateOf<Job?>(null) }
 
-    // Refrescar datos del usuario y ubicación
     LaunchedEffect(Unit) {
         sessionViewModel.refreshUserData(context)
         if (hasPermission) {
@@ -81,6 +82,10 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
             user?.let { routeViewModel.startRoute(it.mail) }
             isRecording = true
         }
+    }
+
+    fun resetScreen() {
+        navController.navigate(Screens.Route.route)
     }
 
     LaunchedEffect(isRecording) {
@@ -128,7 +133,6 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
         }
     }
 
-    // Vista general
     Box(modifier = Modifier.fillMaxSize()) {
         MapaRuta(
             ubicacioActual = ubicacioActual,
@@ -144,35 +148,53 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Ruta en curs", style = MaterialTheme.typography.labelLarge, color = Color.Gray)
+            Text(
+                text = if (!routeFinished) "Ruta en curs" else "Ruta finalitzada",
+                style = MaterialTheme.typography.labelLarge,
+                color = Color.Gray
+            )
             Text(timerText, style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    if (!isRecording) {
-                        onStartRoutePressed()
-                    } else {
-                        isRecording = false
-                        routeViewModel.stopLocationUpdates()
-                        routeViewModel.stopRoute()
-                        routeViewModel.sendRoute(context) { success, newRouteId ->
-                            snackbarMessage = if (success) {
-                                "Ruta enviada correctament"
-                            } else {
-                                "Error en enviar la ruta"
+            if (!routeFinished) {
+                Button(
+                    onClick = {
+                        if (!isRecording) {
+                            onStartRoutePressed()
+                        } else {
+                            routeViewModel.stopRoute()
+                            user?.let { user ->
+                                routeViewModel.sendRoute(context) { success, _ ->
+                                    snackbarMessage = if (success) {
+                                        "Ruta enviada correctament"
+                                    } else {
+                                        "Error en enviar la ruta"
+                                    }
+                                    showSnackbar = true
+                                }
                             }
-                            showSnackbar = true
+                            isRecording = false
                         }
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A)),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = if (isRecording) "Finalitzar Ruta" else "Iniciar Ruta",
-                    color = Color.White
-                )
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = if (isRecording) "Finalitzar Ruta" else "Iniciar Ruta",
+                        color = Color.White
+                    )
+                }
+            } else {
+                Button(
+                    onClick = { resetScreen() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Continuar",
+                        color = Color.White
+                    )
+                }
             }
 
             if (showSnackbar) {

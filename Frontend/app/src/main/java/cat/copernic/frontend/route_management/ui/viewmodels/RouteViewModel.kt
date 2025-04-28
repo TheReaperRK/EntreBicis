@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.time.LocalDateTime.now
 import java.time.format.DateTimeFormatter
 
 class RouteViewModel(application: Application) : AndroidViewModel(application) {
@@ -40,6 +41,9 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
 
     private var locationPoints = mutableListOf<Location>()
     private var startTimestamp: Long = 0
+
+    private val _routeFinished = MutableStateFlow(false)
+    val routeFinished: StateFlow<Boolean> = _routeFinished
 
     private val _ubicacioActual = MutableStateFlow<Location?>(null)
     val ubicacioActual: StateFlow<Location?> = _ubicacioActual
@@ -67,7 +71,7 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         //_routePoints.value = emptyList() // ← LIMPIA la línea anterior
 
         currentRoute = Route().apply {
-            start_date = LocalDateTime.now()
+            startDate = LocalDateTime.now().toString()
             user = repository.getDummyUser(userEmail)
         }
     }
@@ -91,6 +95,7 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun stopRoute() {
+        _routeFinished.value = true
         _isRecording.value = false
         val endTimestamp = System.currentTimeMillis()
 
@@ -108,7 +113,7 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         val averageSpeed = if (totalTimeSec > 0) totalDistanceKm / (totalTimeSec / 3600.0) else 0.0
 
         currentRoute.apply {
-            end_date = LocalDateTime.now()
+            end_date = LocalDateTime.now().toString()
             distance = totalDistanceKm
             average_speed = averageSpeed
             generated_balance = totalDistanceKm.toInt()
@@ -135,7 +140,7 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
 
             val routeDTO = RouteDTO(
                 idRouteDTO = null,
-                startDate = currentRoute.start_date.format(formatter),
+                startDate = currentRoute.startDate.format(formatter),
                 endDate = currentRoute.end_date.format(formatter),
                 distance = currentRoute.distance,
                 averageSpeed = currentRoute.average_speed,
@@ -145,16 +150,20 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
                 gpsPoints = gpsPoints
             )
 
-            repository.sendRoute(routeDTO, context) { success, newRouteId ->
-                if (success && newRouteId != null) {
+            repository.sendRoute(routeDTO, context) { success, routeDTO ->
+                println("view model: " + success)
+                onResult(success, routeDTO)
+                /*if (success && routeDTO != null) {
                     viewModelScope.launch {
-                        val gpsPointsFromBackend = repository.getGpsPointsByRouteId(newRouteId, context)
+                        val gpsPointsFromBackend = repository.getGpsPointsByRoute(routeDTO, context)
                         _routePoints.value = gpsPointsFromBackend.map {
                             LatLng(it.latitud.toDouble(), it.longitud.toDouble())
                         }
                     }
                 }
-                onResult(success, newRouteId)
+                onResult(success, routeDTO)
+
+                 */
             }
 
             _isRecording.value = false
@@ -208,4 +217,14 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    fun resetRoute() {
+        locationPoints.clear()
+        _routePoints.value = emptyList()
+        _isRecording.value = false
+        _routeFinished.value = false
+        currentRoute = Route()
+        totalTimeString = "00:00:00"
+    }
+
 }

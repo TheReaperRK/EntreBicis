@@ -16,13 +16,17 @@ class RouteRepository {
         val api = RouteRetrofitInstance.getApi(context)
         try {
             val response = api.sendRoute(route)
+            println("response repo: " + response)
             if (response.isSuccessful) {
+                println("successful")
                 val routeNew = response.body()
                 onResult(true, routeNew)
             } else {
+                println("no success")
                 onResult(false, null)
             }
         } catch (e: Exception) {
+            println("Excepcion")
             onResult(false, null)
         }
     }
@@ -34,14 +38,14 @@ class RouteRepository {
         return user
     }
 
-    suspend fun getGpsPointsByRouteId(routeId: Route, context: Context): List<GpsPointDTO> {
+    suspend fun getGpsPointsByRoute(routeId: Route, context: Context): List<GpsPointDTO> {
         val api = RouteRetrofitInstance.getApi(context)
-        val response = api.getGpsPointsByRouteId(routeId)
+        val response = api.getGpsPointsByRoute(routeId)
 
         return if (response.isSuccessful && response.body() != null) {
             response.body()!!
         } else {
-            emptyList() // o lanza excepción si quieres
+            emptyList() //
         }
     }
 }

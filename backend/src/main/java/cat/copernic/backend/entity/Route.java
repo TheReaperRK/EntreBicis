@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,6 +59,7 @@ public class Route {
 
     private Time total_time;
 
+    @Enumerated(EnumType.STRING)
     private Validation validation_state;
 
     private int generated_balance;

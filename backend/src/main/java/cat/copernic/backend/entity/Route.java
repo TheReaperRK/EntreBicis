@@ -63,9 +63,10 @@ public class Route {
 
     private State state;
 
-    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*@OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<GpsPoint> gpsPoints;
+*/
 
     @ManyToOne
     @JoinColumn(name = "user", nullable = false)

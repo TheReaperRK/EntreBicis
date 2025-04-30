@@ -9,5 +9,17 @@ package cat.copernic.backend.entity.enums;
  * @author carlo
  */
 public enum Validation {
-    NOT_CHECKED, VALIDATED, INVALIDATED
+    NOT_CHECKED, VALIDATED, INVALIDATED;
+    
+    @Override
+    public String toString() {
+        return switch (this) {
+            case NOT_CHECKED ->
+                "No verificat";
+            case VALIDATED ->
+                "Validat";
+            case INVALIDATED ->
+                "Invalidat";
+        };
+    }
 }

@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.material3.SearchBarDefaults.InputField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
@@ -20,12 +23,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import cat.copernic.frontend.R
 import cat.copernic.frontend.auth_management.data.source.AuthRetrofitInstance
+import cat.copernic.frontend.auth_management.ui.components.ErrorMessageBox
 import cat.copernic.frontend.core.ui.theme.PrimaryGreen
+import cat.copernic.frontend.core.ui.theme.SecondaryGreen
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
@@ -38,143 +44,180 @@ fun ResetWordScreen(navController: NavController) {
     var token by remember { mutableStateOf("") }
     var word by remember { mutableStateOf("") }
     var wordRepeat by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
 
-    var emailError by remember { mutableStateOf<String?>(null) }
-    var tokenError by remember { mutableStateOf<String?>(null) }
-    var passwordError by remember { mutableStateOf<String?>(null) }
-    var repeatPasswordError by remember { mutableStateOf<String?>(null) }
+    var emailError by remember { mutableStateOf("") }
+    var tokenError by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
+    var repeatPasswordError by remember { mutableStateOf("") }
+    var generalError by remember { mutableStateOf("") }
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    Box(
-        modifier = Modifier.fillMaxSize().background(PrimaryGreen),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF166C4E))
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(32.dp)) {
-            // Botón de regreso
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "tornar", tint = White)
-            }
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier.align(Alignment.Start)
+        ) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "Enrere", tint = Color.White)
+        }
 
-            Image(painter = painterResource(id = R.drawable.entrebicislogowb), "logo", modifier = Modifier.size(100.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-            Text("Recuperar contrasenya", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = White)
-            Spacer(modifier = Modifier.height(16.dp))
+        Image(
+            painter = painterResource(id = R.drawable.entrebicislogowb),
+            contentDescription = "Logo EntreBicis",
+            modifier = Modifier.size(240.dp)
+        )
 
-            // Campo para el correo
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("correu") },
-                isError = emailError != null,
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            if (emailError != null) {
-                Text(text = emailError!!, color = MaterialTheme.colorScheme.error)
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Correu electrònic", color = Color.White) },
+            singleLine = true,
+            isError = emailError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(),
+            colors = textFieldColors()
+        )
+        ErrorMessageBox(message = emailError)
 
-            // Campo para el token
-            OutlinedTextField(
-                value = token,
-                onValueChange = {
-                    if (it.length <= 250) token = it
-                },
-                label = { Text("token") },
-                isError = tokenError != null,
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            if (tokenError != null) {
-                Text(text = tokenError!!, color = MaterialTheme.colorScheme.error)
-            }
+        Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = token,
+            onValueChange = { if (it.length <= 250) token = it },
+            label = { Text("Token", color = Color.White) },
+            singleLine = true,
+            isError = tokenError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(),
+            colors = textFieldColors()
+        )
+        ErrorMessageBox(message = tokenError)
 
-// Campo para la contraseña
-            OutlinedTextField(
-                value = word,
-                onValueChange = {
-                    if (it.length <= 60) word = it
-                },
-                label = { Text("nova contrasenya") },
-                visualTransformation = PasswordVisualTransformation(),
-                isError = passwordError != null,
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            if (passwordError != null) {
-                Text(text = passwordError!!, color = MaterialTheme.colorScheme.error)
-            }
+        Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = word,
+            onValueChange = { if (it.length <= 60) word = it },
+            label = { Text("Nova contrasenya", color = Color.White) },
+            singleLine = true,
+            isError = passwordError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(icon, contentDescription = null, tint = Color.White)
+                }
+            },
+            colors = textFieldColors()
+        )
+        ErrorMessageBox(message = passwordError)
 
-// Repetir contraseña
-            OutlinedTextField(
-                value = wordRepeat,
-                onValueChange = {
-                    if (it.length <= 60) wordRepeat = it
-                },
-                label = { Text("Repiteix la contrasenya") },
-                visualTransformation = PasswordVisualTransformation(),
-                isError = repeatPasswordError != null,
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            if (repeatPasswordError != null) {
-                Text(text = repeatPasswordError!!, color = MaterialTheme.colorScheme.error)
-            }
+        Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = wordRepeat,
+            onValueChange = { if (it.length <= 60) wordRepeat = it },
+            label = { Text("Repeteix la contrasenya", color = Color.White) },
+            singleLine = true,
+            isError = repeatPasswordError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(icon, contentDescription = null, tint = Color.White)
+                }
+            },
+            colors = textFieldColors()
+        )
+        ErrorMessageBox(message = repeatPasswordError)
 
-            // Botón de recuperación
-            Button(
-                onClick = {
-                    emailError = if (!isValidEmail(email))"invalid email" else null
-                    tokenError = if (token.length > 250) "token massa llarg" else null
-                    passwordError = if (!isValidPassword(word)) "contrasenya masa debil" else null
-                    repeatPasswordError = if (word != wordRepeat) "les contrasenyes no son iguals" else null
+        ErrorMessageBox(message = generalError)
 
-                    if (emailError == null && tokenError == null && passwordError == null && repeatPasswordError == null) {
-                        coroutineScope.launch {
-                            val response = AuthRetrofitInstance.authApi.resetPassword(
-                                email.toRequestBody("text/plain".toMediaTypeOrNull()),
-                                token.toRequestBody("text/plain".toMediaTypeOrNull()),
-                                word.toRequestBody("text/plain".toMediaTypeOrNull())
-                            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-                            if (response.isSuccessful) {
-                                Toast.makeText(context, "contrasenya canviada amb exit", Toast.LENGTH_LONG).show()
-                                navController.navigate("login")
-                            } else {
-                                val errorBody = response.errorBody()?.string()
-                                val errorMessage = try {
-                                    JSONObject(errorBody).getString("message")
-                                } catch (e: Exception) {
-                                   "error inesperat"
-                                }
-                                emailError = if (errorMessage.contains("correo")) errorMessage else null
-                                tokenError = if (errorMessage.contains("token")) errorMessage else null
-                                passwordError = if (errorMessage.contains("contraseña")) errorMessage else null
+        Button(
+            onClick = {
+                emailError = ""
+                tokenError = ""
+                passwordError = ""
+                repeatPasswordError = ""
+                generalError = ""
+
+                if (email.isBlank() || token.isBlank() || word.isBlank() || wordRepeat.isBlank()) {
+                    generalError = "Tots els camps són obligatoris"
+                    return@Button
+                }
+
+                if (!isValidEmail(email)) emailError = "Correu no vàlid"
+                if (token.length > 250) tokenError = "Token massa llarg"
+                if (!isValidPassword(word)) passwordError = "Contrasenya massa dèbil"
+                if (word != wordRepeat) repeatPasswordError = "Les contrasenyes no coincideixen"
+
+                if (emailError.isEmpty() && tokenError.isEmpty()
+                    && passwordError.isEmpty() && repeatPasswordError.isEmpty()
+                ) {
+                    coroutineScope.launch {
+                        val response = AuthRetrofitInstance.authApi.resetPassword(
+                            email.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            token.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            word.toRequestBody("text/plain".toMediaTypeOrNull())
+                        )
+
+                        if (response.isSuccessful) {
+                            Toast.makeText(context, "Contrasenya canviada amb èxit", Toast.LENGTH_LONG).show()
+                            navController.navigate("login")
+                        } else {
+                            val message = try {
+                                JSONObject(response.errorBody()?.string()).getString("message")
+                            } catch (e: Exception) {
+                                "Error inesperat"
                             }
+                            generalError = message
                         }
                     }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Resetejar contrasenya")
-            }
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A))
+        ) {
+            Text("Resetejar contrasenya", color = Color.White)
         }
     }
 }
 
+@Composable
+private fun textFieldColors() = OutlinedTextFieldDefaults.colors(
+    unfocusedBorderColor = Color.White,
+    focusedBorderColor = Color.White,
+    cursorColor = Color.White,
+    unfocusedLabelColor = Color.White,
+    focusedLabelColor = Color.White,
+    focusedTextColor = Color.White,
+    unfocusedTextColor = Color.White,
+    errorBorderColor = Color(0xFFEF6C00),
+    errorLabelColor = Color(0xFFEF6C00),
+    errorCursorColor = Color(0xFFEF6C00),
+    errorLeadingIconColor = Color(0xFFEF6C00),
+    errorTrailingIconColor = Color(0xFFEF6C00),
+    errorTextColor = Color.White
+)
 
-fun isValidEmail(email: String) = email.length <= 60 && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+fun isValidEmail(email: String) =
+    email.length <= 60 && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
 fun isValidPassword(password: String) =
     password.length >= 8 &&

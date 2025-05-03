@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class BottomNavItem(
@@ -15,6 +16,6 @@ data class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem(Screens.Home.route, Icons.Filled.Home, "Inicio"),
     BottomNavItem(Screens.Rewards.route, Icons.Filled.Star, "Recompensas"),
-    BottomNavItem(Screens.Profile.route, Icons.Filled.Person, "Perfil")
-
+    BottomNavItem(Screens.Profile.route, Icons.Filled.Person, "Perfil"),
+    BottomNavItem(Screens.Route.route, Icons.Filled.Timeline, "Ruta")
 )

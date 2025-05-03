@@ -11,4 +11,6 @@ sealed class Screens(val route: String) {
     }
     object Recover : Screens("recover")
     object Reset : Screens("reset")
+    object EditUser : Screens("edit_user")
+    object Route : Screens("route")
 }

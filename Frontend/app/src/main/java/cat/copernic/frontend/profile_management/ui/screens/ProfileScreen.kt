@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
@@ -19,16 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.navigation.Screens
-import cat.copernic.frontend.profile_management.management.UserRepo
-import cat.copernic.frontend.profile_management.management.UserRetrofitInstance
-import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModel
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import kotlinx.coroutines.launch
-import android.util.Base64
-import android.graphics.BitmapFactory
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import cat.copernic.frontend.core.utils.base64ToImageBitmap
 import cat.copernic.frontend.profile_management.ui.components.ReservaActivaCard
 
 @Composable
@@ -94,14 +86,15 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
                         contentDescription = "Foto perfil",
                         modifier = Modifier
                             .size(120.dp)
-                            .clip(CircleShape)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
                     )
                 } else {
                     Text("No es pot carregar la imatge")
                 }
 
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    ProfileButton("editar") { /* TODO */ }
+                    ProfileButton("editar") { navController.navigate(Screens.EditUser.route) }
                     ProfileButton("reserves") { /* TODO */ }
                     ProfileButton("tancar sessió") {
                         navController.navigate(Screens.Login.route) {
@@ -168,17 +161,6 @@ fun ProfileButton(text: String, onClick: () -> Unit) {
     }
 }
 
-fun base64ToImageBitmap(base64String: String): ImageBitmap? {
-    return try {
-        val cleanBase64 = base64String.substringAfter("base64,", base64String)
-        val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-        val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        bitmap?.asImageBitmap()
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
 
 
 

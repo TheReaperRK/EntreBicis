@@ -15,4 +15,17 @@ import retrofit2.http.Query
 interface UserApiRest {
     @GET("/api/auth/user/{email}")
     suspend fun getUserByEmail(@Path("email") email: String): Response<User>
+
+    @Multipart
+    @POST("/api/auth/user/update")
+    suspend fun updateUser(
+        @Part("email") email: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("surnames") surnames: RequestBody,
+        @Part("population") population: RequestBody,
+        @Part("phone_number") phoneNumber: RequestBody,
+        @Part("observations") observations: RequestBody,
+        @Part image: MultipartBody.Part? = null
+    ): Response<Void>
 }
+

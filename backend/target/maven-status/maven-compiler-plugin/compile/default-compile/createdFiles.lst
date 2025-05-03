@@ -36,6 +36,7 @@ cat\copernic\backend\entity\Reward$RewardBuilderImpl.class
 cat\copernic\backend\controllers\UserController.class
 cat\copernic\backend\config\EmailConfig.class
 cat\copernic\backend\entity\enums\RewardStatus.class
+cat\copernic\backend\controllers\api\user\UserApiController.class
 cat\copernic\backend\config\JwtKeyProvider.class
 cat\copernic\backend\config\JwtUtil.class
 cat\copernic\backend\entity\Reward.class

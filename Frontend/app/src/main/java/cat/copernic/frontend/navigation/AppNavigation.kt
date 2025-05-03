@@ -22,9 +22,15 @@ import cat.copernic.frontend.auth_management.ui.screens.recover.PasswordRecover
 import cat.copernic.frontend.auth_management.ui.screens.recover.ResetWordScreen
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
+import cat.copernic.frontend.profile_management.management.UserRepo
+import cat.copernic.frontend.profile_management.management.UserRetrofitInstance
+import cat.copernic.frontend.profile_management.ui.screens.EditProfileScreen
 import cat.copernic.frontend.profile_management.ui.screens.ProfileScreen
+import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModel
+import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModelFactory
 import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
+import okhttp3.internal.platform.android.ConscryptSocketAdapter.Companion.factory
 
 @Composable
 fun AppNavigation() {
@@ -33,6 +39,10 @@ fun AppNavigation() {
 
     // Restaurar sesión al iniciar app
     val context = LocalContext.current // ✅ permitido aquí
+
+    val factory = ProfileViewModelFactory(UserRepo(UserRetrofitInstance.getApi(context)))
+    val viewModel: ProfileViewModel = viewModel(factory = factory)
+
 
     LaunchedEffect(Unit) {
         userSessionViewModel.restoreSession(context)
@@ -48,8 +58,11 @@ fun AppNavigation() {
     val initialDestination = if (hasToken) Screens.Home.route else Screens.Login.route
 
     val showBottomBar = navController
-        .currentBackStackEntryAsState().value?.destination?.route !in listOf(Screens.Login.route)
-
+        .currentBackStackEntryAsState().value?.destination?.route !in listOf(
+        Screens.Login.route,
+        Screens.Recover.route,
+        Screens.Reset.route
+    )
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
@@ -76,8 +89,15 @@ fun AppNavigation() {
                 val id = backStackEntry.arguments?.getLong("id") ?: return@composable
                 RewardDetailScreen(id = id, navController = navController)
             }
-            composable(Screens.Recover.route) { PasswordRecover(navController)}
-            composable(Screens.Reset.route) { ResetWordScreen(navController)}
+            composable(Screens.Recover.route) {
+                PasswordRecover(navController)}
+
+            composable(Screens.Reset.route) {
+                ResetWordScreen(navController)}
+
+            composable(Screens.EditUser.route) {
+                EditProfileScreen(navController, profileViewModel = viewModel)
+            }
         }
     }
 }

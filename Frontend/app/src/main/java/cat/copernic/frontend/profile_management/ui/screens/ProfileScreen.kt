@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.navigation.Screens
 import cat.copernic.frontend.core.utils.base64ToImageBitmap
+import cat.copernic.frontend.profile_management.management.UserRetrofitInstance
 import cat.copernic.frontend.profile_management.ui.components.ReservaActivaCard
 
 @Composable
@@ -28,13 +29,12 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
     val context = LocalContext.current
     val user by sessionViewModel.user.collectAsState()
 
-
     LaunchedEffect(true) {
         sessionViewModel.refreshUserData(context)
     }
 
     user?.let { userData ->
-        val profileBitmap = base64ToImageBitmap(user!!.image)
+        val profileBitmap = base64ToImageBitmap(userData.image)
 
         Column(
             modifier = Modifier

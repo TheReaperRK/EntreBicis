@@ -82,4 +82,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation (libs.material3)
     implementation(libs.androidx.material.icons.extended)
+
+    //maps
+    //noinspection GradleDependency
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.maps.android:maps-compose:2.11.2")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }

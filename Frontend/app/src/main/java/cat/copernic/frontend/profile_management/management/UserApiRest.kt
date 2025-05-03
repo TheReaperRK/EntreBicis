@@ -1,6 +1,8 @@
 package cat.copernic.frontend.profile_management.management
 
 import cat.copernic.frontend.core.models.DTO.LoginResponse
+import cat.copernic.frontend.core.models.DTO.ProfileDTO
+import cat.copernic.frontend.core.models.DTO.UserDTO
 import cat.copernic.frontend.core.models.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -14,7 +16,10 @@ import retrofit2.http.Query
 
 interface UserApiRest {
     @GET("/api/auth/user/{email}")
-    suspend fun getUserByEmail(@Path("email") email: String): Response<User>
+    suspend fun getUserByEmail(@Path("email") email: String): Response<ProfileDTO>
+
+    @GET("/api/auth/userDTO/{email}")
+    suspend fun getUserByEmailDTO(@Path("email") email: String): Response<UserDTO>
 
     @Multipart
     @POST("/api/auth/user/update")

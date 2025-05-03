@@ -56,7 +56,7 @@ public class User {
     private String word;
 
     private double balance;
-    
+
     private String resetToken; // Token para restablecer contraseña
 
     @Lob
@@ -180,5 +180,5 @@ public class User {
     public void setResetToken(String resetToken) {
         this.resetToken = resetToken;
     }
-    
+
 }

@@ -1,6 +1,14 @@
+.user-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f9fafb;
     margin: 0;
     padding: 0;
 }
@@ -23,9 +31,10 @@ body {
 }
 
 .user-list-header h1 {
-    color: #0e6837;
+    color: #166C4E;
+    font-weight: 700;
     margin: 0;
-    font-size: 28px;
+    font-size: 32px;
     flex: 1;
     text-align: center;
 }
@@ -33,11 +42,11 @@ body {
 .btn-create {
     background-color: #166C4E;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 24px;
     border-radius: 8px;
     text-decoration: none;
-    transition: background 0.3s;
     font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .btn-create:hover {
@@ -47,27 +56,28 @@ body {
 .table-container {
     width: 100%;
     max-width: 1200px;
-    max-height: 500px; /* Límite de altura */
-    overflow-y: auto;  /* Scroll vertical si se desborda */
+    max-height: 550px;
+    overflow-y: auto;
     overflow-x: auto;
     background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
 }
 
 th, td {
-    padding: 14px 16px;
+    padding: 16px 20px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e2e8f0;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 th {
@@ -76,46 +86,44 @@ th {
     position: sticky;
     top: 0;
     z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    color: #333;
 }
 
 tr:hover {
-    background-color: #f9f9f9;
-}
-
-.user-image {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ccc;
+    background-color: #f1f5f9;
 }
 
 .btn-edit {
     background-color: #f0ad4e;
     color: white;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 6px;
     text-decoration: none;
     font-size: 14px;
-    transition: background 0.3s;
-}
-
-.btn-delete {
-    background-color: #166C4E;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background 0.3s;
+    transition: background-color 0.3s;
 }
 
 .btn-edit:hover {
     background-color: #ec971f;
 }
 
+.btn-delete {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
 .btn-delete:hover {
-    background-color: #27C08A;
+    background-color: #c9302c;
 }
 
 @media (max-width: 768px) {

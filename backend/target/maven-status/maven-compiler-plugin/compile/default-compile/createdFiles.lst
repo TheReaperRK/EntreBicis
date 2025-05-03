@@ -1,3 +1,4 @@
+cat\copernic\backend\entity\DTO\GpsPointDTOLight.class
 cat\copernic\backend\entity\DTO\RouteDTO.class
 cat\copernic\backend\entity\GpsPoint.class
 cat\copernic\backend\entity\DTO\LoginResponse.class
@@ -19,6 +20,7 @@ cat\copernic\backend\controllers\auth\AuthController.class
 cat\copernic\backend\logic\RewardLogic.class
 cat\copernic\backend\entity\User$UserBuilder.class
 cat\copernic\backend\controllers\RewardController.class
+cat\copernic\backend\controllers\RouteControllers.class
 cat\copernic\backend\controllers\api\route\RouteApiController.class
 cat\copernic\backend\entity\GpsPoint$GpsPointBuilderImpl.class
 cat\copernic\backend\repository\SystemParametersRepo.class
@@ -41,6 +43,7 @@ cat\copernic\backend\entity\DTO\GpsPointDTO.class
 cat\copernic\backend\entity\enums\Role.class
 cat\copernic\backend\entity\Reward$RewardBuilder.class
 cat\copernic\backend\repository\RewardRepo.class
+cat\copernic\backend\entity\DTO\RouteUserSpeedDistanceDTO.class
 cat\copernic\backend\entity\Reward$RewardBuilderImpl.class
 cat\copernic\backend\controllers\UserController.class
 cat\copernic\backend\config\EmailConfig.class

@@ -1,5 +1,6 @@
 package cat.copernic.frontend.profile_management.management
 
+import cat.copernic.frontend.core.models.DTO.ProfileDTO
 import cat.copernic.frontend.core.models.User
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -8,7 +9,7 @@ import retrofit2.Response
 
 class UserRepo(private val api: UserApiRest) {
 
-    suspend fun getUserByEmail(email: String): Response<User> {
+    suspend fun getUserByEmail(email: String): Response<ProfileDTO> {
         return api.getUserByEmail(email)
     }
 

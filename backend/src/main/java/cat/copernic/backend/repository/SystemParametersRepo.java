@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author carlo
  */
 public interface SystemParametersRepo extends JpaRepository<SystemParameters, String>{
-    
+    //SystemParameters getFirst();
 }

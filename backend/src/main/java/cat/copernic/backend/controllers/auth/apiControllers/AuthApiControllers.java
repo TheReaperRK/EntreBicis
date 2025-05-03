@@ -6,6 +6,8 @@ package cat.copernic.backend.controllers.auth.apiControllers;
 
 import cat.copernic.backend.config.JwtUtil;
 import cat.copernic.backend.entity.DTO.LoginResponse;
+import cat.copernic.backend.entity.DTO.ProfileDTO;
+import cat.copernic.backend.entity.DTO.UserDTO;
 import cat.copernic.backend.entity.User;
 import cat.copernic.backend.entity.UserSession;
 import cat.copernic.backend.logic.EmailLogic;
@@ -64,7 +66,13 @@ public class AuthApiControllers {
 
         if (user != null) {
             String token = jwtUtil.generateToken(user.getMail());
-            LoginResponse response = new LoginResponse(token, user);
+
+            UserDTO dto = new UserDTO();
+            dto.setMail(user.getMail());
+            dto.setName(user.getName());
+
+
+            LoginResponse response = new LoginResponse(token, dto);
             return ResponseEntity.ok(response);
         }
 
@@ -76,7 +84,43 @@ public class AuthApiControllers {
         try {
             System.out.println(email);
             User user = userLogic.getUserByMail(email);
+            
+            ProfileDTO userDto = new ProfileDTO();
+            
+            userDto.setName(user.getName());
+            userDto.setSurnames(user.getSurnames());
+            userDto.setMail(user.getMail());
+            userDto.setObservations(user.getObservations());
+            userDto.setPhone_number(user.getPhone_number());
+            userDto.setPopulation(user.getPopulation());
+            userDto.setReward(user.getReward());
+            userDto.setBalance(user.getBalance());
+            
+            
             if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuari no trobat");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error en recuperar l'usuari: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping("/userDTO/{email}")
+    public ResponseEntity<?> getUserByEmailDTO(@PathVariable String email) {
+        try {
+            System.out.println(email);
+            UserDTO user = new UserDTO();
+            
+            User userComplert = userLogic.getUserByMail(email);
+            
+            if (user != null) {
+                
+                user.setMail(userComplert.getMail());
+                user.setName(userComplert.getName());
+                
                 return ResponseEntity.ok(user);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuari no trobat");

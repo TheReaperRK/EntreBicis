@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cat.copernic.frontend.core.models.DTO.ProfileDTO
+import cat.copernic.frontend.core.models.DTO.UserDTO
 import cat.copernic.frontend.core.models.User
 import cat.copernic.frontend.profile_management.management.UserRetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,22 +17,25 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class UserSessionViewModel : ViewModel() {
-    private val _user = MutableStateFlow<User?>(null)
+    private val _userDTO = MutableStateFlow<UserDTO?>(null)
+    val userDto = _userDTO.asStateFlow()
+
+    private val _user = MutableStateFlow<ProfileDTO?>(null)
     val user = _user.asStateFlow()
 
     private val _token = MutableStateFlow("")
     val token: StateFlow<String> = _token
 
-    fun setUser(user: User) {
-        _user.value = user
+    fun setUser(user: UserDTO) {
+        _userDTO.value = user
     }
 
     fun clearUser() {
-        _user.value = null
+        _userDTO.value = null
     }
 
-    fun setSession(user: User, token: String) {
-        _user.value = user
+    fun setSession(user: UserDTO, token: String) {
+        _userDTO.value = user
         _token.value = token
     }
 
@@ -53,13 +58,13 @@ class UserSessionViewModel : ViewModel() {
                 viewModelScope.launch {
                     try {
                         val api = UserRetrofitInstance.getApi(context) // Usa cliente con token
-                        val response = api.getUserByEmail(email)
+                        val response = api.getUserByEmailDTO(email)
                         Log.d("RESTORE", "Respuesta code: ${response.code()}, isSuccessful=${response.isSuccessful}")
 
                         if (response.isSuccessful) {
                             val user = response.body()
                             if (user != null) {
-                                _user.value = user
+                                _userDTO.value = user
                                 Log.d("RESTORE", "Usuario recibido: $user")
                             } else {
                                 Log.d("RESTORE", "response.body() es nulo")

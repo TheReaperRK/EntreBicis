@@ -1,6 +1,9 @@
 package cat.copernic.frontend.navigation
 
 import android.content.Context
+import android.location.Location
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,7 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
 import cat.copernic.frontend.auth_management.ui.screens.LoginScreen
-import cat.copernic.frontend.auth_management.ui.screens.RegisterScreen
 import cat.copernic.frontend.auth_management.ui.screens.recover.PasswordRecover
 import cat.copernic.frontend.auth_management.ui.screens.recover.ResetWordScreen
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
@@ -30,18 +32,25 @@ import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModel
 import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModelFactory
 import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
+import cat.copernic.frontend.route_management.ui.components.FinalRouteScreen
+import cat.copernic.frontend.route_management.ui.screens.StartRouteScreen
+import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
+import com.google.android.gms.maps.model.LatLng
 import okhttp3.internal.platform.android.ConscryptSocketAdapter.Companion.factory
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     val userSessionViewModel: UserSessionViewModel = viewModel()
+    val routeViewModel: RouteViewModel = viewModel()
 
     // Restaurar sesión al iniciar app
     val context = LocalContext.current // ✅ permitido aquí
 
     val factory = ProfileViewModelFactory(UserRepo(UserRetrofitInstance.getApi(context)))
-    val viewModel: ProfileViewModel = viewModel(factory = factory)
+    val profileViewModel: ProfileViewModel = viewModel(factory = factory)
+    val sessionViewModel: ProfileViewModel = viewModel(factory = factory)
 
 
     LaunchedEffect(Unit) {
@@ -76,7 +85,6 @@ fun AppNavigation() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screens.Login.route) { LoginScreen(navController, userSessionViewModel) }
-            composable(Screens.Register.route) { RegisterScreen() }
             composable(Screens.Home.route) { HomeScreen(navController, userSessionViewModel) }
             composable(Screens.Rewards.route) { RewardsScreen(navController) }
             composable(Screens.Profile.route) { ProfileScreen(navController, userSessionViewModel) }
@@ -96,8 +104,23 @@ fun AppNavigation() {
                 ResetWordScreen(navController)}
 
             composable(Screens.EditUser.route) {
-                EditProfileScreen(navController, profileViewModel = viewModel)
+                EditProfileScreen(navController, profileViewModel = profileViewModel)
             }
+
+            composable(Screens.Route.route) {
+                StartRouteScreen(navController, userSessionViewModel)
+            }
+
+            composable("final_route") {
+                val navBackStackEntry = rememberNavController().currentBackStackEntry
+                val points = navBackStackEntry?.savedStateHandle?.get<List<LatLng>>("points")
+                val finalLocation = navBackStackEntry?.savedStateHandle?.get<Location>("finalLocation")
+
+                if (points != null && finalLocation != null) {
+                    FinalRouteScreen(routePoints = points, ubicacioFinal = finalLocation)
+                }
+            }
+
         }
     }
 }

@@ -53,10 +53,18 @@ public class UserController {
             @RequestParam("imageFile") MultipartFile imageFile,
             @RequestParam(value = "observations", required = false) String observations,
             Model model) {
+
         if (user.getWord() == null || user.getWord().isBlank()) {
             model.addAttribute("user", user);
             model.addAttribute("formMode", "create");
             model.addAttribute("error", "La contrasenya és obligatòria.");
+            return "user/user-form";
+        }
+
+        if (user.getMail() == null || user.getMail().isBlank()) {
+            model.addAttribute("user", user);
+            model.addAttribute("formMode", "create");
+            model.addAttribute("error", "El correu electrònic és obligatori.");
             return "user/user-form";
         }
 
@@ -69,13 +77,20 @@ public class UserController {
                 user.setObservations(observations);
             }
 
-            userLogic.saveWithEncoder(user);
+            if (userLogic.getUserByMail(user.getMail()) != null) {
+                model.addAttribute("error", "Ja existeix un Usuari amb aquest correu");
+            } else {
+                userLogic.saveWithEncoder(user);
+                return "redirect:/users/list";
+            }
+
         } catch (IOException e) {
             model.addAttribute("error", "Error en pujar la imatge.");
-            return "user/user-form";
         }
 
-        return "redirect:/users/list";
+        model.addAttribute("user", user);
+        model.addAttribute("formMode", "create");
+        return "user/user-form";
     }
 
     //edit user

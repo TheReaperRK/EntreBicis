@@ -10,12 +10,15 @@ C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\cope
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\auth\apiControllers\AuthApiControllers.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\auth\AuthController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\RewardController.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\RouteControllers.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\SystemParametersController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\UserController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\GpsPointDTO.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\GpsPointDTOLight.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\LoginResponse.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\ProfileDTO.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\RouteDTO.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\RouteUserSpeedDistanceDTO.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\UserDTO.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\RewardStatus.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\Role.java

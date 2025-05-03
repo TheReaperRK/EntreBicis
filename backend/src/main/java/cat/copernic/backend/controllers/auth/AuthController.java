@@ -50,7 +50,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        userLogic.createSampleUser();
+      //  userLogic.createSampleUser();
         return "/auth/login";
     }
     

@@ -13,4 +13,5 @@ sealed class Screens(val route: String) {
     object Reset : Screens("reset")
     object EditUser : Screens("edit_user")
     object Route : Screens("start_route")
+    object RouteList : Screens("route_list")
 }

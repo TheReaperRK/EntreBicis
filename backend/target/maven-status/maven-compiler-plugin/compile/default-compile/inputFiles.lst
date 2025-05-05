@@ -18,6 +18,7 @@ C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\cope
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\LoginResponse.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\ProfileDTO.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\RouteDTO.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\RouteDtoClear.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\RouteUserSpeedDistanceDTO.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\DTO\UserDTO.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\RewardStatus.java
@@ -25,6 +26,7 @@ C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\cope
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\State.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\enums\Validation.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\GpsPoint.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\mappers\RouteMapper.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\Reward.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\Route.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\entity\SystemParameters.java

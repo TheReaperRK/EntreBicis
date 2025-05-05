@@ -14,7 +14,7 @@ data class BottomNavItem(
 )
 
 val bottomNavItems = listOf(
-    BottomNavItem(Screens.Home.route, Icons.Filled.Home, "Inicio"),
+    BottomNavItem(Screens.RouteList.route, Icons.Filled.Home, "Inicio"),
     BottomNavItem(Screens.Rewards.route, Icons.Filled.Star, "Recompensas"),
     BottomNavItem(Screens.Profile.route, Icons.Filled.Person, "Perfil"),
     BottomNavItem(Screens.Route.route, Icons.Filled.Timeline, "Ruta")

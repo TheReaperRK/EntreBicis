@@ -33,6 +33,8 @@ import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModelFa
 import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
 import cat.copernic.frontend.route_management.ui.components.FinalRouteScreen
+import cat.copernic.frontend.route_management.ui.screens.DetallRouteScreen
+import cat.copernic.frontend.route_management.ui.screens.LlistaRutesScreen
 import cat.copernic.frontend.route_management.ui.screens.StartRouteScreen
 import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
 import com.google.android.gms.maps.model.LatLng
@@ -121,6 +123,20 @@ fun AppNavigation() {
                 }
             }
 
+            composable(Screens.RouteList.route) {
+                LlistaRutesScreen(
+                    routeViewModel,
+                    context = context,
+                    navController
+                )
+            }
+
+            composable("detall_ruta/{id}") { backStackEntry ->
+                val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+                id?.let {
+                    DetallRouteScreen(routeId = it, context, navController)
+                }
+            }
         }
     }
 }

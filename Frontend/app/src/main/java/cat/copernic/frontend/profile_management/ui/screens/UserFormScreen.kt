@@ -143,8 +143,8 @@ fun EditProfileScreen(
                 }
                 else -> {
                     Image(
-                        painter = painterResource(id = R.drawable.entrebicislogowb),
-                        contentDescription = "Logo per defecte",
+                        painter = painterResource(id = R.drawable.blank_profile_picture_973460_960_720),
+                        contentDescription = "Foto per defecte",
                         modifier = Modifier.size(80.dp)
                     )
                 }

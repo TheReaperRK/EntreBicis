@@ -1,0 +1,96 @@
+/* === userListStyle.css === */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #0e6837;
+}
+
+#toggle-sidebar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #166C4E;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+#toggle-sidebar:hover {
+    background-color: #27C08A;
+}
+
+a[href*="/rewards/create"] {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #166C4E;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+a[href*="/rewards/create"]:hover {
+    background-color: #27C08A;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #166C4E;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+a.btn-edit, a.btn-delete {
+    
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    color: white;
+    margin-right: 5px;
+    transition: background 0.3s;
+}
+
+a.btn-edit {
+    background-color: #f0ad4e;
+}
+
+a.btn-edit:hover {
+    background-color: #ec971f;
+}
+
+a.btn-delete {
+    background-color: #d9534f;
+}
+
+a.btn-delete:hover {
+    background-color: #c9302c;
+}
+

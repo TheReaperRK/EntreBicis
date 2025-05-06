@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Iniciar sessió</title>
+        <link rel="stylesheet" href="/styles/login.css">
+    </head>
+    <body>
+        <div class="login-container">
+            <img src="/images/EntreBicisLogoWB.png" alt="Logo EntreBicis" class="logo">
+            <h1>EntreBicis</h1>
+
+            <form th:action="@{/login}" method="post" class="login-form">
+                <input type="email" name="mail" placeholder="Introdueix el teu correu" required>
+                <div class="form-group">
+                    <input type="password" name="word" id="password" placeholder="Introdueix la teva contrasenya" required />
+                    <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
+                </div>
+
+                <button type="submit">Iniciar sessió</button>
+
+                <p class="error" th:if="${param.error}">Credencials incorrectes</p>
+                <p class="success" th:if="${param.registered}">Registrat correctament. Inicia sessió.</p>
+            </form>
+        </div>
+        <script>
+            function togglePasswordVisibility() {
+                const input = document.getElementById("password");
+                input.type = input.type === "password" ? "text" : "password";
+            }
+        </script>
+
+    </body>
+</html>

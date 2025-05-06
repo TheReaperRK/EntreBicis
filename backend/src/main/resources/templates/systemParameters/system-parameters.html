@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Configuració del Sistema</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/styles/sideBarStyle.css">
+        <link rel="stylesheet" href="/styles/systemParametersStyle.css">
+    </head>
+    <body>
+        <!-- Botó per obrir/tancar la barra lateral -->
+        <button id="toggle-sidebar">☰</button>
+        
+        <h1>Paràmetres del Sistema</h1>
+
+        <div class="system-form-container">
+            <form th:action="@{/admin/system-parameters}" th:object="${params}" method="post">
+                <label for="avgSpeed">Velocitat vàlida mitjana (km/h):</label>
+                <input id="avgSpeed" type="number" th:field="*{averageValidSpeed}" min="1.0" step="0.5" required />
+
+                <label for="maxInactivity">Temps màxim d'inactivitat (segons):</label>
+                <input id="maxInactivity" type="number" th:field="*{maxInactivity}" min="1" required />
+
+                <label for="pointsKm">Punts per quilòmetre:</label>
+                <input id="pointsKm" type="number" th:field="*{pointsPerKilometer}" min="1.0" step="0.5" required />
+
+                <label for="pickupTime">Temps màxim per recollir la recompensa (hores):</label>
+                <input id="pickupTime" type="number" th:field="*{pickupTime}" min="1" required />
+
+                <button type="submit" class="btn-save">Desar</button>
+            </form>
+
+            <div th:if="${param.success}" class="success-message">
+                Paràmetres actualitzats correctament.
+            </div>
+        </div>
+
+        <script src="/scripts/sidebar.js"></script>
+    </body>
+</html>

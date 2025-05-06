@@ -2,7 +2,8 @@ package cat.copernic.frontend.core.models;
 
 import com.google.gson.annotations.SerializedName;
 import cat.copernic.backend.entity.enums.State;
-import cat.copernic.backend.entity.enums.Validation;
+import cat.copernic.frontend.core.models.enums.Validation;
+
 import java.time.LocalDateTime;
 
 public class Route {

@@ -4,10 +4,24 @@
  */
 package cat.copernic.backend.entity.enums;
 
+import static cat.copernic.backend.entity.enums.Validation.INVALIDATED;
+import static cat.copernic.backend.entity.enums.Validation.NOT_CHECKED;
+import static cat.copernic.backend.entity.enums.Validation.VALIDATED;
+
 /**
  *
  * @author carlo
  */
 public enum State {
-    STARTED, ENDED
+    STARTED, ENDED;
+    
+    @Override
+    public String toString() {
+        return switch (this) {
+            case STARTED ->
+                "Començada";
+            case ENDED ->
+                "Acabada";
+        };
+    }
 }

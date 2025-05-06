@@ -19,6 +19,9 @@
                 <a href="/rewards/create" class="btn btn-create">➕ Crear nova recompensa</a>
             </header>
 
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
             <section class="table-section">
                 <div class="table-container">
                     <table>

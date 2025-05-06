@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Detall de Ruta</title>
+        <link rel="stylesheet" href="/styles/mapRoute.css">
+    </head>
+    <body>
+
+        <div id="map" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+
+        <main class="content">
+            <h1>Detall de la Ruta</h1>
+            
+            <!-- Mensaje de éxito -->
+            <div th:if="${successMessage}" class="alert-box alert-success">
+                <span class="alert-icon">✔️</span>
+                <span th:text="${successMessage}"></span>
+            </div>
+
+            <!-- Mensaje de error -->
+            <div th:if="${errorMessage}" class="alert-box alert-error">
+                <span class="alert-icon">⚠️</span>
+                <span th:text="${errorMessage}"></span>
+            </div>
+
+            <div class="route-info-grid">
+
+
+                <div class="info-card">
+                    <h2>Usuari</h2>
+                    <p th:text="${route.user.mail}"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Data Inici</h2>
+                    <p th:text="${#temporals.format(route.startDate, 'dd/MM/yyyy HH:mm')}"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Data Fi</h2>
+                    <p th:text="${#temporals.format(route.end_date, 'dd/MM/yyyy HH:mm')}"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Distància</h2>
+                    <p th:text="${#numbers.formatDecimal(route.distance, 1, 2)} + ' km'"></p>
+                </div>
+
+                <div class="info-card average-speed-warning" th:if="${route.average_speed >= 25 and route.average_speed <= 35}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
+
+                <!-- Caso 2: Velocitat superior a 35 km/h -->
+                <div class="info-card average-speed-danger" th:if="${route.average_speed > 35}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
+
+                <!-- Caso 3: Velocitat normal -->
+                <div class="info-card" th:if="${route.average_speed < 25}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
+
+
+                <div class="info-card">
+                    <h2>Temps Total</h2>
+                    <p th:text="${#dates.format(route.total_time, 'HH:mm:ss')}"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Saldo Generat</h2>
+                    <p th:text="${route.generated_balance} + ' punts'"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Estat</h2>
+                    <p th:text="${route.state}"></p>
+                </div>
+
+                <div class="info-card validation-card"
+                     th:classappend="${route.validation_state.name() == 'VALIDATED'} ? ' validation-ok' :
+                     (${route.validation_state.name() == 'INVALIDATED'} ? ' validation-ko' : '')">
+                    <h2>Validació</h2>
+                    <p th:text="${route.validation_state}"></p>
+
+                    <div class="validation-options">
+                        <form th:action="@{/routes/validate/{id}(id=${route.id_route})}" method="post" style="display:inline;">
+                            <button type="submit" class="validate-btn">Validar</button>
+                        </form>
+                        <form th:action="@{/routes/invalidate/{id}(id=${route.id_route})}" method="post" style="display:inline;">
+                            <button type="submit" class="invalidate-btn">Invalidar</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <a href="/routes/list" class="btn btn-back">🔙 Tornar</a>
+        </main>
+
+        <script th:inline="javascript">
+            var routePoints = [[${gpsPoints}
+            ]];
+            var routeId = [[${route.id_route
+            }
+            ]];
+        </script>
+
+        <!-- ⬇️ LUEGO cargamos script map.js -->
+        <script src="/scripts/map.js"></script>
+
+        <script>
+            function updateValidation(newStatus) {
+            if (confirm(`Vols canviar la validació a ${newStatus}?`)) {
+            if (newStatus == 'VALIDATED') {
+            fetch(`/routes/validate/${routeId}`, {method: 'POST'})
+            } else {
+            fetch(`/routes/invalidate/${routeId}`, {method: 'POST'})
+            }
+
+            alert(`Canviant validació a ${newStatus}... (encara per implementar)`);
+            // Por ejemplo:
+            // fetch(`/routes/update-validation/${routeId}`, { method: 'POST', body: JSON.stringify({ status: newStatus }) })
+            }
+            }
+        </script>
+
+        <script>
+            function initMap() {
+            initializeMap(routePoints);
+            }
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD_QlEiwAufpYRd0ThPzEELMYwHNuTx2U&callback=initMap" async defer></script>
+
+    </body>
+</html>

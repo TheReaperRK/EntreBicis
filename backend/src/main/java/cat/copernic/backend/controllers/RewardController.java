@@ -10,6 +10,7 @@ package cat.copernic.backend.controllers;
  */
 
 import cat.copernic.backend.entity.Reward;
+import cat.copernic.backend.entity.User;
 import cat.copernic.backend.entity.enums.RewardStatus;
 import cat.copernic.backend.logic.RewardLogic;
 import cat.copernic.backend.logic.UserLogic;
@@ -90,9 +91,12 @@ public class RewardController {
     @GetMapping("/accept/{id}")
     public String acceptReward(@PathVariable("id") Long id) {
         Reward reward = rewardLogic.getRewardById(id);
+        User user = reward.getUser();
         
         reward.setEstat(RewardStatus.ACCEPTED);
         reward.setDataSolicitud(LocalDateTime.now());
+        
+        rewardLogic.rewardAccept(id, user);
         rewardRepo.save(reward);
         
         return "redirect:/rewards/list";

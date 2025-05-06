@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Llista de Rutes</title>
+        <link rel="stylesheet" href="/styles/userListStyles.css">
+        <link rel="stylesheet" href="/styles/userTable.css">
+        <link rel="stylesheet" href="/styles/sideBarStyle.css">
+    </head>
+    <body>
+
+        <!-- Botó per obrir/tancar la barra lateral -->
+        <button id="toggle-sidebar">☰</button>
+
+        <main class="content">
+            <header class="user-list-header">
+                <h1>Llista de Rutes</h1>
+                <!-- Opcional: afegir botó per crear ruta si vols -->
+                <!-- <button class="btn-create" onclick="location.href='/routes/create'">➕ Crear Ruta</button> -->
+            </header>
+
+            <section class="table-section">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Distància (km)</th>
+                                <th>Velocitat Mitjana (km/h)</th>
+                                <th>Temps Total</th>
+                                <th>Saldo Generat</th>
+                                <th>Correu Usuari</th>
+                                <th>Estat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="route : ${routes}"
+                                th:onclick="|window.location.href='/routes/view/${route.idRouteDTO}'|"
+                                style="cursor: pointer;">
+                                <td th:text="${route.idRouteDTO}"></td>
+                                <td th:text="${#numbers.formatDecimal(route.distance, 1, 2)}"></td>
+                                <td th:text="${#numbers.formatDecimal(route.averageSpeed, 1, 2)}"></td>
+                                <td th:text="${route.totalTime}"></td>
+                                <td th:text="${route.generatedBalance}"></td>
+                                <td th:text="${route.userEmail}"></td>
+                                <td th:text="${#strings.capitalize(#strings.toLowerCase(route.validation_state))}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <script src="/scripts/sidebar.js"></script>
+    </body>
+</html>

@@ -5,9 +5,11 @@ cat\copernic\backend\entity\DTO\LoginResponse.class
 cat\copernic\backend\entity\DTO\UserDTO.class
 cat\copernic\backend\logic\mapToRoute.class
 cat\copernic\backend\repository\GpsPointRepo.class
+cat\copernic\backend\entity\mappers\RouteMapper.class
 cat\copernic\backend\logic\auth\CustomUserDetailsService.class
 cat\copernic\backend\logic\EmailLogic.class
 cat\copernic\backend\controllers\SystemParametersController.class
+cat\copernic\backend\entity\DTO\RouteDtoClear.class
 cat\copernic\backend\entity\UserSession.class
 cat\copernic\backend\entity\Route.class
 cat\copernic\backend\config\JwtConfig.class

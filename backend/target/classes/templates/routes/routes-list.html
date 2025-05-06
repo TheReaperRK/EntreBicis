@@ -36,7 +36,8 @@
                         </thead>
                         <tbody>
                             <tr th:each="route : ${routes}"
-                                th:onclick="|window.location.href='/routes/view/${route.idRouteDTO}'|"
+                                th:attr="data-id=${route.idRouteDTO}, data-mail=${mail}"
+                                onclick="navigateToDetail(this)"
                                 style="cursor: pointer;">
                                 <td th:text="${route.idRouteDTO}"></td>
                                 <td th:text="${#numbers.formatDecimal(route.distance, 1, 2)}"></td>
@@ -47,10 +48,19 @@
                                 <td th:text="${#strings.capitalize(#strings.toLowerCase(route.validation_state))}"></td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </section>
         </main>
+        <script>
+            function navigateToDetail(row) {
+                const id = row.getAttribute('data-id');
+                const mail = row.getAttribute('data-mail');
+                const url = mail ? `/routes/view/${id}?mail=${mail}` : `/routes/view/${id}`;
+                window.location.href = url;
+            }
+        </script>
 
         <script src="/scripts/sidebar.js"></script>
     </body>

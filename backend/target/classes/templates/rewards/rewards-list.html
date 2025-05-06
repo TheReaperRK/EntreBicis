@@ -16,11 +16,18 @@
         <main class="content">
             <header class="user-list-header">
                 <h1>Llista de Recompenses</h1>
-                <a href="/rewards/create" class="btn btn-create">➕ Crear nova recompensa</a>
+                <a th:if="${showCreateButton}" href="/rewards/create" class="btn btn-create">➕ Crear nova recompensa</a>
             </header>
 
-            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-            <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+            <!-- Mensaje de éxito -->
+            <div th:if="${successMessage}" class="alert-box alert-success">
+                <span th:text="${successMessage}"></span>
+            </div>
+
+            <!-- Mensaje de error -->
+            <div th:if="${errorMessage}" class="alert-box alert-error">
+                <span th:text="${errorMessage}"></span>
+            </div>
 
             <section class="table-section">
                 <div class="table-container">
@@ -49,13 +56,37 @@
                                 <td>
                                     <div class="btn-group">
                                         <a th:href="@{'/rewards/edit/' + ${reward.id}}" class="btn btn-edit">✏️ Editar</a>
-                                        <a th:href="@{'/rewards/delete/' + ${reward.id}}" class="btn btn-delete"
-                                           onclick="return confirm('Estàs segur que vols eliminar aquesta recompensa?')">🗑️ Eliminar</a>
-                                        <!-- Botó acceptar només si l'estat és PENDING -->
-                                        <a th:if="${reward.estat.name() == 'PENDING'}"
+                                        <!-- Si hay userMail (modo usuari) -->
+                                        <a th:if="${userMail != null}"
+                                           th:href="@{'/rewards/delete/' + ${reward.id} + '?mail=' + ${userMail}}"
+                                           class="btn btn-delete"
+                                           onclick="return confirm('Estàs segur que vols eliminar aquesta recompensa?')">
+                                            🗑️ Eliminar
+                                        </a>
+
+                                        <!-- Si no hay userMail (modo general) -->
+                                        <a th:unless="${userMail != null}"
+                                           th:href="@{'/rewards/delete/' + ${reward.id}}"
+                                           class="btn btn-delete"
+                                           onclick="return confirm('Estàs segur que vols eliminar aquesta recompensa?')">
+                                            🗑️ Eliminar
+                                        </a>
+
+                                        <!-- Acceptar amb mail i estat PENDING -->
+                                        <a th:if="${userMail != null and reward.estat.name() == 'PENDING'}"
+                                           th:href="@{'/rewards/accept/' + ${reward.id} + '?mail=' + ${userMail}}"
+                                           class="btn btn-accept"
+                                           onclick="return confirm('Estàs segur que vols acceptar aquesta recompensa?')">
+                                            ✅ Acceptar
+                                        </a>
+
+                                        <!-- Acceptar sense mail i estat PENDING -->
+                                        <a th:if="${userMail == null and reward.estat.name() == 'PENDING'}"
                                            th:href="@{'/rewards/accept/' + ${reward.id}}"
                                            class="btn btn-accept"
-                                           onclick="return confirm('Estàs segur que vols acceptar aquesta recompensa?')">✅ Acceptar</a>
+                                           onclick="return confirm('Estàs segur que vols acceptar aquesta recompensa?')">
+                                            ✅ Acceptar
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

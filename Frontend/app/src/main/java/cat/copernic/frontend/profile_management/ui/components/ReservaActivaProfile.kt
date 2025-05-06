@@ -2,6 +2,7 @@ package cat.copernic.frontend.profile_management.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -20,20 +21,21 @@ import coil.compose.rememberAsyncImagePainter
 import cat.copernic.frontend.core.models.Reward
 
 @Composable
-fun ReservaActivaCard(reward: Reward) {
+fun ReservaActivaCard(reward: Reward, onClick: () -> Unit) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 6.dp,
         modifier = Modifier
             .fillMaxWidth()
             .height(240.dp)
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp)
+            .clickable { onClick() }, // 👈 Hace la tarjeta pulsable
         color = Color.White
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Fondo verdoso con nombre de la recompensa
+            // Fondo verdoso con nombre
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -51,7 +53,6 @@ fun ReservaActivaCard(reward: Reward) {
                 }
             }
 
-            // Contenido negro en la parte inferior
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

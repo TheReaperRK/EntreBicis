@@ -59,4 +59,21 @@ class RewardsViewModel(private val repo: RewardRepo) : ViewModel() {
             }
         }
     }
+
+    fun recollirRecompensa(id: Long, onResult: (String?) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response = repo.recollirRecompensa(id)
+                if (response.isSuccessful) {
+                    onResult(null) // Éxito
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = errorBody ?: "Error desconegut"
+                    onResult(message)
+                }
+            } catch (e: Exception) {
+                onResult(e.message ?: "Error inesperat")
+            }
+        }
+    }
 }

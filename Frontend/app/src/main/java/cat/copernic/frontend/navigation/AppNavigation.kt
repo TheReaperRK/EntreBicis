@@ -22,16 +22,22 @@ import cat.copernic.frontend.auth_management.data.management.UserSessionViewMode
 import cat.copernic.frontend.auth_management.ui.screens.LoginScreen
 import cat.copernic.frontend.auth_management.ui.screens.recover.PasswordRecover
 import cat.copernic.frontend.auth_management.ui.screens.recover.ResetWordScreen
+import cat.copernic.frontend.core.models.Reward
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
 import cat.copernic.frontend.profile_management.management.UserRepo
 import cat.copernic.frontend.profile_management.management.UserRetrofitInstance
 import cat.copernic.frontend.profile_management.ui.screens.EditProfileScreen
 import cat.copernic.frontend.profile_management.ui.screens.ProfileScreen
+import cat.copernic.frontend.profile_management.ui.screens.RewardCollectScreen
 import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModel
 import cat.copernic.frontend.profile_management.ui.viewmodels.ProfileViewModelFactory
+import cat.copernic.frontend.rewards_management.management.RewardRepo
+import cat.copernic.frontend.rewards_management.management.RewardRetrofitInstance
 import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
+import cat.copernic.frontend.rewards_management.ui.viewmodels.RewardsViewModel
+import cat.copernic.frontend.rewards_management.viewmodels.RewardsViewModelFactory
 import cat.copernic.frontend.route_management.ui.components.FinalRouteScreen
 import cat.copernic.frontend.route_management.ui.screens.DetallRouteScreen
 import cat.copernic.frontend.route_management.ui.screens.LlistaRutesScreen
@@ -44,11 +50,16 @@ import okhttp3.internal.platform.android.ConscryptSocketAdapter.Companion.factor
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val userSessionViewModel: UserSessionViewModel = viewModel()
-    val routeViewModel: RouteViewModel = viewModel()
 
     // Restaurar sesión al iniciar app
     val context = LocalContext.current // ✅ permitido aquí
+
+    val userSessionViewModel: UserSessionViewModel = viewModel()
+    val rewardsFactory = RewardsViewModelFactory(RewardRepo(RewardRetrofitInstance.getInstance(context)))
+    val rewardsViewModel: RewardsViewModel = viewModel(factory = rewardsFactory)
+
+    val routeViewModel: RouteViewModel = viewModel()
+
 
     val factory = ProfileViewModelFactory(UserRepo(UserRetrofitInstance.getApi(context)))
     val profileViewModel: ProfileViewModel = viewModel(factory = factory)
@@ -137,6 +148,21 @@ fun AppNavigation() {
                     DetallRouteScreen(routeId = it, context, navController)
                 }
             }
+
+            composable("reward_detail/{id}") { backStackEntry ->
+                val id = backStackEntry.arguments?.getString("id")?.toLongOrNull()
+                id?.let {
+                    RewardCollectScreen (
+                        rewardId = it,
+                        onBackClick = { navController.popBackStack() },
+                        onRecollirClick = {
+
+                        },
+                        rewardsViewModel
+                    )
+                }
+            }
+
         }
     }
 }

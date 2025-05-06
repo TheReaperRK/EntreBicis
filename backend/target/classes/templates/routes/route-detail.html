@@ -11,16 +11,14 @@
 
         <main class="content">
             <h1>Detall de la Ruta</h1>
-            
+
             <!-- Mensaje de éxito -->
             <div th:if="${successMessage}" class="alert-box alert-success">
-                <span class="alert-icon">✔️</span>
                 <span th:text="${successMessage}"></span>
             </div>
 
             <!-- Mensaje de error -->
             <div th:if="${errorMessage}" class="alert-box alert-error">
-                <span class="alert-icon">⚠️</span>
                 <span th:text="${errorMessage}"></span>
             </div>
 
@@ -64,6 +62,10 @@
                     <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
                 </div>
 
+                <div class="info-card" th:classappend="' average-speed-' + ${velocitatMaximaColor}">
+                    <h2>Velocitat Màxima</h2>
+                    <p th:text="${#numbers.formatDecimal(velocitatMaxima, 1, 2)} + ' km/h'"></p>
+                </div>
 
                 <div class="info-card">
                     <h2>Temps Total</h2>
@@ -87,10 +89,30 @@
                     <p th:text="${route.validation_state}"></p>
 
                     <div class="validation-options">
-                        <form th:action="@{/routes/validate/{id}(id=${route.id_route})}" method="post" style="display:inline;">
+                        <form th:action="@{/routes/validate/{id}(id=${route.id_route})}"
+                              method="post"
+                              th:if="${mail != null}">
+                            <input type="hidden" name="mail" th:value="${mail}"/>
                             <button type="submit" class="validate-btn">Validar</button>
                         </form>
-                        <form th:action="@{/routes/invalidate/{id}(id=${route.id_route})}" method="post" style="display:inline;">
+
+                        <form th:action="@{/routes/invalidate/{id}(id=${route.id_route})}"
+                              method="post"
+                              th:if="${mail != null}">
+                            <input type="hidden" name="mail" th:value="${mail}"/>
+                            <button type="submit" class="invalidate-btn">Invalidar</button>
+                        </form>
+
+                        <!-- Sin mail -->
+                        <form th:action="@{/routes/validate/{id}(id=${route.id_route})}"
+                              method="post"
+                              th:if="${mail == null}">
+                            <button type="submit" class="validate-btn">Validar</button>
+                        </form>
+
+                        <form th:action="@{/routes/invalidate/{id}(id=${route.id_route})}"
+                              method="post"
+                              th:if="${mail == null}">
                             <button type="submit" class="invalidate-btn">Invalidar</button>
                         </form>
                     </div>
@@ -98,7 +120,8 @@
                 </div>
             </div>
 
-            <a href="/routes/list" class="btn btn-back">🔙 Tornar</a>
+            <a th:if="${mail != null}" th:href="@{'/routes/list/' + ${mail}}" class="btn btn-back">🔙 Tornar</a>
+            <a th:if="${mail == null}" href="/routes/list" class="btn btn-back">🔙 Tornar</a>
         </main>
 
         <script th:inline="javascript">

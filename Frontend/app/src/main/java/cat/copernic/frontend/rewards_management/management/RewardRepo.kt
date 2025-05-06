@@ -22,4 +22,8 @@ class RewardRepo(private val api: RewardApiRest) {
     suspend fun solicitarRecompensa(id: Long): Response<Unit> {
         return api.solicitarRecompensa(id)
     }
+
+    suspend fun recollirRecompensa(id: Long): Response<Unit> {
+        return api.recollirRecompensa(id)
+    }
 }

@@ -23,6 +23,10 @@ public class RewardLogic {
     public List<Reward> getAllRewards() {
         return rewardRepo.findAll();
     }
+    
+    public List<Reward> getAllUserRewards(User user) {
+        return rewardRepo.findByUser(user);
+    }
 
     public Reward getRewardById(Long id) {
         return rewardRepo.findById(id).orElse(null);
@@ -30,6 +34,18 @@ public class RewardLogic {
 
     public void saveReward(Reward reward) {
         rewardRepo.save(reward);
+    }
+
+    public boolean deleteable(Long id) {
+        Boolean res = true;
+        Reward reward = rewardRepo.getById(id);
+
+        if (reward.getEstat() != RewardStatus.AVAILABLE) {
+            System.out.println(reward.getEstat());
+            res = false;
+        }
+
+        return res;
     }
 
     public void deleteReward(Long id) {
@@ -40,14 +56,32 @@ public class RewardLogic {
         return rewardRepo.findByEstat(RewardStatus.AVAILABLE);
     }
 
-    public void rewardAccept(Long id, User user) {
+    public void rewardRequest(Long id, User user){
         Reward reward = rewardRepo.getById(id);
-
-        user.setBalance(user.getBalance() - reward.getPreu());
+        
         reward.setEstat(RewardStatus.PENDING);
         reward.setUser(user);
 
         rewardRepo.save(reward);
+    }
+    
+    public void rewardAccept(Long id, User user) {
+        Reward reward = rewardRepo.getById(id);
+
+        user.setBalance(user.getBalance() - reward.getPreu());
+        reward.setEstat(RewardStatus.ACCEPTED);
+        reward.setUser(user);
+
+        rewardRepo.save(reward);
         userRepo.save(user);
+    }
+    
+    public void rewardTake(Long id, User user){
+        Reward reward = rewardRepo.getById(id);
+        
+        reward.setEstat(RewardStatus.COLLECTED);
+        reward.setDataRecollida(LocalDateTime.now());
+
+        rewardRepo.save(reward);
     }
 }

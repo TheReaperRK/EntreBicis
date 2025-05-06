@@ -25,7 +25,18 @@
                             <input type="file" id="imageFile" name="imageFile" accept="image/*" class="input-file-hidden"/>
                             <div class="image-buttons">
                                 <label for="imageFile" class="btn image-btn">canviar imatge</label>
-                                <button type="button" class="btn validate-btn">validar rutes</button>
+                                
+                                <a th:if="${formMode == 'edit'}"
+                                   th:href="@{'/routes/list/' + ${user.mail}}"
+                                   class="btn validate-btn">
+                                    validar rutes
+                                </a>
+                                
+                                <a th:if="${formMode == 'edit'}"
+                                   th:href="@{'/rewards/list/' + ${user.mail}}"
+                                   class="btn validate-btn">
+                                    Historial de recompenses
+                                </a>
                             </div>
 
                             <div class="image-extras">
@@ -33,7 +44,9 @@
                                     <label for="role">Rol:</label>
                                     <select id="role" th:field="*{role}">
                                         <option th:each="r : ${T(cat.copernic.backend.entity.enums.Role).values()}"
-                                                th:value="${r}" th:text="${r}"></option>
+                                                th:value="${r.name()}" 
+                                                th:text="${r}">
+                                        </option>
                                     </select>
                                 </div>
                             </div>

@@ -16,4 +16,7 @@ interface RewardApiRest {
     @POST("api/rewards/{id}/request")
     suspend fun solicitarRecompensa(@Path("id") id: Long): Response<Unit>
 
+    @POST("api/rewards/{id}/take")
+    suspend fun recollirRecompensa(@Path("id") id: Long): Response<Unit>
+
 }

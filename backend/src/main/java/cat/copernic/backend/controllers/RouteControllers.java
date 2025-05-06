@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -53,12 +54,27 @@ public class RouteControllers {
         return "routes/routes-list";
     }
 
+    @GetMapping("/list/{mail}")
+    public String mostrarRutesPerUsuari(@PathVariable String mail, Model model) {
+        User user = userRepo.getById(mail);
+
+        List<RouteUserSpeedDistanceDTO> routes = routeService.getAllUserRoutesAsDTO(user);
+        model.addAttribute("routes", routes);
+        model.addAttribute("mail", mail); // ✅ pasamos el correo al modelo
+
+        return "routes/routes-list"; //el mateix que usem per la llista normal
+    }
+
     @GetMapping("/view/{id}")
-    public String viewRoute(@PathVariable("id") Long id, Model model) {
+    public String viewRoute(@PathVariable("id") Long id, @RequestParam(required = false) String mail, Model model) {
         Route route = routeService.getRouteById(id);
         List<GpsPoint> gpsPoints = gpsPointRepo.findByRoute(route);
 
         model.addAttribute("route", route);
+        model.addAttribute("mail", mail); // ✅ pasamos el correo al modelo
+        model.addAttribute("velocitatMaxima", routeService.calcularVelocitatMaxima(route));
+        System.out.println(routeService.calcularVelocitatMaxima(route));
+        model.addAttribute("velocitatMaximaColor", routeService.obtenirColorVelocitatMaxima(route));
 
         List<GpsPointDTOLight> gpsPointDTOs = gpsPointRepo.findByRoute(route).stream()
                 .map(p -> new GpsPointDTOLight(p.getLatitud().doubleValue(), p.getLongitud().doubleValue()))
@@ -69,7 +85,7 @@ public class RouteControllers {
     }
 
     @PostMapping("/validate/{id}")
-    public String validateRoute(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String validateRoute(@PathVariable Long id, @RequestParam(required = false) String mail, RedirectAttributes redirectAttributes) {
         Route route = routeService.getRouteById(id);
 
         User user = route.getUser();
@@ -81,11 +97,12 @@ public class RouteControllers {
         userRepo.save(user);
 
         redirectAttributes.addFlashAttribute("successMessage", "La ruta s'ha validat correctament.");
-        return "redirect:/routes/view/" + id;
+
+        return (mail != null) ? "redirect:/routes/view/" + id + "?mail=" + mail : "redirect:/routes/view/" + id;
     }
 
     @PostMapping("/invalidate/{id}")
-    public String invalidateRoute(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String invalidateRoute(@PathVariable Long id, @RequestParam(required = false) String mail, RedirectAttributes redirectAttributes) {
         Route route = routeService.getRouteById(id);
 
         if (route.getValidation_state() == Validation.VALIDATED) {
@@ -104,6 +121,6 @@ public class RouteControllers {
         routeRepo.save(route);
 
         redirectAttributes.addFlashAttribute("successMessage", "La ruta s'ha invalidat correctament.");
-        return "redirect:/routes/view/" + id;
+        return (mail != null) ? "redirect:/routes/view/" + id + "?mail=" + mail : "redirect:/routes/view/" + id;
     }
 }

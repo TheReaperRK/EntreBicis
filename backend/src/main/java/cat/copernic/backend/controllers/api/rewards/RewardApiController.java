@@ -59,11 +59,29 @@ public class RewardApiController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Saldo insuficient per bescanviar aquesta recompensa.");
             }
+
+            rewardLogic.rewardRequest(id, user); // Aquí ya puedes cambiar el estado internamente
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al sol·licitar la recompensa: " + e.getMessage());
+        }
+    }
+    
+    @PostMapping("/{id}/take")
+    @ResponseBody
+    public ResponseEntity<?> recollirRecompensa(@PathVariable Long id, Principal principal) {
+        try {
+            User user = userLogic.getUserByMail(principal.getName());
+            Reward reward = rewardLogic.getRewardById(id);
+
+            rewardLogic.rewardTake(id, user); // Aquí ya puedes cambiar el estado internamente
+            return ResponseEntity.ok().build();
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al recollir la recompensa: " + e.getMessage());
         }
     }
 }

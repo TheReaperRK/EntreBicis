@@ -19,11 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import android.location.Location
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import cat.copernic.frontend.core.models.DTO.GpsPointDTO
 import cat.copernic.frontend.core.models.DTO.RouteDTO
 import cat.copernic.frontend.core.ui.theme.PrimaryGreen
+import cat.copernic.frontend.core.utils.calcularVelocitatsEntrePunts
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -31,10 +41,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavController) {
     val cameraPositionState = rememberCameraPositionState()
-    val latLngList = ruta.gpsPoints.map { LatLng(it.latitud.toDouble(), it.longitud.toDouble()) }
+    val latLngList = ruta.gpsPoints.map { LatLng(it.latitud.toDouble(), it.longitud.toDouble())}
 
     LaunchedEffect(Unit) {
         MapsInitializer.initialize(context)
@@ -44,6 +55,13 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+
+        val velocitats = remember(ruta.gpsPoints) {
+            calcularVelocitatsEntrePunts(ruta.gpsPoints)
+        }
+
+        val velocitatMaxima = velocitats.maxOfOrNull { it.second } ?: 0.0
+
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState
@@ -85,16 +103,21 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
                 )
             }
 
-            // Puntos intermedios
-            if (latLngList.size > 2) {
-                latLngList.subList(1, latLngList.lastIndex).forEach { point ->
-                    Marker(
-                        state = MarkerState(position = point),
-                        icon = circleIcon,
-                        title = null
+
+            ruta.gpsPoints.subList(1, ruta.gpsPoints.lastIndex).forEachIndexed { index, gps ->
+                val point = LatLng(gps.latitud.toDouble(), gps.longitud.toDouble())
+                val velocitat = velocitats.getOrNull(index)?.second ?: 0.0
+                Marker(
+                    state = MarkerState(position = point),
+                    icon = circleIcon,
+                    title = "Punt ${index + 1} - " + "%.2f km/h".format(velocitat),
+                    snippet = "Lat: %.5f, Lng: %.5f".format(
+                        point.latitude,
+                        point.longitude,
                     )
-                }
+                )
             }
+
         }
 
         // Botón de retroceso
@@ -143,6 +166,13 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
                     fontSize = 16.sp,
                     color = Color.DarkGray
                 )
+
+                Text(
+                    text = "Velocitat màxima: ${String.format("%.2f", velocitatMaxima)} km/h",
+                    fontSize = 16.sp,
+                    color = if (velocitatMaxima > 35) Color.Red else Color.DarkGray
+                )
+
             }
         }
     }
@@ -178,6 +208,16 @@ fun createCustomMarkerIconSafely(zoomLevel: Float): BitmapDescriptor {
     } catch (e: Exception) {
         BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
     }
+}
+
+
+fun calcularDistanciaEntrePunts(
+    lat1: Double, lon1: Double,
+    lat2: Double, lon2: Double
+): Float {
+    val resultado = FloatArray(1)
+    Location.distanceBetween(lat1, lon1, lat2, lon2, resultado)
+    return resultado[0] // en metros
 }
 
 

@@ -4,6 +4,9 @@
  */
 package cat.copernic.backend.entity.enums;
 
+import static cat.copernic.backend.entity.enums.State.ENDED;
+import static cat.copernic.backend.entity.enums.State.STARTED;
+
 /**
  *
  * @author carlo
@@ -13,5 +16,21 @@ public enum RewardStatus {
     PENDING, // Pendiente
     ACCEPTED, // Aceptada
     COLLECTED, // Recogida
-    CANCELED // Cancelada
+    CANCELED; // Cancelada
+
+    @Override
+    public String toString() {
+        return switch (this) {
+            case AVAILABLE ->
+                "Disponible";
+            case PENDING ->
+                "Pendent";
+            case ACCEPTED ->
+                "Acceptada";
+            case COLLECTED ->
+                "Recollida";
+            case CANCELED ->
+                "Cancelada";
+        };
+    }
 }

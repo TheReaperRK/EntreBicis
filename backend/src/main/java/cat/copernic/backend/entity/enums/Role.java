@@ -4,10 +4,23 @@
  */
 package cat.copernic.backend.entity.enums;
 
+import static cat.copernic.backend.entity.enums.State.ENDED;
+import static cat.copernic.backend.entity.enums.State.STARTED;
+
 /**
  *
  * @author carlo
  */
 public enum Role {
-    ADMIN,USER
+    ADMIN,USER;
+    
+    @Override
+    public String toString() {
+        return switch (this) {
+            case USER ->
+                "Usuari";
+            case ADMIN ->
+                "Admin";
+        };
+    }
 }

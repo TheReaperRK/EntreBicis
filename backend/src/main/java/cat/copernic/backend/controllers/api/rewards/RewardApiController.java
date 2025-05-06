@@ -59,8 +59,6 @@ public class RewardApiController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Saldo insuficient per bescanviar aquesta recompensa.");
             }
-
-            rewardLogic.rewardRequest(id, user); // Aquí ya puedes cambiar el estado internamente
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {

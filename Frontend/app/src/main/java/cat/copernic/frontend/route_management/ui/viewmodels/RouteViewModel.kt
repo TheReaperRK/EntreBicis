@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import cat.copernic.frontend.core.models.DTO.GpsPointDTO
 import cat.copernic.frontend.core.models.DTO.RouteDTO
+import cat.copernic.frontend.core.models.DTO.RouteDtoClear
 import cat.copernic.frontend.core.models.GpsPoint
 import cat.copernic.frontend.core.models.Route
 import cat.copernic.frontend.route_management.management.RouteRepository
@@ -32,6 +33,9 @@ import java.time.format.DateTimeFormatter
 class RouteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = RouteRepository()
+
+    private val _userRoutes = MutableStateFlow<List<RouteDtoClear>>(emptyList())
+    val userRoutes: StateFlow<List<RouteDtoClear>> get() = _userRoutes
 
     private val _routePoints = MutableStateFlow<List<LatLng>>(emptyList())
     val routePoints: StateFlow<List<LatLng>> = _routePoints
@@ -88,6 +92,10 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             updatedList.add(LatLng(location.latitude, location.longitude))
             _routePoints.value = updatedList
         }
+    }
+
+    fun getAllRoutesByUser() {
+
     }
 
     /**
@@ -167,6 +175,13 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             _isRecording.value = false
+        }
+    }
+
+    fun carregarRutesUsuari(context: Context) {
+        viewModelScope.launch {
+            val rutes = repository.getAllRoutesByUser(context)
+            _userRoutes.value = rutes
         }
     }
 

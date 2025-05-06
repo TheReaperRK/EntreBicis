@@ -1,0 +1,58 @@
+/* Estilos para los enlaces dentro de la barra lateral */
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    margin-top: 5pc
+}
+
+.sidebar a:hover {
+    background-color: #27C08A;
+}
+
+/* Estilos de la barra lateral */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #166C4E;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    padding-top: 5px;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000; /* Asegura que esté por encima del contenido */
+}
+
+/* Clase para ocultar la barra lateral */
+.sidebar-closed {
+    transform: translateX(-100%);
+}
+
+/* Botón para abrir/cerrar la barra lateral */
+#toggle-sidebar {
+    position: fixed; /* Asegura que siempre esté visible */
+    top: 20px;
+    left: 20px;
+    background: #166C4E;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1100; /* Para que esté sobre la barra lateral */
+    transition: background 0.3s;
+}
+
+#toggle-sidebar:hover {
+    background: #27C08A;
+}
+
+

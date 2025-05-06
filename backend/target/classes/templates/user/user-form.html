@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="${formMode == 'create'} ? 'Crear Usuari' : 'Editar Usuari'"></title>
+        <link rel="stylesheet" href="/styles/userFormStyles.css">
+        <link rel="stylesheet" href="/styles/sideBarStyle.css">
+    </head>
+    <body>
+        <button id="toggle-sidebar">☰</button>
+
+        <main class="user-form-wrapper">
+            <div class="user-form-card">
+                <a href="/users/list" class="back-button">←</a>
+
+                <div class="user-form-flex">
+                    <form th:action="@{${formMode == 'create'} ? '/users/create' : '/users/edit/' + ${user.mail}}"
+                          th:object="${user}" method="post" enctype="multipart/form-data" class="user-form-content">
+
+                        <!-- COLUMNA IZQUIERDA -->
+                        <div class="image-section">
+                            <img th:if="${user.image != null}" th:src="@{'data:image/jpeg;base64,' + ${user.imageBase64}}" class="user-image" alt="Imatge de perfil"/>
+                            <img th:if="${user.image == null}" src="/images/BlankProfilePic.png" class="user-image" alt="Imatge per defecte"/>
+
+                            <input type="file" id="imageFile" name="imageFile" accept="image/*" class="input-file-hidden"/>
+                            <div class="image-buttons">
+                                <label for="imageFile" class="btn image-btn">canviar imatge</label>
+                                <button type="button" class="btn validate-btn">validar rutes</button>
+                            </div>
+
+                            <div class="image-extras">
+                                <div class="field-group vertical">
+                                    <label for="role">Rol:</label>
+                                    <select id="role" th:field="*{role}">
+                                        <option th:each="r : ${T(cat.copernic.backend.entity.enums.Role).values()}"
+                                                th:value="${r}" th:text="${r}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COLUMNA DERECHA -->
+                        <div class="form-section">
+                            <div class="field-group">
+                                <label for="mail">Correu electrònic:</label>
+                                <input type="email" id="mail" placeholder="correu" th:field="*{mail}" th:readonly="${formMode == 'edit'}" required/>
+                            </div>
+
+                            <div class="field-group">
+                                <label for="name">Nom:</label>
+                                <input type="text" id="name" placeholder="nom" th:field="*{name}" maxlength="30" pattern="^[A-Za-zÀ-ÿ\s]+$" required />
+                            </div>
+
+                            <div class="field-group">
+                                <label for="surnames">Cognoms:</label>
+                                <input type="text" id="surnames" placeholder="cognoms" th:field="*{surnames}" maxlength="60" pattern="^[A-Za-zÀ-ÿ\s]+$" required />
+                            </div>
+
+                            <div class="field-group">
+                                <label for="population">Població:</label>
+                                <input type="text" id="population" placeholder="població" th:field="*{population}" maxlength="25" pattern="^[A-Za-zÀ-ÿ\s]+$" required />
+                            </div>
+
+                            <div class="field-group">
+                                <label for="phone_number">Telèfon:</label>
+                                <input type="text" id="phone_number" placeholder="telèfon" th:field="*{phone_number}" pattern="^\d{9}$" required />
+                            </div>
+
+                            <div class="field-group">
+                                <label for="balance">Saldo:</label>
+                                <input type="number" id="balance" placeholder="saldo" th:field="*{balance}" min="0" step="0" required />
+                            </div>
+
+                            <div class="field-group vertical">
+                                <label for="observations">Observacions:</label>
+                                <textarea id="observations" th:field="*{observations}"></textarea>
+                            </div>
+
+                            <div th:if="${formMode == 'create'}" class="field-group">
+                                <label for="word">Contrasenya:</label>
+                                <input type="password" id="word" placeholder="contrasenya" th:field="*{word}" required />
+                            </div>
+
+                            <div class="save-btn-container">
+                                <button type="submit" class="btn save-btn" th:text="${formMode == 'create'} ? 'crear' : 'guardar'"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <script src="/scripts/sidebar.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const imageInput = document.getElementById("imageFile");
+                const imagePreview = document.querySelector(".user-image");
+
+                imageInput.addEventListener("change", function () {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            imagePreview.src = e.target.result;
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

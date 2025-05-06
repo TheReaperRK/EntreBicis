@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Llista de Recompenses</title>
+        <link rel="stylesheet" href="/styles/userListStyles.css">
+        <link rel="stylesheet" href="/styles/sideBarStyle.css">
+        <link rel="stylesheet" href="/styles/rewardTable.css">
+    </head>
+    <body>
+
+        <!-- Botó per obrir/tancar la barra lateral -->
+        <button id="toggle-sidebar">☰</button>
+
+        <main class="content">
+            <header class="user-list-header">
+                <h1>Llista de Recompenses</h1>
+                <a href="/rewards/create" class="btn btn-create">➕ Crear nova recompensa</a>
+            </header>
+
+            <section class="table-section">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Preu</th>
+                                <th>Usuari</th>
+                                <th>Estat</th>
+                                <th>Data Sol·licitud</th>
+                                <th>Data Recollida</th>
+                                <th>Accions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="reward : ${rewards}">
+                                <td th:text="${reward.id}"></td>
+                                <td th:text="${reward.nom}"></td>
+                                <td th:text="${reward.preu}"></td>
+                                <td th:text="${reward.user?.mail} ?: '-'"></td>
+                                <td th:text="${reward.estat}"></td>
+                                <td th:text="${reward.dataSolicitud != null ? #temporals.format(reward.dataSolicitud, 'dd/MM/yyyy HH:mm') : '-'}"></td>
+                                <td th:text="${reward.dataRecollida != null ? #temporals.format(reward.dataRecollida, 'dd/MM/yyyy HH:mm') : '-'}"></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a th:href="@{'/rewards/edit/' + ${reward.id}}" class="btn btn-edit">✏️ Editar</a>
+                                        <a th:href="@{'/rewards/delete/' + ${reward.id}}" class="btn btn-delete"
+                                           onclick="return confirm('Estàs segur que vols eliminar aquesta recompensa?')">🗑️ Eliminar</a>
+                                        <!-- Botó acceptar només si l'estat és PENDING -->
+                                        <a th:if="${reward.estat.name() == 'PENDING'}"
+                                           th:href="@{'/rewards/accept/' + ${reward.id}}"
+                                           class="btn btn-accept"
+                                           onclick="return confirm('Estàs segur que vols acceptar aquesta recompensa?')">✅ Acceptar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <script src="/scripts/sidebar.js"></script>
+    </body>
+</html>

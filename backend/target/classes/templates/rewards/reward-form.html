@@ -51,21 +51,24 @@
                             <label for="estat">Estat:</label>
                             <select id="estat" th:field="*{estat}">
                                 <option th:each="est : ${T(cat.copernic.backend.entity.enums.RewardStatus).values()}"
-                                        th:value="${est}" th:text="${est}"></option>
-                            </select>
-                        </div>
+                                        th:value="${est.name()}"  
+                                        th:text="${est}">  
+                            </option>
+                        </select>
 
-                        <!-- Assignar estat AVAILABLE per defecte en mode creació -->
-                        <input type="hidden" th:if="${formMode == 'create'}" th:field="*{estat}" value="AVAILABLE" />
-
-                        <div class="save-btn-container">
-                            <button type="submit" class="btn save-btn" th:text="${formMode == 'create'} ? 'crear' : 'guardar'"></button>
-                        </div>
                     </div>
-                </form>
-            </div>
-        </main>
 
-        <script src="/scripts/sidebar.js"></script>
-    </body>
+                    <!-- Assignar estat AVAILABLE per defecte en mode creació -->
+                    <input type="hidden" th:if="${formMode == 'create'}" th:field="*{estat}" value="AVAILABLE" />
+
+                    <div class="save-btn-container">
+                        <button type="submit" class="btn save-btn" th:text="${formMode == 'create'} ? 'crear' : 'guardar'"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="/scripts/sidebar.js"></script>
+</body>
 </html>

@@ -40,7 +40,7 @@ public class RewardLogic {
         return rewardRepo.findByEstat(RewardStatus.AVAILABLE);
     }
 
-    public void rewardRequest(Long id, User user) {
+    public void rewardAccept(Long id, User user) {
         Reward reward = rewardRepo.getById(id);
 
         user.setBalance(user.getBalance() - reward.getPreu());

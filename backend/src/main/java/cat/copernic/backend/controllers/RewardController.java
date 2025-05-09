@@ -8,7 +8,6 @@ package cat.copernic.backend.controllers;
  *
  * @author carlo
  */
-
 import cat.copernic.backend.entity.Reward;
 import cat.copernic.backend.entity.User;
 import cat.copernic.backend.entity.enums.RewardStatus;
@@ -20,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/rewards")
@@ -28,7 +27,7 @@ public class RewardController {
 
     @Autowired
     private RewardLogic rewardLogic;
-    
+
     @Autowired
     private RewardRepo rewardRepo;
 
@@ -82,23 +81,29 @@ public class RewardController {
 
     // ✅ Eliminar recompensa
     @GetMapping("/delete/{id}")
-    public String deleteReward(@PathVariable("id") Long id) {
-        rewardLogic.deleteReward(id);
+    public String deleteReward(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+
+        if (rewardLogic.deleteable(id) == true) {
+            redirectAttributes.addFlashAttribute("successMessage", "Recompensa esborrada correctament");
+            rewardLogic.deleteReward(id);
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "La recompensa no pot ser esborrada, ja que esta assignada a un usuari");
+        }
         return "redirect:/rewards/list";
     }
-    
+
     // ✅ Editar recompensa
     @GetMapping("/accept/{id}")
     public String acceptReward(@PathVariable("id") Long id) {
         Reward reward = rewardLogic.getRewardById(id);
         User user = reward.getUser();
-        
+
         reward.setEstat(RewardStatus.ACCEPTED);
         reward.setDataSolicitud(LocalDateTime.now());
-        
+
         rewardLogic.rewardAccept(id, user);
         rewardRepo.save(reward);
-        
+
         return "redirect:/rewards/list";
     }
 }

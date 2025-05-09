@@ -14,13 +14,11 @@
             
             <!-- Mensaje de éxito -->
             <div th:if="${successMessage}" class="alert-box alert-success">
-                <span class="alert-icon">✔️</span>
                 <span th:text="${successMessage}"></span>
             </div>
 
             <!-- Mensaje de error -->
             <div th:if="${errorMessage}" class="alert-box alert-error">
-                <span class="alert-icon">⚠️</span>
                 <span th:text="${errorMessage}"></span>
             </div>
 

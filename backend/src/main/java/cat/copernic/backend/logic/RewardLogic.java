@@ -32,6 +32,18 @@ public class RewardLogic {
         rewardRepo.save(reward);
     }
 
+    public boolean deleteable(Long id) {
+        Boolean res = true;
+        Reward reward = rewardRepo.getById(id);
+
+        if (reward.getEstat() != RewardStatus.AVAILABLE) {
+            System.out.println(reward.getEstat());
+            res = false;
+        }
+
+        return res;
+    }
+
     public void deleteReward(Long id) {
         rewardRepo.deleteById(id);
     }

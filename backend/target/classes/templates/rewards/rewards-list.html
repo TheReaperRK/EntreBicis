@@ -19,8 +19,15 @@
                 <a href="/rewards/create" class="btn btn-create">➕ Crear nova recompensa</a>
             </header>
 
-            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-            <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+            <!-- Mensaje de éxito -->
+            <div th:if="${successMessage}" class="alert-box alert-success">
+                <span th:text="${successMessage}"></span>
+            </div>
+
+            <!-- Mensaje de error -->
+            <div th:if="${errorMessage}" class="alert-box alert-error">
+                <span th:text="${errorMessage}"></span>
+            </div>
 
             <section class="table-section">
                 <div class="table-container">

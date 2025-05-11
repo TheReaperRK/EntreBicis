@@ -17,8 +17,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.ui.Alignment
+import calcularDistanciaEntrePunts
 import cat.copernic.frontend.core.models.DTO.GpsPointDTO
-import cat.copernic.frontend.route_management.ui.components.calcularDistanciaEntrePunts
+import cat.copernic.frontend.core.models.enums.RewardStatus
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -79,4 +80,13 @@ fun calcularVelocitatsEntrePunts(punts: List<GpsPointDTO>): List<Pair<Int, Doubl
 
     return resultats
 }
+
+fun RewardStatus.toCatalanStatus(): String = when (this) {
+    RewardStatus.AVAILABLE -> "Disponible"
+    RewardStatus.PENDING -> "Pendent"
+    RewardStatus.ACCEPTED -> "Acceptada"
+    RewardStatus.COLLECTED -> "Recollida"
+    RewardStatus.CANCELED -> "Cancel·lada"
+}
+
 

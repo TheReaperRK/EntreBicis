@@ -18,5 +18,4 @@ public interface RouteRepo extends JpaRepository<Route, Long> {
     Route findFirstByUserMailOrderByStartDateDesc(String mail);
 
     List<Route> findByUser(User user);
-
 }

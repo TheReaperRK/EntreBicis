@@ -26,6 +26,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Data d'inici</th>
                                 <th>Distància (km)</th>
                                 <th>Velocitat Mitjana (km/h)</th>
                                 <th>Temps Total</th>
@@ -40,6 +41,7 @@
                                 onclick="navigateToDetail(this)"
                                 style="cursor: pointer;">
                                 <td th:text="${route.idRouteDTO}"></td>
+                                <td th:text="${#temporals.format(route.startDate, 'dd/MM/yyyy HH:mm')}"></td>
                                 <td th:text="${#numbers.formatDecimal(route.distance, 1, 2)}"></td>
                                 <td th:text="${#numbers.formatDecimal(route.averageSpeed, 1, 2)}"></td>
                                 <td th:text="${route.totalTime}"></td>
@@ -48,7 +50,6 @@
                                 <td th:text="${#strings.capitalize(#strings.toLowerCase(route.validation_state))}"></td>
                             </tr>
                         </tbody>
-
                     </table>
                 </div>
             </section>

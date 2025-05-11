@@ -95,7 +95,7 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
 
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     ProfileButton("editar") { navController.navigate(Screens.EditUser.route) }
-                    ProfileButton("reserves") { /* TODO */ }
+                    ProfileButton("reserves") { navController.navigate(Screens.RewardsListByUser.route) }
                     ProfileButton("tancar sessió") {
                         navController.navigate(Screens.Login.route) {
                             popUpTo(0) { inclusive = true }

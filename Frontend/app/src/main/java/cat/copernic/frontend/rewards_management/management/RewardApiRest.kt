@@ -10,6 +10,9 @@ interface RewardApiRest {
     @GET("api/rewards/list")
     suspend fun getAllRewards(): Response<List<Reward>>
 
+    @GET("api/rewards/list/{mail}")
+    suspend fun getAllRewardsByUser(@Path("mail") email: String): Response<List<Reward>>
+
     @GET("api/rewards/{id}")
     suspend fun getRewardById(@Path("id") id: Long): Reward
 

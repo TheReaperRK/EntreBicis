@@ -20,6 +20,7 @@ public class RouteUserSpeedDistanceDTO {
     private int generatedBalance;
     private String userEmail;
     private String validation_state;
+    private LocalDateTime startDate;
 
     public String getValidation_state() {
         return validation_state;
@@ -76,7 +77,14 @@ public class RouteUserSpeedDistanceDTO {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
-    
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
     
 }
 

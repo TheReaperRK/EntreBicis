@@ -15,6 +15,9 @@ public enum RewardStatus {
     COLLECTED, // Recogida
     CANCELED // Cancelada
 
+
 }
+
+
 
 

@@ -36,6 +36,7 @@ import cat.copernic.frontend.rewards_management.management.RewardRepo
 import cat.copernic.frontend.rewards_management.management.RewardRetrofitInstance
 import cat.copernic.frontend.rewards_management.ui.screens.RewardDetailScreen
 import cat.copernic.frontend.rewards_management.ui.screens.RewardsScreen
+import cat.copernic.frontend.rewards_management.ui.screens.UserRewardsScreen
 import cat.copernic.frontend.rewards_management.ui.viewmodels.RewardsViewModel
 import cat.copernic.frontend.rewards_management.viewmodels.RewardsViewModelFactory
 import cat.copernic.frontend.route_management.ui.components.FinalRouteScreen
@@ -163,6 +164,14 @@ fun AppNavigation() {
                 }
             }
 
+            composable(Screens.RewardsListByUser.route) {
+                UserRewardsScreen(
+                    sessionViewModel = userSessionViewModel,
+                    viewModel = rewardsViewModel, // o viewModel() según tu DI
+                    context = LocalContext.current,
+                    navController = navController
+                )
+            }
         }
     }
 }

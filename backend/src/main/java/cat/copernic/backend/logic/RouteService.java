@@ -20,6 +20,7 @@ import cat.copernic.backend.repository.RouteRepo;
 import cat.copernic.backend.repository.SystemParametersRepo;
 import cat.copernic.backend.repository.UserRepo;
 import java.sql.Time;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +46,9 @@ public class RouteService {
 
     @Autowired
     private UserRepo usuariRepository;
+
+    @Autowired
+    private SystemParametersRepo systemParametersRepo;
 
     @Autowired
     private RouteMapper routeMapper;
@@ -120,6 +124,26 @@ public class RouteService {
                     dto.setIdRouteDTO(route.getId_route());
                     dto.setDistance(route.getDistance());
                     dto.setAverageSpeed(route.getAverage_speed());
+                    dto.setStartDate(route.getStartDate()); // o el getter que uses
+                    dto.setTotalTime(route.getTotal_time().toString());
+                    dto.setGeneratedBalance(route.getGenerated_balance());
+                    dto.setUserEmail(route.getUser().getMail());
+                    dto.setValidation_state(route.getValidation_state().toString());
+                    return dto;
+                }).collect(Collectors.toList());
+    }
+
+    public List<RouteUserSpeedDistanceDTO> getAllUserRoutesAsDTO(User user) {
+        List<Route> routes = routeRepository.findByUser(user);
+
+        return routes.stream()
+                .sorted(Comparator.comparing(Route::getStartDate).reversed()) // Ordenar por fecha descendente
+                .map(route -> {
+                    RouteUserSpeedDistanceDTO dto = new RouteUserSpeedDistanceDTO();
+                    dto.setIdRouteDTO(route.getId_route());
+                    dto.setDistance(route.getDistance());
+                    dto.setAverageSpeed(route.getAverage_speed());
+                    dto.setStartDate(route.getStartDate()); // o el getter que uses
                     dto.setTotalTime(route.getTotal_time().toString());
                     dto.setGeneratedBalance(route.getGenerated_balance());
                     dto.setUserEmail(route.getUser().getMail());
@@ -138,6 +162,7 @@ public class RouteService {
         dto.setIdRouteDTO(route.getId_route());
         dto.setDistance(route.getDistance());
         dto.setAverageSpeed(route.getAverage_speed());
+        dto.setStartDate(route.getStartDate() != null ? route.getStartDate() : null);
         dto.setTotalTime(route.getTotal_time().toString());
         dto.setGeneratedBalance(route.getGenerated_balance());
         dto.setUserEmail(route.getUser().getMail());
@@ -156,4 +181,72 @@ public class RouteService {
         return dto;
     }
 
+    public double calcularVelocitatMaxima(Route route) {
+        List<GpsPoint> punts = gpsPointRepository.findByRoute(route);
+
+        System.out.println(punts);
+
+        if (punts == null || punts.size() < 2) {
+            return 0.0;
+        }
+
+        double velocitatMaxima = 0.0;
+
+        // Ordenar por timestamp por si no viene ordenado
+        punts.sort(Comparator.comparing(GpsPoint::getTimestamp));
+
+        for (int i = 1; i < punts.size(); i++) {
+            GpsPoint anterior = punts.get(i - 1);
+            GpsPoint actual = punts.get(i);
+
+            double distanciaMetres = calcularDistancia(
+                    anterior.getLatitud().doubleValue(),
+                    anterior.getLongitud().doubleValue(),
+                    actual.getLatitud().doubleValue(),
+                    actual.getLongitud().doubleValue()
+            );
+
+            System.out.println("Punt " + (i - 1) + ": " + anterior.getTimestamp());
+            System.out.println("Punt " + i + ": " + actual.getTimestamp());
+            System.out.println("Diferència segons: " + Duration.between(anterior.getTimestamp(), actual.getTimestamp()).getSeconds());
+
+            long milisegons = Duration.between(anterior.getTimestamp(), actual.getTimestamp()).toMillis();
+            if (milisegons >= 10) {
+                double hores = milisegons / 3600000.0; // 1 hora = 3600000 ms
+                double velocitat = (distanciaMetres / 1000.0) / hores; // km/h
+                velocitatMaxima = Math.max(velocitatMaxima, velocitat);
+            }
+
+        }
+        System.out.println("vel max" + velocitatMaxima);
+        return velocitatMaxima;
+    }
+
+    private double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371000; // Radio de la Tierra en metros
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    public String obtenirColorVelocitatMaxima(Route route) {
+        double vmax = calcularVelocitatMaxima(route);
+        double vconfig = systemParametersRepo.findById("default")
+                .map(SystemParameters::getAverageValidSpeed)
+                .orElse(25.0);
+
+        if (vmax > vconfig + 10) {
+            return "danger"; // rojo
+        }
+        if (vmax >= vconfig) {
+            return "warning";    // amarillo
+        }
+        return "ok";   // blanco
+    }
 }

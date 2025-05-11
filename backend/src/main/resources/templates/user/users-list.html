@@ -47,7 +47,7 @@
                                 <td th:text="${user.surnames}"></td>
                                 <td th:text="${user.population}"></td>
                                 <td th:text="${user.phone_number}"></td>
-                                <td th:text="${user.role}"></td>
+                                <td th:text="${user.role.name()}"></td>
                                 <td th:text="${user.balance}"></td>
                                 <td>
                                     <a th:href="@{/users/edit/{mail}(mail=${user.mail})}" class="btn btn-edit">✏️ Editar</a>

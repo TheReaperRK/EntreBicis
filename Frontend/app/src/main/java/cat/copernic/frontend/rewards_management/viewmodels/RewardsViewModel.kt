@@ -76,4 +76,16 @@ class RewardsViewModel(private val repo: RewardRepo) : ViewModel() {
             }
         }
     }
+
+    fun carregarRecompensesUsuari(email: String) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                _rewards.value = repo.getRewardsByUser(email)
+            } catch (e: Exception) {
+                _rewards.value = emptyList()
+            }
+            _loading.value = false
+        }
+    }
 }

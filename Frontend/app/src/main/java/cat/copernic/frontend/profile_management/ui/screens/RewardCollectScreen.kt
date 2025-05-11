@@ -40,6 +40,12 @@ import cat.copernic.frontend.core.models.Reward
 import cat.copernic.frontend.profile_management.ui.components.SwipeToCollect
 import cat.copernic.frontend.rewards_management.ui.viewmodels.RewardsViewModel
 import coil.compose.rememberAsyncImagePainter
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.ui.window.Dialog
+import com.airbnb.lottie.compose.*
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun RewardCollectScreen(
@@ -50,8 +56,8 @@ fun RewardCollectScreen(
 ) {
     var collected by remember { mutableStateOf(false) }
     val reward by rewardsViewModel.reward.collectAsState()
+    var showDialog by remember { mutableStateOf(false) }
 
-    // Cargar la recompensa cuando se entra por primera vez
     LaunchedEffect(Unit) {
         rewardsViewModel.loadRewardById(rewardId)
     }
@@ -68,7 +74,6 @@ fun RewardCollectScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Parte superior con imagen y botón de back
         Box {
             Image(
                 painter = rememberAsyncImagePainter(R.drawable.ic_launcher_background),
@@ -92,49 +97,28 @@ fun RewardCollectScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-            Text(
-                text = "${reward!!.preu} Pts",
-                style = MaterialTheme.typography.headlineSmall,
-                color = Color.Black
-            )
-
-            Text(
-                text = reward!!.nom ?: "",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black
-            )
-
+            Text(text = "${reward!!.preu} Pts", style = MaterialTheme.typography.headlineSmall, color = Color.Black)
+            Text(text = reward!!.nom ?: "", style = MaterialTheme.typography.titleMedium, color = Color.Black)
             Spacer(modifier = Modifier.height(12.dp))
-
             reward!!.descripcio?.let {
                 Text(text = it, style = MaterialTheme.typography.bodyMedium)
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
             Divider()
-
             Spacer(modifier = Modifier.height(16.dp))
-
             reward!!.direccio?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.DarkGray
-                )
+                Text(text = it, style = MaterialTheme.typography.bodyMedium, color = Color.DarkGray)
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Botón inferior
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp),
             contentAlignment = Alignment.Center
         ) {
-
             SwipeToCollect(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -143,15 +127,68 @@ fun RewardCollectScreen(
                     rewardsViewModel.recollirRecompensa(rewardId) { error ->
                         if (error == null) {
                             collected = true
+                            showDialog = true
                         } else {
-                            // Puedes mostrar un Toast con el error, si quieres
                             Log.e("Recompensa", "Error al recollir: $error")
                         }
                     }
                 },
                 collected = collected
             )
+        }
+    }
 
+    if (showDialog) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xAA000000)), // fondo oscurecido
+            contentAlignment = Alignment.Center
+        ) {
+            val composition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))
+            val progress by animateLottieCompositionAsState(
+                composition = composition,
+                iterations = 1,
+                isPlaying = true,
+                speed = 1.2f
+            )
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                // 🎉 Animación en toda la pantalla
+                LottieAnimation(
+                    composition = composition,
+                    progress = progress,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                // 🔼 Botón de cerrar arriba a la izquierda
+                IconButton(
+                    onClick = { showDialog = false },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.TopStart)
+                        .background(Color(0xFF166C4E), shape = RoundedCornerShape(50))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Tancar popup",
+                        tint = Color.White
+                    )
+                }
+
+                // ✅ Texto grande centrado
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Recollida!",
+                        color = Color(0xFF27C08A),
+                        fontSize = 48.sp,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold
+                    )
+                }
+            }
         }
     }
 }

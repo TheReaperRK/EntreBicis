@@ -11,6 +11,10 @@
 
         <main class="user-form-wrapper">
             <div class="user-form-card">
+                <div th:if="${error}" class="form-error">
+                    <p th:text="${error}"></p>
+                </div>
+
                 <a href="/users/list" class="back-button">←</a>
 
                 <div class="user-form-flex">
@@ -25,13 +29,13 @@
                             <input type="file" id="imageFile" name="imageFile" accept="image/*" class="input-file-hidden"/>
                             <div class="image-buttons">
                                 <label for="imageFile" class="btn image-btn">canviar imatge</label>
-                                
+
                                 <a th:if="${formMode == 'edit'}"
                                    th:href="@{'/routes/list/' + ${user.mail}}"
                                    class="btn validate-btn">
                                     validar rutes
                                 </a>
-                                
+
                                 <a th:if="${formMode == 'edit'}"
                                    th:href="@{'/rewards/list/' + ${user.mail}}"
                                    class="btn validate-btn">

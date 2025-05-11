@@ -1,12 +1,8 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/reactjs.jsx to edit this template
- */
 function initializeMap(routePoints) {
     if (!routePoints || routePoints.length === 0) return;
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
+        zoom: 16,
         center: { lat: routePoints[0].latitud, lng: routePoints[0].longitud }
     });
 
@@ -22,47 +18,63 @@ function initializeMap(routePoints) {
 
     routePath.setMap(map);
 
+    const infoWindow = new google.maps.InfoWindow();
+    const markers = [];
+
     routePoints.forEach(function (point, index) {
-        let iconConfig;
+        let iconConfig, alwaysVisible = false;
 
-        if (index === 0) {
-                        // Primer punto (INICIO - Bandera de salida)
-                        iconConfig = {
-                            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                            fillColor: '#27C08A',
-                            scale: 6,
-                            fillOpacity: 1,
-                            strokeWeight: 2,
-                            strokeColor: '#ffffff'
-                        };
-                    } else if (index === routePoints.length - 1) {
-                        // Último punto (FINAL - Bandera de meta)
-                        iconConfig = {
-                            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                            fillColor: '#27C08A',
-                            scale: 6,
-                            fillOpacity: 1,
-                            strokeWeight: 2,
-                            strokeColor: '#ffffff'
-                        };
-                    } else {
-                        // Puntos intermedios (círculo verde)
-                        iconConfig = {
-                            path: google.maps.SymbolPath.CIRCLE,
-                            scale: 7,
-                            fillColor: '#27C08A',
-                            fillOpacity: 1,
-                            strokeWeight: 2,
-                            strokeColor: '#ffffff'
-                        };
-                    }
+        if (index === 0 || index === routePoints.length - 1) {
+            iconConfig = {
+                path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                fillColor: '#27C08A',
+                scale: 6,
+                fillOpacity: 1,
+                strokeWeight: 2,
+                strokeColor: '#ffffff'
+            };
+            alwaysVisible = true;
+        } else {
+            iconConfig = {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 7,
+                fillColor: '#27C08A',
+                fillOpacity: 1,
+                strokeWeight: 2,
+                strokeColor: '#ffffff'
+            };
+        }
 
-        new google.maps.Marker({
+        const marker = new google.maps.Marker({
             position: { lat: point.latitud, lng: point.longitud },
-            map: map,
             title: index === 0 ? 'Inici' : index === routePoints.length - 1 ? 'Final' : 'Punt ' + (index + 1),
-            icon: iconConfig
+            icon: iconConfig,
+            map: alwaysVisible ? map : null // solo los extremos visibles por defecto
         });
-    });
-}
 
+        marker.addListener('click', function () {
+            infoWindow.setContent(
+                `<strong>${marker.getTitle()}</strong><br>Lat: ${point.latitud.toFixed(5)}<br>Lng: ${point.longitud.toFixed(5)}`
+            );
+            infoWindow.open(map, marker);
+        });
+
+        markers.push({ marker, alwaysVisible });
+    });
+
+    function updateMarkersVisibility(zoom) {
+        markers.forEach(obj => {
+            if (obj.alwaysVisible) {
+                obj.marker.setMap(map);
+            } else {
+                obj.marker.setMap(zoom >= 18 ? map : null); // solo mostrar si zoom >= 19
+            }
+        });
+    }
+
+    google.maps.event.addListener(map, 'zoom_changed', function () {
+        updateMarkersVisibility(map.getZoom());
+    });
+
+    updateMarkersVisibility(map.getZoom());
+}

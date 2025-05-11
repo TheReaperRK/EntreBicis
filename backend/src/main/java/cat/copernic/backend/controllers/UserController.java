@@ -77,14 +77,17 @@ public class UserController {
                 user.setObservations(observations);
             }
 
-            if (userLogic.getUserByMail(user.getMail()) != null) {
+            System.out.println((userLogic.findUserByMail(user.getMail())));
+            if (userLogic.findUserByMail(user.getMail()).isPresent()) {
                 model.addAttribute("error", "Ja existeix un Usuari amb aquest correu");
             } else {
+                System.out.println(user);
                 userLogic.saveWithEncoder(user);
                 return "redirect:/users/list";
             }
 
         } catch (IOException e) {
+            System.out.println("excepcion");
             model.addAttribute("error", "Error en pujar la imatge.");
         }
 

@@ -8,6 +8,7 @@ import cat.copernic.backend.entity.Reward;
 import cat.copernic.backend.entity.User;
 import cat.copernic.backend.logic.RewardLogic;
 import cat.copernic.backend.logic.UserLogic;
+import cat.copernic.backend.repository.UserRepo;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,23 @@ public class RewardApiController {
     @Autowired
     private UserLogic userLogic; // Necesario si quieres seleccionar usuario en el formulario
 
+    @Autowired
+    private UserRepo userRepo;
+
     // ✅ Lista de recompensas
     @GetMapping("/list")
     public List<Reward> listRewards() {
         return rewardLogic.getAvailableRewards();
+    }
+
+    @GetMapping("/list/{mail}")
+    public List<Reward> listUserRewards(@PathVariable String mail) {
+
+        User user = userRepo.findByMail(mail);
+
+        System.out.println(rewardLogic.getAllUserRewards(user));
+
+        return rewardLogic.getAllUserRewards(user);
     }
 
     // ✅ Lista de recompensas
@@ -68,7 +82,7 @@ public class RewardApiController {
                     .body("Error al sol·licitar la recompensa: " + e.getMessage());
         }
     }
-    
+
     @PostMapping("/{id}/take")
     @ResponseBody
     public ResponseEntity<?> recollirRecompensa(@PathVariable Long id, Principal principal) {

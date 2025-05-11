@@ -12,6 +12,9 @@
         <main class="content">
             <h1>Detall de la Ruta</h1>
 
+            <a th:if="${mail != null}" th:href="@{'/routes/list/' + ${mail}}" class="btn btn-back">🔙 Tornar</a>
+            <a th:if="${mail == null}" href="/routes/list" class="btn btn-back">🔙 Tornar</a>
+
             <!-- Mensaje de éxito -->
             <div th:if="${successMessage}" class="alert-box alert-success">
                 <span th:text="${successMessage}"></span>
@@ -28,58 +31,6 @@
                 <div class="info-card">
                     <h2>Usuari</h2>
                     <p th:text="${route.user.mail}"></p>
-                </div>
-
-                <div class="info-card">
-                    <h2>Data Inici</h2>
-                    <p th:text="${#temporals.format(route.startDate, 'dd/MM/yyyy HH:mm')}"></p>
-                </div>
-
-                <div class="info-card">
-                    <h2>Data Fi</h2>
-                    <p th:text="${#temporals.format(route.end_date, 'dd/MM/yyyy HH:mm')}"></p>
-                </div>
-
-                <div class="info-card">
-                    <h2>Distància</h2>
-                    <p th:text="${#numbers.formatDecimal(route.distance, 1, 2)} + ' km'"></p>
-                </div>
-
-                <div class="info-card average-speed-warning" th:if="${route.average_speed >= 25 and route.average_speed <= 35}">
-                    <h2>Velocitat Mitjana</h2>
-                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
-                </div>
-
-                <!-- Caso 2: Velocitat superior a 35 km/h -->
-                <div class="info-card average-speed-danger" th:if="${route.average_speed > 35}">
-                    <h2>Velocitat Mitjana</h2>
-                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
-                </div>
-
-                <!-- Caso 3: Velocitat normal -->
-                <div class="info-card" th:if="${route.average_speed < 25}">
-                    <h2>Velocitat Mitjana</h2>
-                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
-                </div>
-
-                <div class="info-card" th:classappend="' average-speed-' + ${velocitatMaximaColor}">
-                    <h2>Velocitat Màxima</h2>
-                    <p th:text="${#numbers.formatDecimal(velocitatMaxima, 1, 2)} + ' km/h'"></p>
-                </div>
-
-                <div class="info-card">
-                    <h2>Temps Total</h2>
-                    <p th:text="${#dates.format(route.total_time, 'HH:mm:ss')}"></p>
-                </div>
-
-                <div class="info-card">
-                    <h2>Saldo Generat</h2>
-                    <p th:text="${route.generated_balance} + ' punts'"></p>
-                </div>
-
-                <div class="info-card">
-                    <h2>Estat</h2>
-                    <p th:text="${route.state}"></p>
                 </div>
 
                 <div class="info-card validation-card"
@@ -118,10 +69,59 @@
                     </div>
 
                 </div>
-            </div>
+                
+                <div class="info-card">
+                    <h2>Data Inici</h2>
+                    <p th:text="${#temporals.format(route.startDate, 'dd/MM/yyyy HH:mm')}"></p>
+                </div>
+                
+                <div class="info-card average-speed-warning" th:if="${route.average_speed >= 25 and route.average_speed <= 35}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
 
-            <a th:if="${mail != null}" th:href="@{'/routes/list/' + ${mail}}" class="btn btn-back">🔙 Tornar</a>
-            <a th:if="${mail == null}" href="/routes/list" class="btn btn-back">🔙 Tornar</a>
+                <div class="info-card">
+                    <h2>Distància</h2>
+                    <p th:text="${#numbers.formatDecimal(route.distance, 1, 2)} + ' km'"></p>
+                </div>
+
+                <div class="info-card average-speed-warning" th:if="${route.average_speed >= 25 and route.average_speed <= 35}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
+
+                <!-- Caso 2: Velocitat superior a 35 km/h -->
+                <div class="info-card average-speed-danger" th:if="${route.average_speed > 35}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
+
+                <!-- Caso 3: Velocitat normal -->
+                <div class="info-card" th:if="${route.average_speed < 25}">
+                    <h2>Velocitat Mitjana</h2>
+                    <p th:text="${#numbers.formatDecimal(route.average_speed, 1, 2)} + ' km/h'"></p>
+                </div>
+
+                <div class="info-card" th:classappend="' average-speed-' + ${velocitatMaximaColor}">
+                    <h2>Velocitat Màxima</h2>
+                    <p th:text="${#numbers.formatDecimal(velocitatMaxima, 1, 2)} + ' km/h'"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Data Fi</h2>
+                    <p th:text="${#temporals.format(route.end_date, 'dd/MM/yyyy HH:mm')}"></p>
+                </div>
+                
+                <div class="info-card">
+                    <h2>Temps Total</h2>
+                    <p th:text="${#dates.format(route.total_time, 'HH:mm:ss')}"></p>
+                </div>
+
+                <div class="info-card">
+                    <h2>Saldo Generat</h2>
+                    <p th:text="${route.generated_balance} + ' punts'"></p>
+                </div>
+            </div>
         </main>
 
         <script th:inline="javascript">

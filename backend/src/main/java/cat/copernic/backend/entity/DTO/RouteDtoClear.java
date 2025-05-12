@@ -11,7 +11,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *
+ * DTO simplificat per representar informació bàsica d’una ruta.
+ * 
+ * Aquesta classe s’utilitza principalment en pantalles on es vol mostrar
+ * un resum de les rutes (com el llistat), sense incloure detalls ni punts GPS.
+ * 
+ * Inclou valors essencials com la distància, velocitat mitjana, temps total,
+ * validació i correu de l’usuari.
+ * 
  * @author carlo
  */
 @Data
@@ -19,12 +26,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RouteDtoClear {
 
+    /** Identificador únic de la ruta */
     private Long idRouteDTO;
-    private double distance;
-    private double averageSpeed;
-    private String totalTime;
-    private int generatedBalance;
-    private String userEmail;
-    private Validation validation_state;
 
+    /** Distància total recorreguda en km */
+    private double distance;
+
+    /** Velocitat mitjana de la ruta en km/h */
+    private double averageSpeed;
+
+    /** Temps total de la ruta (format HH:mm:ss) */
+    private String totalTime;
+
+    /** Punts obtinguts per aquesta ruta */
+    private int generatedBalance;
+
+    /** Correu electrònic de l’usuari que ha realitzat la ruta */
+    private String userEmail;
+
+    /** Estat de validació de la ruta (VALIDATED, INVALIDATED o PENDING) */
+    private Validation validation_state;
 }

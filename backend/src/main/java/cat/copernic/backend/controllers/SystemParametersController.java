@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * Controlador per gestionar els paràmetres del sistema (només accessible per
+ * l’administrador). Permet visualitzar i modificar valors globals com la
+ * velocitat màxima, temps màxim d’aturada, etc. Aquest formulari s’accedeix des
+ * del panell d’administració.
  *
  * @author carlo
  */
@@ -25,10 +29,23 @@ public class SystemParametersController {
 
     private final SystemParametersLogic logic;
 
+    /**
+     * Constructor que rep la lògica per gestionar els paràmetres del sistema.
+     *
+     * @param logic instància del servei de lògica de paràmetres
+     */
     public SystemParametersController(SystemParametersLogic logic) {
         this.logic = logic;
     }
 
+    /**
+     * Mostra el formulari amb els paràmetres actuals del sistema. Si no
+     * existeixen, es crea una nova instància amb valors per defecte.
+     *
+     * @param model model per passar l’objecte {@code SystemParameters} a la
+     * vista
+     * @return nom de la plantilla Thymeleaf del formulari
+     */
     @GetMapping
     public String showForm(Model model) {
         logger.info("Accés al formulari de paràmetres del sistema");
@@ -45,10 +62,17 @@ public class SystemParametersController {
             return "systemParameters/system-parameters";
         } catch (Exception e) {
             logger.error("Error en carregar els paràmetres del sistema: {}", e.getMessage());
-            return "redirect:/error"; // o mostra un error informatiu a la vista
+            return "redirect:/error"; // alternativa: mostrar error informatiu a la vista
         }
     }
 
+    /**
+     * Rep els nous valors dels paràmetres i els desa.
+     *
+     * @param updated objecte {@code SystemParameters} amb els valors modificats
+     * des del formulari
+     * @return redirecció al formulari amb missatge d’èxit o d’error
+     */
     @PostMapping
     public String updateParameters(@ModelAttribute("params") SystemParameters updated) {
         try {

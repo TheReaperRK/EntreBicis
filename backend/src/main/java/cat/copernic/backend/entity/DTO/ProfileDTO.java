@@ -10,31 +10,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DTO utilitzat per enviar o rebre la informació completa del perfil d’un usuari
+ * dins de l’aplicació Android.
  *
+ * Inclou tots els camps rellevants del model `User`, com també la imatge (en base64)
+ * i la llista de recompenses vinculades.
+ * 
+ * Aquest DTO s’utilitza quan l’usuari obre o edita el seu perfil dins de l’app.
+ * 
+ * ⚠️ Nota: El camp `word` pot ometre’s a la resposta si no s’utilitza per seguretat.
+ * 
  * @author carlo
  */
 public class ProfileDTO {
 
+    /** Correu electrònic de l’usuari (clau principal) */
     private String mail;
 
+    /** Nom de l’usuari */
     private String name;
 
+    /** Cognoms de l’usuari */
     private String surnames;
 
+    /** Població de residència */
     private String population;
 
+    /** Número de telèfon mòbil */
     private String phone_number;
 
+    /** Rol dins del sistema (USER o ADMIN) */
     private Role role;
 
+    /** Contrasenya de l’usuari (s’aconsella no exposar-la fora del backend) */
     private String word;
 
+    /** Saldo en punts acumulats */
     private double balance;
 
-    private String image;         // Imagen en base64 como String
-    private String observations;  // Observaciones también como texto
+    /** Imatge de perfil codificada en base64 */
+    private String image;
 
+    /** Observacions addicionals guardades per l’usuari */
+    private String observations;
+
+    /** Llista de recompenses assignades o sol·licitades per l’usuari */
     private List<Reward> reward = new ArrayList<>();
+
+    // Getters i setters
 
     public String getMail() {
         return mail;

@@ -4,23 +4,44 @@
  */
 package cat.copernic.backend.entity.DTO;
 
-import cat.copernic.backend.entity.enums.Validation;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
+ * DTO que representa una ruta amb informació essencial per a la seva visualització 
+ * en llistats, incloent dades de distància, velocitat, temps, estat de validació i data d'inici.
  *
+ * Aquesta classe és usada principalment a la vista web de l'administrador per mostrar 
+ * un resum de totes les rutes d'usuaris, amb informació rellevant per a la seva validació.
+ * 
  * @author carlo
  */
 public class RouteUserSpeedDistanceDTO {
+
+    /** Identificador de la ruta */
     private Long idRouteDTO;
+
+    /** Distància total recorreguda en km */
     private double distance;
+
+    /** Velocitat mitjana en km/h */
     private double averageSpeed;
+
+    /** Temps total de la ruta en format HH:mm:ss */
     private String totalTime;
+
+    /** Punts generats per la ruta */
     private int generatedBalance;
+
+    /** Correu electrònic de l'usuari que ha fet la ruta */
     private String userEmail;
+
+    /** Estat de validació (VALIDATED, INVALIDATED, PENDING) com a String */
     private String validation_state;
+
+    /** Data i hora d’inici de la ruta */
     private LocalDateTime startDate;
+
+    // Getters i setters
 
     public String getValidation_state() {
         return validation_state;
@@ -85,6 +106,6 @@ public class RouteUserSpeedDistanceDTO {
     public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
-    
 }
+
 

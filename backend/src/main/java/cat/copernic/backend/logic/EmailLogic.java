@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cat.copernic.backend.logic;
 
 import jakarta.mail.MessagingException;
@@ -14,7 +10,17 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Servei responsable de gestionar l'enviament de correus electrònics a l'usuari,
+ * com per exemple: correus de recuperació de contrasenya o notificacions de caducitat del compte.
+ * 
+ * Utilitza una plantilla HTML estilitzada amb colors corporatius per a una millor experiència d'usuari.
+ * També adjunta el logotip de l'empresa mitjançant CID per mostrar-lo en el cos del correu.
+ * 
+ * Els paràmetres de configuració del servidor SMTP es defineixen en el fitxer `application.properties`.
+ * 
+ * Exemple de dependència:
+ * {@code spring.mail.username=example@entrebicis.cat}
+ * 
  * @author carlo
  */
 @Service
@@ -23,9 +29,20 @@ public class EmailLogic {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")  // Carga el correo del remitente desde application.properties
+    /**
+     * Adreça de correu electrònic configurada com a remitent.
+     * Obtinguda des de `spring.mail.username` del fitxer de configuració.
+     */
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
+    /**
+     * Envia un correu electrònic amb un codi de recuperació de contrasenya.
+     * El missatge conté un disseny professional i el logotip de l'aplicació.
+     *
+     * @param to    Adreça de correu electrònic del destinatari.
+     * @param token Codi únic de recuperació de contrasenya que l'usuari haurà d'introduir.
+     */
     public void sendPasswordResetEmail(String to, String token) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -35,21 +52,19 @@ public class EmailLogic {
             helper.setTo(to);
             helper.setSubject("Recuperación de contraseña");
 
-            // Cuerpo del correo con HTML, usando "cid:logoImage" para referenciar la imagen adjunta
-            String htmlContent = "<html>" +
-                    "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>" +
-                    "<div style='max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; text-align: center;'>" +
-                    "<img src='cid:logoImage' alt='Logo de AdMe' style='width: 100px; margin-bottom: 20px;'>" +
-                    "<h2 style='color: #FFA500;'>Recuperación de Contraseña</h2>" +
-                    "<p style='color: #333;'>Has solicitado restablecer tu contraseña. Usa el siguiente código:</p>" +
-                    "<h3 style='color: #FFA500; font-size: 22px;'>" + token + "</h3>" +
-                    "<p style='color: #555;'>Si no solicitaste este cambio, ignora este correo.</p>" +
-                    "</div>" +
-                    "</body></html>";
+            String htmlContent = "<html>"
+                    + "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 30px;'>"
+                    + "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 40px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);'>"
+                    + "<img src='cid:logoImage' alt='Logo EntreBicis' style='width: 100px; margin-bottom: 25px;' />"
+                    + "<h2 style='color: #2e7d32; margin-bottom: 10px;'>Recuperació de Contrasenya</h2>"
+                    + "<p style='color: #333; font-size: 16px; margin-bottom: 25px;'>Has sol·licitat restablir la teva contrasenya. Introdueix el següent codi per continuar:</p>"
+                    + "<div style='font-size: 26px; color: #2e7d32; font-weight: bold; padding: 10px 20px; background-color: #e8f5e9; display: inline-block; border-radius: 8px; letter-spacing: 2px;'>"
+                    + token + "</div>"
+                    + "<p style='color: #555; font-size: 14px; margin-top: 30px;'>Si no has fet aquesta sol·licitud, pots ignorar aquest correu.</p>"
+                    + "</div>"
+                    + "</body></html>";
 
-            helper.setText(htmlContent, true);  // Indicamos que es HTML
-
-            // Adjuntar la imagen desde la carpeta resources
+            helper.setText(htmlContent, true);
             ClassPathResource logo = new ClassPathResource("static/images/EntreBicisLogoWB.png");
             helper.addInline("logoImage", logo);
 
@@ -60,7 +75,13 @@ public class EmailLogic {
             System.out.println("Error al enviar correo: " + e.getMessage());
         }
     }
-    
+
+    /**
+     * Envia un correu informant a l'usuari que el seu compte ha caducat.
+     * Aquest missatge pot animar l'usuari a restablir la contrasenya o contactar amb suport.
+     *
+     * @param to Adreça de correu electrònic del destinatari.
+     */
     public void sendExpirationMessage(String to) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -68,22 +89,19 @@ public class EmailLogic {
 
             helper.setFrom(fromEmail);
             helper.setTo(to);
-            helper.setSubject("Informacion de cuenta");
+            helper.setSubject("Informació de compte");
 
-            // Cuerpo del correo con HTML, usando "cid:logoImage" para referenciar la imagen adjunta
-            String htmlContent = "<html>" +
-                    "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>" +
-                    "<div style='max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; text-align: center;'>" +
-                    "<img src='cid:logoImage' alt='Logo de AdMe' style='width: 100px; margin-bottom: 20px;'>" +
-                    "<h2 style='color: #FFA500;'>Informacion del estado de la cuenta</h2>" +
-                    "<p style='color: #333;'>Le informamos que su cuenta de AdMe asociada a este correo ha caducado, reestablezca su contraseña para acceder de nuevo</p>" +
-                    "</div>" +
-                    "</body></html>";
+            String htmlContent = "<html>"
+                    + "<body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>"
+                    + "<div style='max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; text-align: center;'>"
+                    + "<img src='cid:logoImage' alt='Logo de EntreBicis' style='width: 100px; margin-bottom: 20px;'>"
+                    + "<h2 style='color: #2e7d32;'>Informació de l'estat del compte</h2>"
+                    + "<p style='color: #333;'>T'informem que el teu compte ha caducat. Si vols continuar utilitzant l'aplicació, restableix la teva contrasenya.</p>"
+                    + "</div>"
+                    + "</body></html>";
 
-            helper.setText(htmlContent, true);  // Indicamos que es HTML
-
-            // Adjuntar la imagen desde la carpeta resources
-            ClassPathResource logo = new ClassPathResource("/images/ic_logo.png");
+            helper.setText(htmlContent, true);
+            ClassPathResource logo = new ClassPathResource("static/images/EntreBicisLogoWB.png");
             helper.addInline("logoImage", logo);
 
             mailSender.send(message);

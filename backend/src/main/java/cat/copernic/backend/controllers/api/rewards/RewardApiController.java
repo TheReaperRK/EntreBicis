@@ -26,7 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * Controlador REST per gestionar les recompenses des del frontend mòbil.
+ * Permet consultar recompenses disponibles, veure detalls, obtenir recompenses d’un usuari,
+ * així com sol·licitar i recollir recompenses, sempre que l’usuari tingui prou saldo.
+ * 
+ * Rutes base: /api/rewards
+ * 
+ * Aquest controlador utilitza l'autenticació per JWT per obtenir l'usuari autenticat.
+ * 
  * @author carlo
  */
 @RestController
@@ -44,12 +51,23 @@ public class RewardApiController {
     @Autowired
     private UserRepo userRepo;
 
+    /**
+     * Obté la llista de recompenses disponibles (estat AVAILABLE).
+     *
+     * @return llista de recompenses que poden ser bescanviades
+     */
     @GetMapping("/list")
     public List<Reward> listRewards() {
         logger.info("Obtenint llista de recompenses disponibles");
         return rewardLogic.getAvailableRewards();
     }
 
+    /**
+     * Obté la llista de totes les recompenses d’un usuari concret.
+     *
+     * @param mail correu electrònic de l’usuari
+     * @return llista de recompenses de l’usuari (reservades, assignades o recollides)
+     */
     @GetMapping("/list/{mail}")
     public List<Reward> listUserRewards(@PathVariable String mail) {
         logger.info("Obtenint recompenses per a l'usuari amb mail: {}", mail);
@@ -59,12 +77,25 @@ public class RewardApiController {
         return rewards;
     }
 
+    /**
+     * Obté els detalls complets d’una recompensa a partir del seu ID.
+     *
+     * @param id identificador de la recompensa
+     * @return objecte {@code Reward} amb tota la informació
+     */
     @GetMapping("/{id}")
     public Reward RewardDetails(@PathVariable Long id) {
         logger.info("Consultant detalls de la recompensa amb ID: {}", id);
         return rewardLogic.getRewardById(id);
     }
 
+    /**
+     * Sol·licita una recompensa. Comprova que l’usuari tingui prou saldo i assigna la recompensa.
+     *
+     * @param id identificador de la recompensa
+     * @param principal context de seguretat amb l'usuari autenticat (JWT)
+     * @return resposta 200 si es pot sol·licitar, o error si no té saldo suficient o es produeix un error
+     */
     @PostMapping("/{id}/request")
     @ResponseBody
     public ResponseEntity<?> solicitarRecompensa(@PathVariable Long id, Principal principal) {
@@ -92,6 +123,13 @@ public class RewardApiController {
         }
     }
 
+    /**
+     * Marca una recompensa com a recollida per part de l’usuari autenticat.
+     *
+     * @param id identificador de la recompensa
+     * @param principal context de seguretat amb l'usuari autenticat (JWT)
+     * @return resposta 200 si es pot marcar com recollida, o error si falla
+     */
     @PostMapping("/{id}/take")
     @ResponseBody
     public ResponseEntity<?> recollirRecompensa(@PathVariable Long id, Principal principal) {
@@ -113,3 +151,4 @@ public class RewardApiController {
         }
     }
 }
+

@@ -25,7 +25,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ * Controlador per gestionar l’autenticació i registre d’usuaris per la interfície web.
+ * Inclou accés a les vistes de login i registre, validació de credencials d’administradors,
+ * creació de sessions i tancament de sessió.
+ * 
+ * Aquesta classe només s’utilitza per la part web (no per l’app mòbil).
+ * 
+ * Ruta base: /
+ * 
  * @author carlo
  */
 @Controller
@@ -50,12 +57,25 @@ public class AuthController {
         this.encoder = encoder;
     }
 
+    /**
+     * Mostra la vista de login web.
+     * 
+     * @return ruta de la plantilla de login HTML
+     */
     @GetMapping("/login")
     public String login() {
         logger.info("Acceso a la vista de login");
         return "/auth/login";
     }
 
+    /**
+     * Endpoint per processar el login des de l’entorn web.
+     * Només permet iniciar sessió si l’usuari té rol ADMIN.
+     *
+     * @param email correu electrònic introduït al formulari
+     * @param word contrasenya introduïda
+     * @return resposta amb claus de sessió si es valida, error 401 si les credencials no són vàlides
+     */
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<?> loginWeb(@RequestParam String email, @RequestParam String word) {
@@ -64,7 +84,7 @@ public class AuthController {
         try {
             User user = userLogic.authUser(email, word);
 
-            if (user != null) {
+            if (user != null && user.getRole() == Role.ADMIN) {
                 logger.info("Autenticación exitosa para {}", email);
                 UserSession sessio = userSessionLogic.createSession(email);
                 return ResponseEntity.ok(Map.of(
@@ -81,6 +101,12 @@ public class AuthController {
         }
     }
 
+    /**
+     * Mostra el formulari de registre d’usuari.
+     * 
+     * @param model model de la vista amb un usuari buit per al binding
+     * @return ruta de la plantilla de registre HTML
+     */
     @GetMapping("/register")
     public String registerForm(Model model) {
         logger.info("Acceso a la vista de registro");
@@ -88,6 +114,13 @@ public class AuthController {
         return "/auth/register";
     }
 
+    /**
+     * Endpoint per registrar un nou usuari des de la web.
+     * La contrasenya es codifica i s’assigna el rol per defecte USER.
+     *
+     * @param user objecte {@code User} provinent del formulari
+     * @return redirecció al login amb indicador de registre correcte
+     */
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
         logger.info("Registrando nuevo usuario con email: {}", user.getMail());
@@ -97,6 +130,12 @@ public class AuthController {
         return "redirect:/login?registered";
     }
 
+    /**
+     * Endpoint per tancar la sessió web de l’usuari.
+     * 
+     * @param session objecte {@code HttpSession} a invalidar
+     * @return redirecció a login amb paràmetre de logout
+     */
     @GetMapping("/auth/logout")
     public String logout(HttpSession session) {
         logger.info("Cierre de sesión");

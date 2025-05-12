@@ -28,7 +28,14 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
+ * Entitat que representa un usuari dins del sistema.
+ * Els usuaris poden ser ciclistes (rol USER) o administradors (rol ADMIN),
+ * i poden estar associats a rutes, recompenses, imatges de perfil i altra informació personal.
  *
+ * També es fa servir per processos d’autenticació, registre i gestió de sessions.
+ *
+ * L’atribut `mail` actua com identificador únic (primary key).
+ * 
  * @author carlo
  */
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -39,42 +46,89 @@ import lombok.experimental.SuperBuilder;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
+    /**
+     * Correu electrònic de l’usuari. És la clau primària.
+     */
     @Id
     @Column(unique = true, nullable = false)
     private String mail;
 
+    /**
+     * Nom de l’usuari.
+     */
     private String name;
 
+    /**
+     * Cognoms de l’usuari.
+     */
     private String surnames;
 
+    /**
+     * Població de residència de l’usuari.
+     */
     private String population;
 
+    /**
+     * Telèfon de contacte.
+     */
     private String phone_number;
 
+    /**
+     * Rol de l’usuari (USER o ADMIN).
+     */
     private Role role;
 
+    /**
+     * Contrasenya codificada.
+     */
     private String word;
 
+    /**
+     * Saldo actual de punts de l’usuari.
+     */
     private double balance;
 
-    private String resetToken; // Token para restablecer contraseña
+    /**
+     * Token temporal per restablir contrasenya.
+     */
+    private String resetToken;
 
+    /**
+     * Imatge de perfil guardada com array de bytes.
+     */
     @Lob
     private byte[] image;
 
+    /**
+     * Observacions opcionals sobre l’usuari.
+     */
     @Lob
     private String observations;
 
+    /**
+     * Llista de recompenses associades a aquest usuari.
+     * Relació OneToMany amb Reward.
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Reward> reward = new ArrayList<>();
 
+    /**
+     * Llista de rutes realitzades per aquest usuari.
+     * Relació OneToMany amb Route.
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Route> route = new ArrayList<>();
 
+    // Getters & Setters
+
     public Role getRole() {
         return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getImageBase64() {
@@ -169,10 +223,6 @@ public class User {
         this.route = route;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public String getResetToken() {
         return resetToken;
     }
@@ -180,5 +230,5 @@ public class User {
     public void setResetToken(String resetToken) {
         this.resetToken = resetToken;
     }
-
 }
+

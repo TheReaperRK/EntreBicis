@@ -32,6 +32,7 @@ cat\copernic\backend\entity\enums\State.class
 cat\copernic\backend\config\JwtAuthenticationFilter.class
 cat\copernic\backend\logic\RouteService.class
 cat\copernic\backend\logic\UserSessionLogic.class
+cat\copernic\backend\controllers\api\auth\AuthApiControllers.class
 cat\copernic\backend\logic\SystemParametersLogic.class
 cat\copernic\backend\repository\UserSessionRepo.class
 cat\copernic\backend\entity\GpsPoint$GpsPointBuilder.class
@@ -39,7 +40,6 @@ cat\copernic\backend\entity\enums\Validation.class
 cat\copernic\backend\entity\User$UserBuilderImpl.class
 cat\copernic\backend\logic\UserLogic.class
 cat\copernic\backend\entity\User.class
-cat\copernic\backend\controllers\auth\apiControllers\AuthApiControllers.class
 cat\copernic\backend\repository\UserRepo.class
 cat\copernic\backend\entity\DTO\GpsPointDTO.class
 cat\copernic\backend\entity\enums\Role.class

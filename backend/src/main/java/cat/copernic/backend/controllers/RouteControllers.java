@@ -28,7 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- *
+ * Controlador per gestionar les rutes (web admin).
+ * Permet llistar totes les rutes, veure'n el detall, validar-les o invalidar-les manualment.
+ * Les validacions afecten directament al saldo del ciclista.
+ * 
+ * Aquesta funcionalitat és exclusiva per a l'administrador.
+ * 
  * @author carlo
  */
 @Controller
@@ -49,6 +54,12 @@ public class RouteControllers {
     @Autowired
     private RouteService routeService;
 
+    /**
+     * Mostra la llista completa de rutes registrades al sistema.
+     *
+     * @param model model utilitzat per passar la llista de rutes a la vista
+     * @return vista de llista de rutes
+     */
     @GetMapping("/list")
     public String listRoutes(Model model) {
         logger.info("Consulta de llista completa de rutes");
@@ -57,6 +68,13 @@ public class RouteControllers {
         return "routes/routes-list";
     }
 
+    /**
+     * Mostra les rutes registrades per un usuari específic.
+     *
+     * @param mail correu de l'usuari
+     * @param model model per passar dades a la vista
+     * @return vista de llista de rutes per usuari
+     */
     @GetMapping("/list/{mail}")
     public String mostrarRutesPerUsuari(@PathVariable String mail, Model model) {
         logger.info("Consulta de rutes per a l'usuari {}", mail);
@@ -71,6 +89,14 @@ public class RouteControllers {
         return "routes/routes-list";
     }
 
+    /**
+     * Mostra el detall d'una ruta concreta, incloent els punts GPS i càlculs relacionats amb la velocitat màxima.
+     *
+     * @param id identificador de la ruta
+     * @param mail correu de l'usuari (opcional, per mostrar context)
+     * @param model model per passar dades a la vista
+     * @return vista amb el detall de la ruta
+     */
     @GetMapping("/view/{id}")
     public String viewRoute(@PathVariable("id") Long id, @RequestParam(required = false) String mail, Model model) {
         logger.info("Visualització de detall de ruta amb id {}", id);
@@ -95,8 +121,18 @@ public class RouteControllers {
         return "routes/route-detail";
     }
 
+    /**
+     * Acció per validar una ruta. L'estat passa a VALIDATED i s'incrementa el saldo de l'usuari.
+     *
+     * @param id identificador de la ruta
+     * @param mail correu de l'usuari (opcional, per redirigir a la seva vista)
+     * @param redirectAttributes missatges flash de resultat per a la vista
+     * @return redirecció a la vista de detall de la ruta
+     */
     @PostMapping("/validate/{id}")
-    public String validateRoute(@PathVariable Long id, @RequestParam(required = false) String mail, RedirectAttributes redirectAttributes) {
+    public String validateRoute(@PathVariable Long id,
+                                @RequestParam(required = false) String mail,
+                                RedirectAttributes redirectAttributes) {
         logger.info("Intent de validació de la ruta amb id {}", id);
         try {
             Route route = routeService.getRouteById(id);
@@ -118,8 +154,19 @@ public class RouteControllers {
         return (mail != null) ? "redirect:/routes/view/" + id + "?mail=" + mail : "redirect:/routes/view/" + id;
     }
 
+    /**
+     * Acció per invalidar una ruta. Si ja estava validada, es resta el saldo generat a l'usuari.
+     * Si no té saldo suficient, no es pot invalidar.
+     *
+     * @param id identificador de la ruta
+     * @param mail correu de l’usuari (opcional, per redirigir a la seva vista)
+     * @param redirectAttributes missatges flash de resultat per a la vista
+     * @return redirecció a la vista de detall de la ruta
+     */
     @PostMapping("/invalidate/{id}")
-    public String invalidateRoute(@PathVariable Long id, @RequestParam(required = false) String mail, RedirectAttributes redirectAttributes) {
+    public String invalidateRoute(@PathVariable Long id,
+                                  @RequestParam(required = false) String mail,
+                                  RedirectAttributes redirectAttributes) {
         logger.info("Intent d'invalidació de la ruta amb id {}", id);
         try {
             Route route = routeService.getRouteById(id);
@@ -129,7 +176,8 @@ public class RouteControllers {
 
                 if (user.getBalance() < route.getGenerated_balance()) {
                     logger.warn("No es pot invalidar la ruta amb id {} per saldo insuficient de l'usuari {}", id, user.getMail());
-                    redirectAttributes.addFlashAttribute("errorMessage", "La ruta no pot ser invalidada, ja que l'usuari no compta amb els punts suficients per restar-li.");
+                    redirectAttributes.addFlashAttribute("errorMessage",
+                            "La ruta no pot ser invalidada, ja que l'usuari no compta amb els punts suficients per restar-li.");
                     return "redirect:/routes/view/" + id;
                 }
 

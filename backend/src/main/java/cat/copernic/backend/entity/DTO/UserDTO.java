@@ -5,12 +5,23 @@
 package cat.copernic.backend.entity.DTO;
 
 /**
- *
+ * DTO senzill que representa un usuari amb les seves dades mínimes essencials:
+ * correu electrònic i nom. Aquest objecte s’utilitza habitualment per retornar
+ * informació de l’usuari autenticat (login) sense exposar dades sensibles.
+ * 
+ * Exemple d'ús:
+ * - LoginResponse
+ * - Validació de token
+ * - Navegació bàsica a la mobile app
+ * 
  * @author carlo
  */
 public class UserDTO {
-   
+
+    /** Correu electrònic de l’usuari (clau principal) */
     private String mail;
+
+    /** Nom de l’usuari */
     private String name;
 
     public String getMail() {
@@ -29,3 +40,4 @@ public class UserDTO {
         this.name = name;
     }
 }
+

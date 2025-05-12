@@ -4,10 +4,10 @@ C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\cope
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtKeyProvider.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\JwtUtil.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\config\SecurityConfig.java
+C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\api\auth\AuthApiControllers.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\api\rewards\RewardApiController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\api\route\RouteApiController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\api\user\UserApiController.java
-C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\auth\apiControllers\AuthApiControllers.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\auth\AuthController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\RewardController.java
 C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\src\main\java\cat\copernic\backend\controllers\RouteControllers.java

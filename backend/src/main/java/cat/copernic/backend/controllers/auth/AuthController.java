@@ -30,16 +30,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class AuthController {
-    
+
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AuthController.class);
+
     @Autowired
     private UserRepo userRepo;
-    
+
     @Autowired
     private BCryptPasswordEncoder encoder;
-    
+
     @Autowired
     private UserSessionLogic userSessionLogic;
-    
+
     @Autowired
     private UserLogic userLogic;
 
@@ -50,47 +52,55 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-      //  userLogic.createSampleUser();
+        logger.info("Acceso a la vista de login");
         return "/auth/login";
     }
-    
+
     @PostMapping("/login")
-    @ResponseBody 
+    @ResponseBody
     public ResponseEntity<?> loginWeb(@RequestParam String email, @RequestParam String word) {
+        logger.info("Intentando iniciar sesión para el usuario {}", email);
 
-        
-        User user = userLogic.authUser(email, word);
+        try {
+            User user = userLogic.authUser(email, word);
 
-        System.out.println(user);
-        if (user != null) {
-            System.out.println("in");
-            UserSession sessio = userSessionLogic.createSession(email);
-            return ResponseEntity.ok(Map.of(
-                    "email", email,
-                    "sessionKey", sessio.getSessionKey()
-            ));
+            if (user != null) {
+                logger.info("Autenticación exitosa para {}", email);
+                UserSession sessio = userSessionLogic.createSession(email);
+                return ResponseEntity.ok(Map.of(
+                        "email", email,
+                        "sessionKey", sessio.getSessionKey()
+                ));
+            } else {
+                logger.warn("Fallo de autenticación para {}", email);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales incorrectas"));
+            }
+        } catch (Exception e) {
+            logger.error("Error durante la autenticación de {}: {}", email, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error interno"));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales incorrectas"));
     }
-   
+
     @GetMapping("/register")
     public String registerForm(Model model) {
+        logger.info("Acceso a la vista de registro");
         model.addAttribute("user", new User());
         return "/auth/register";
     }
 
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
+        logger.info("Registrando nuevo usuario con email: {}", user.getMail());
         user.setWord(encoder.encode(user.getWord()));
-        user.setRole(Role.USER); // Por defecto
+        user.setRole(Role.USER);
         userRepo.save(user);
         return "redirect:/login?registered";
     }
-    
-    
+
     @GetMapping("/auth/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // 🔐 Invalida la sessió
-        return "redirect:/login?logout"; // 🔁 Redirigeix al login
+        logger.info("Cierre de sesión");
+        session.invalidate();
+        return "redirect:/login?logout";
     }
 }

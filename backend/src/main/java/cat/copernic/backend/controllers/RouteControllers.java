@@ -35,6 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/routes")
 public class RouteControllers {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(RouteControllers.class);
+
     @Autowired
     private RouteRepo routeRepo;
 
@@ -49,6 +51,7 @@ public class RouteControllers {
 
     @GetMapping("/list")
     public String listRoutes(Model model) {
+        logger.info("Consulta de llista completa de rutes");
         List<RouteUserSpeedDistanceDTO> routes = routeService.getAllRoutesAsDTO();
         model.addAttribute("routes", routes);
         return "routes/routes-list";
@@ -56,71 +59,94 @@ public class RouteControllers {
 
     @GetMapping("/list/{mail}")
     public String mostrarRutesPerUsuari(@PathVariable String mail, Model model) {
-        User user = userRepo.getById(mail);
-
-        List<RouteUserSpeedDistanceDTO> routes = routeService.getAllUserRoutesAsDTO(user);
-        model.addAttribute("routes", routes);
-        model.addAttribute("mail", mail); // ✅ pasamos el correo al modelo
-
-        return "routes/routes-list"; //el mateix que usem per la llista normal
+        logger.info("Consulta de rutes per a l'usuari {}", mail);
+        try {
+            User user = userRepo.getById(mail);
+            List<RouteUserSpeedDistanceDTO> routes = routeService.getAllUserRoutesAsDTO(user);
+            model.addAttribute("routes", routes);
+            model.addAttribute("mail", mail);
+        } catch (Exception e) {
+            logger.error("Error en carregar rutes de l'usuari {}: {}", mail, e.getMessage());
+        }
+        return "routes/routes-list";
     }
 
     @GetMapping("/view/{id}")
     public String viewRoute(@PathVariable("id") Long id, @RequestParam(required = false) String mail, Model model) {
-        Route route = routeService.getRouteById(id);
-        List<GpsPoint> gpsPoints = gpsPointRepo.findByRoute(route);
+        logger.info("Visualització de detall de ruta amb id {}", id);
+        try {
+            Route route = routeService.getRouteById(id);
+            List<GpsPoint> gpsPoints = gpsPointRepo.findByRoute(route);
 
-        model.addAttribute("route", route);
-        model.addAttribute("mail", mail); // ✅ pasamos el correo al modelo
-        model.addAttribute("velocitatMaxima", routeService.calcularVelocitatMaxima(route));
-        System.out.println(routeService.calcularVelocitatMaxima(route));
-        model.addAttribute("velocitatMaximaColor", routeService.obtenirColorVelocitatMaxima(route));
+            model.addAttribute("route", route);
+            model.addAttribute("mail", mail);
+            model.addAttribute("velocitatMaxima", routeService.calcularVelocitatMaxima(route));
+            model.addAttribute("velocitatMaximaColor", routeService.obtenirColorVelocitatMaxima(route));
 
-        List<GpsPointDTOLight> gpsPointDTOs = gpsPointRepo.findByRoute(route).stream()
-                .map(p -> new GpsPointDTOLight(p.getLatitud().doubleValue(), p.getLongitud().doubleValue()))
-                .toList();
-        model.addAttribute("gpsPoints", gpsPointDTOs);
+            List<GpsPointDTOLight> gpsPointDTOs = gpsPoints.stream()
+                    .map(p -> new GpsPointDTOLight(p.getLatitud().doubleValue(), p.getLongitud().doubleValue()))
+                    .toList();
+
+            model.addAttribute("gpsPoints", gpsPointDTOs);
+        } catch (Exception e) {
+            logger.error("Error en mostrar ruta amb id {}: {}", id, e.getMessage());
+        }
 
         return "routes/route-detail";
     }
 
     @PostMapping("/validate/{id}")
     public String validateRoute(@PathVariable Long id, @RequestParam(required = false) String mail, RedirectAttributes redirectAttributes) {
-        Route route = routeService.getRouteById(id);
+        logger.info("Intent de validació de la ruta amb id {}", id);
+        try {
+            Route route = routeService.getRouteById(id);
+            User user = route.getUser();
 
-        User user = route.getUser();
-        user.setBalance(user.getBalance() + route.getGenerated_balance());
+            user.setBalance(user.getBalance() + route.getGenerated_balance());
+            route.setValidation_state(Validation.VALIDATED);
 
-        route.setValidation_state(Validation.VALIDATED);
+            routeRepo.save(route);
+            userRepo.save(user);
 
-        routeRepo.save(route);
-        userRepo.save(user);
-
-        redirectAttributes.addFlashAttribute("successMessage", "La ruta s'ha validat correctament.");
+            logger.info("Ruta amb id {} validada correctament per l'usuari {}", id, user.getMail());
+            redirectAttributes.addFlashAttribute("successMessage", "La ruta s'ha validat correctament.");
+        } catch (Exception e) {
+            logger.error("Error en validar la ruta amb id {}: {}", id, e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error en validar la ruta.");
+        }
 
         return (mail != null) ? "redirect:/routes/view/" + id + "?mail=" + mail : "redirect:/routes/view/" + id;
     }
 
     @PostMapping("/invalidate/{id}")
     public String invalidateRoute(@PathVariable Long id, @RequestParam(required = false) String mail, RedirectAttributes redirectAttributes) {
-        Route route = routeService.getRouteById(id);
+        logger.info("Intent d'invalidació de la ruta amb id {}", id);
+        try {
+            Route route = routeService.getRouteById(id);
 
-        if (route.getValidation_state() == Validation.VALIDATED) {
-            User user = route.getUser();
+            if (route.getValidation_state() == Validation.VALIDATED) {
+                User user = route.getUser();
 
-            if (user.getBalance() < route.getGenerated_balance()) {
-                redirectAttributes.addFlashAttribute("errorMessage", "La ruta no pot ser invalidada, ja que l'usuari no compta amb els punts suficients per restar-li.");
-                return "redirect:/routes/view/" + id;
+                if (user.getBalance() < route.getGenerated_balance()) {
+                    logger.warn("No es pot invalidar la ruta amb id {} per saldo insuficient de l'usuari {}", id, user.getMail());
+                    redirectAttributes.addFlashAttribute("errorMessage", "La ruta no pot ser invalidada, ja que l'usuari no compta amb els punts suficients per restar-li.");
+                    return "redirect:/routes/view/" + id;
+                }
+
+                user.setBalance(user.getBalance() - route.getGenerated_balance());
+                userRepo.save(user);
             }
 
-            user.setBalance(user.getBalance() - route.getGenerated_balance());
-            userRepo.save(user);
+            route.setValidation_state(Validation.INVALIDATED);
+            routeRepo.save(route);
+
+            logger.info("Ruta amb id {} invalidada correctament", id);
+            redirectAttributes.addFlashAttribute("successMessage", "La ruta s'ha invalidat correctament.");
+        } catch (Exception e) {
+            logger.error("Error en invalidar la ruta amb id {}: {}", id, e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error en invalidar la ruta.");
         }
 
-        route.setValidation_state(Validation.INVALIDATED);
-        routeRepo.save(route);
-
-        redirectAttributes.addFlashAttribute("successMessage", "La ruta s'ha invalidat correctament.");
         return (mail != null) ? "redirect:/routes/view/" + id + "?mail=" + mail : "redirect:/routes/view/" + id;
     }
 }

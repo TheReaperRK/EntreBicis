@@ -18,29 +18,32 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/users")
 public class UserController {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserLogic userLogic;
 
-    // ✅ Lista de usuarios
     @GetMapping("/list")
     public String listClients(Model model) {
+        logger.info("Accés a la llista d'usuaris");
         model.addAttribute("users", userLogic.getAllUsers());
         return "user/users-list";
     }
 
-    // ✅ Formulario de creación
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("user", new User()); // objeto vacío
-        model.addAttribute("formMode", "create"); // ⚠️ Esto faltaba
+        logger.info("Accés al formulari de creació d'usuari");
+        model.addAttribute("user", new User());
+        model.addAttribute("formMode", "create");
         return "user/user-form";
     }
 
-    // ✅ Formulario de edición
     @GetMapping("/edit/{mail}")
     public String showEditForm(@PathVariable("mail") String mail, Model model) {
+        logger.info("Accés al formulari d'edició per a l'usuari: {}", mail);
         User user = userLogic.getUserByMail(mail);
         if (user == null) {
+            logger.warn("Intent d'accedir a un usuari inexistent: {}", mail);
             return "redirect:/users/list";
         }
         model.addAttribute("user", user);
@@ -53,18 +56,19 @@ public class UserController {
             @RequestParam("imageFile") MultipartFile imageFile,
             @RequestParam(value = "observations", required = false) String observations,
             Model model) {
+        logger.info("Intent de creació d'usuari amb correu: {}", user.getMail());
 
         if (user.getWord() == null || user.getWord().isBlank()) {
-            model.addAttribute("user", user);
-            model.addAttribute("formMode", "create");
+            logger.warn("Creació fallida: contrasenya buida");
             model.addAttribute("error", "La contrasenya és obligatòria.");
+            model.addAttribute("formMode", "create");
             return "user/user-form";
         }
 
         if (user.getMail() == null || user.getMail().isBlank()) {
-            model.addAttribute("user", user);
-            model.addAttribute("formMode", "create");
+            logger.warn("Creació fallida: correu electrònic buit");
             model.addAttribute("error", "El correu electrònic és obligatori.");
+            model.addAttribute("formMode", "create");
             return "user/user-form";
         }
 
@@ -77,17 +81,16 @@ public class UserController {
                 user.setObservations(observations);
             }
 
-            System.out.println((userLogic.findUserByMail(user.getMail())));
             if (userLogic.findUserByMail(user.getMail()).isPresent()) {
+                logger.warn("Creació fallida: usuari ja existeix amb correu {}", user.getMail());
                 model.addAttribute("error", "Ja existeix un Usuari amb aquest correu");
             } else {
-                System.out.println(user);
                 userLogic.saveWithEncoder(user);
+                logger.info("Usuari creat correctament: {}", user.getMail());
                 return "redirect:/users/list";
             }
-
         } catch (IOException e) {
-            System.out.println("excepcion");
+            logger.error("Error al pujar la imatge per a l'usuari {}: {}", user.getMail(), e.getMessage());
             model.addAttribute("error", "Error en pujar la imatge.");
         }
 
@@ -96,39 +99,35 @@ public class UserController {
         return "user/user-form";
     }
 
-    //edit user
     @PostMapping("/edit/{mail}")
     public String editUser(@PathVariable("mail") String mail,
             @ModelAttribute User user,
             @RequestParam("imageFile") MultipartFile imageFile,
             @RequestParam(value = "observations", required = false) String observations,
             Model model) {
+        logger.info("Edició d'usuari: {}", mail);
         User existingUser = userLogic.getUserByMail(mail);
         if (existingUser == null) {
+            logger.warn("Intent d'editar un usuari inexistent: {}", mail);
             return "redirect:/users/list";
         }
 
-        // Mantenim valors antics
         user.setWord(existingUser.getWord());
         user.setMail(existingUser.getMail());
 
         try {
-            // Actualitza imatge si se selecciona nova
             if (!imageFile.isEmpty()) {
                 user.setImage(imageFile.getBytes());
             } else {
                 user.setImage(existingUser.getImage());
             }
 
-            // Observacions
-            if (observations != null) {
-                user.setObservations(observations);
-            } else {
-                user.setObservations(existingUser.getObservations());
-            }
+            user.setObservations(observations != null ? observations : existingUser.getObservations());
 
             userLogic.saveUser(user);
+            logger.info("Usuari editat correctament: {}", mail);
         } catch (IOException e) {
+            logger.error("Error al pujar la imatge de l'usuari {}: {}", mail, e.getMessage());
             model.addAttribute("error", "Error en pujar la imatge.");
             model.addAttribute("user", user);
             model.addAttribute("formMode", "edit");
@@ -140,6 +139,7 @@ public class UserController {
 
     @GetMapping("/api/users/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        logger.info("Consulta d'usuari per API: {}", email);
         User usuari = userLogic.getUserByMail(email);
         return ResponseEntity.ok(usuari);
     }

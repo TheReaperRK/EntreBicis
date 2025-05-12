@@ -26,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/rewards")
 public class RewardController {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(RewardController.class);
+
     @Autowired
     private RewardLogic rewardLogic;
 
@@ -41,15 +43,18 @@ public class RewardController {
     // ✅ Lista de recompensas
     @GetMapping("/list")
     public String listRewards(Model model) {
+        logger.info("Visualització de la llista de recompenses (admin)");
         model.addAttribute("rewards", rewardLogic.getAllRewards());
         model.addAttribute("showCreateButton", true);
         model.addAttribute("userMail", null);
-        
+
         return "rewards/rewards-list";
     }
 
     @GetMapping("/list/{mail}")
     public String listUserRewards(@PathVariable String mail, Model model) {
+        logger.info("Visualització de recompenses per a l'usuari {}", mail);
+
         User user = userRepo.findByMail(mail);
 
         model.addAttribute("rewards", rewardLogic.getAllUserRewards(user));
@@ -61,6 +66,8 @@ public class RewardController {
     // ✅ Formulario de creación
     @GetMapping("/create")
     public String showCreateForm(Model model) {
+        logger.info("Accés al formulari de creació de recompensa");
+
         model.addAttribute("reward", new Reward());
         model.addAttribute("formMode", "create");
         model.addAttribute("users", userLogic.getAllUsers()); // para selector de usuarios
@@ -70,8 +77,12 @@ public class RewardController {
     // ✅ Formulario de edición
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
+        logger.info("Accés al formulari d'edició per la recompensa amb id {}", id);
+
         Reward reward = rewardLogic.getRewardById(id);
         if (reward == null) {
+            logger.warn("Intent d'editar recompensa inexistent amb id {}", id);
+
             return "redirect:/rewards/list";
         }
         model.addAttribute("reward", reward);
@@ -85,6 +96,8 @@ public class RewardController {
     public String createReward(@ModelAttribute Reward reward) {
         reward.setEstat(RewardStatus.AVAILABLE);
         rewardLogic.saveReward(reward);
+        logger.info("Recompensa creada amb nom '{}', assignada a '{}'", reward.getNom(), reward.getUser() != null ? reward.getUser().getMail() : "cap");
+
         return "redirect:/rewards/list";
     }
 
@@ -93,6 +106,8 @@ public class RewardController {
     public String editReward(@PathVariable("id") Long id, @ModelAttribute Reward reward) {
         reward.setId(id); // asegúrate de mantener el ID
         rewardLogic.saveReward(reward);
+        logger.info("Recompensa editada amb id {}", id);
+
         return "redirect:/rewards/list";
     }
 
@@ -103,8 +118,12 @@ public class RewardController {
 
         if (rewardLogic.deleteable(id)) {
             rewardLogic.deleteReward(id);
+            logger.info("Recompensa amb id {} eliminada correctament", id);
+
             redirectAttributes.addFlashAttribute("successMessage", "Recompensa esborrada correctament");
         } else {
+            logger.warn("Intent d'esborrar recompensa amb id {} no permès (assignada a un usuari)", id);
+
             redirectAttributes.addFlashAttribute("errorMessage", "La recompensa no pot ser esborrada, ja que està assignada a un usuari");
         }
 
@@ -115,15 +134,19 @@ public class RewardController {
     public String acceptReward(@PathVariable("id") Long id,
             @RequestParam(required = false) String mail) {
         Reward reward = rewardLogic.getRewardById(id);
-        User user = reward.getUser();
+        if (reward == null) {
+            logger.error("No s'ha trobat la recompensa amb id {}", id);
+            return (mail != null) ? "redirect:/rewards/list/" + mail : "redirect:/rewards/list";
+        }
 
+        User user = reward.getUser();
         reward.setEstat(RewardStatus.ACCEPTED);
         reward.setDataSolicitud(LocalDateTime.now());
-
         rewardLogic.rewardAccept(id, user);
         rewardRepo.save(reward);
 
+        logger.info("Recompensa amb id {} acceptada per l'usuari {}", id, user != null ? user.getMail() : "desconegut");
+
         return (mail != null) ? "redirect:/rewards/list/" + mail : "redirect:/rewards/list";
     }
-
 }

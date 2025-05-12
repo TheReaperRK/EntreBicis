@@ -11,6 +11,8 @@ import cat.copernic.backend.logic.UserLogic;
 import cat.copernic.backend.repository.UserRepo;
 import java.security.Principal;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,38 +29,39 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author carlo
  */
-@RestController // 👈 importante para API REST
+@RestController
 @RequestMapping("/api/rewards")
 public class RewardApiController {
+
+    private static final Logger logger = LoggerFactory.getLogger(RewardApiController.class);
 
     @Autowired
     private RewardLogic rewardLogic;
 
     @Autowired
-    private UserLogic userLogic; // Necesario si quieres seleccionar usuario en el formulario
+    private UserLogic userLogic;
 
     @Autowired
     private UserRepo userRepo;
 
-    // ✅ Lista de recompensas
     @GetMapping("/list")
     public List<Reward> listRewards() {
+        logger.info("Obtenint llista de recompenses disponibles");
         return rewardLogic.getAvailableRewards();
     }
 
     @GetMapping("/list/{mail}")
     public List<Reward> listUserRewards(@PathVariable String mail) {
-
+        logger.info("Obtenint recompenses per a l'usuari amb mail: {}", mail);
         User user = userRepo.findByMail(mail);
-
-        System.out.println(rewardLogic.getAllUserRewards(user));
-
-        return rewardLogic.getAllUserRewards(user);
+        List<Reward> rewards = rewardLogic.getAllUserRewards(user);
+        logger.debug("Recompenses trobades per a {}: {}", mail, rewards.size());
+        return rewards;
     }
 
-    // ✅ Lista de recompensas
     @GetMapping("/{id}")
     public Reward RewardDetails(@PathVariable Long id) {
+        logger.info("Consultant detalls de la recompensa amb ID: {}", id);
         return rewardLogic.getRewardById(id);
     }
 
@@ -66,18 +69,24 @@ public class RewardApiController {
     @ResponseBody
     public ResponseEntity<?> solicitarRecompensa(@PathVariable Long id, Principal principal) {
         try {
-            User user = userLogic.getUserByMail(principal.getName());
+            String userMail = principal.getName();
+            logger.info("Usuari {} intenta sol·licitar la recompensa amb ID {}", userMail, id);
+
+            User user = userLogic.getUserByMail(userMail);
             Reward reward = rewardLogic.getRewardById(id);
 
             if (user.getBalance() < reward.getPreu()) {
+                logger.warn("Usuari {} no té prou saldo. Saldo: {}, Preu: {}", userMail, user.getBalance(), reward.getPreu());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Saldo insuficient per bescanviar aquesta recompensa.");
             }
 
-            rewardLogic.rewardRequest(id, user); // Aquí ya puedes cambiar el estado internamente
+            rewardLogic.rewardRequest(id, user);
+            logger.info("Recompensa amb ID {} sol·licitada correctament per {}", id, userMail);
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {
+            logger.error("Error al sol·licitar la recompensa amb ID {}: {}", id, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al sol·licitar la recompensa: " + e.getMessage());
         }
@@ -87,13 +96,18 @@ public class RewardApiController {
     @ResponseBody
     public ResponseEntity<?> recollirRecompensa(@PathVariable Long id, Principal principal) {
         try {
-            User user = userLogic.getUserByMail(principal.getName());
+            String userMail = principal.getName();
+            logger.info("Usuari {} intenta recollir la recompensa amb ID {}", userMail, id);
+
+            User user = userLogic.getUserByMail(userMail);
             Reward reward = rewardLogic.getRewardById(id);
 
-            rewardLogic.rewardTake(id, user); // Aquí ya puedes cambiar el estado internamente
+            rewardLogic.rewardTake(id, user);
+            logger.info("Recompensa amb ID {} recollida correctament per {}", id, userMail);
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {
+            logger.error("Error al recollir la recompensa amb ID {}: {}", id, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al recollir la recompensa: " + e.getMessage());
         }

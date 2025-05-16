@@ -29,8 +29,13 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator; // Asegúrate de importar esto
 
 /**
- *
- * @author carlo
+ * Servicio que gestiona la lógica de negocio relacionada con las rutas.
+ * Incluye operaciones para guardar rutas, convertirlas a DTOs, calcular estadísticas como velocidad máxima,
+ * y obtener rutas por usuario o ID.
+ * 
+ * Este servicio interactúa con las entidades Route, GpsPoint y SystemParameters, y con sus respectivos repositorios.
+ * 
+ * @author Carlo
  */
 @Service
 public class RouteService {
@@ -53,12 +58,23 @@ public class RouteService {
     @Autowired
     private RouteMapper routeMapper;
 
+    /**
+     * Obtiene todas las rutas asociadas a un usuario y las convierte a DTOs simplificados.
+     * 
+     * @param usuari Usuario del cual se desean obtener las rutas.
+     * @return Lista de objetos RouteDtoClear correspondientes a las rutas del usuario.
+     */
     public List<RouteDtoClear> getRoutesByUser(User usuari) {
         List<Route> rutes = routeRepository.findByUser(usuari);
         System.out.println(rutes);
         return rutes.stream().map(routeMapper::toDtoClear).collect(Collectors.toList());
     }
 
+    /**
+     * Guarda una nueva ruta y sus puntos GPS asociados en la base de datos.
+     * 
+     * @param dto DTO de la ruta con datos de distancia, velocidad media, tiempo total, usuario, etc.
+     */
     public void saveRoute(RouteDTO dto) {
         User usuari = usuariRepository.findByMail(dto.getUserEmail());
 

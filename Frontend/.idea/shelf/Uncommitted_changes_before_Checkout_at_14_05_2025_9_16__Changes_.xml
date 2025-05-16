@@ -1,0 +1,20 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_14_05_2025_9_16_[Changes]" date="1747206988488" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_16_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 14/05/2025 9:16 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/EntreBicis-1.0-SNAPSHOT.jar" />
+    <option name="AFTER_PATH" value="../backend/target/EntreBicis-1.0-SNAPSHOT.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_16_[Changes]/EntreBicis-1.0-SNAPSHOT.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/classes/cat/copernic/backend/logic/RouteService.class" />
+    <option name="AFTER_PATH" value="../backend/target/classes/cat/copernic/backend/logic/RouteService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_16_[Changes]/RouteService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" />
+  </binary>
+</changelist>

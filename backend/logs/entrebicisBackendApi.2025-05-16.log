@@ -1,0 +1,24 @@
+2025-05-16 08:27:33 [http-nio-8080-exec-6] INFO  c.c.b.c.api.auth.AuthApiControllers - Intent de login per l'usuari: ciclista@example.com
+2025-05-16 08:27:34 [http-nio-8080-exec-6] INFO  c.c.b.c.api.auth.AuthApiControllers - Login correcte per l'usuari: ciclista@example.com
+2025-05-16 08:27:34 [http-nio-8080-exec-7] INFO  c.c.b.c.a.r.RewardApiController - Obtenint llista de recompenses disponibles
+2025-05-16 08:27:34 [http-nio-8080-exec-1] INFO  c.c.b.c.a.r.RewardApiController - Obtenint llista de recompenses disponibles
+2025-05-16 08:27:50 [http-nio-8080-exec-9] INFO  c.c.b.c.a.r.RewardApiController - Consultant detalls de la recompensa amb ID: 8
+2025-05-16 08:27:53 [http-nio-8080-exec-2] INFO  c.c.b.c.a.r.RewardApiController - Usuari ciclista@example.com intenta sol·licitar la recompensa amb ID 8
+2025-05-16 08:27:53 [http-nio-8080-exec-2] WARN  c.c.b.c.a.r.RewardApiController - Usuari ciclista@example.com no té prou saldo. Saldo: 100.0, Preu: 200.0
+2025-05-16 08:27:59 [http-nio-8080-exec-3] INFO  c.c.b.c.a.r.RewardApiController - Obtenint llista de recompenses disponibles
+2025-05-16 08:28:00 [http-nio-8080-exec-5] INFO  c.c.b.c.a.r.RewardApiController - Consultant detalls de la recompensa amb ID: 7
+2025-05-16 08:28:03 [http-nio-8080-exec-8] INFO  c.c.b.c.a.r.RewardApiController - Usuari ciclista@example.com intenta sol·licitar la recompensa amb ID 7
+2025-05-16 08:28:03 [http-nio-8080-exec-8] INFO  c.c.b.c.a.r.RewardApiController - Recompensa amb ID 7 sol·licitada correctament per ciclista@example.com
+2025-05-16 08:28:03 [http-nio-8080-exec-10] INFO  c.c.b.c.a.r.RewardApiController - Obtenint llista de recompenses disponibles
+2025-05-16 08:28:06 [http-nio-8080-exec-4] INFO  c.c.b.c.api.auth.AuthApiControllers - Petició per obtenir usuari complet amb email: ciclista@example.com
+2025-05-16 08:28:06 [http-nio-8080-exec-4] INFO  c.c.b.c.api.auth.AuthApiControllers - Usuari ciclista@example.com trobat correctament
+2025-05-16 08:28:15 [http-nio-8080-exec-3] INFO  c.c.b.c.api.auth.AuthApiControllers - Petició per obtenir DTO simple de l'usuari: ciclista@example.com
+2025-05-16 08:28:15 [http-nio-8080-exec-3] INFO  c.c.b.c.api.auth.AuthApiControllers - Usuari DTO retornat per: ciclista@example.com
+2025-05-16 08:28:15 [http-nio-8080-exec-5] INFO  c.c.b.c.a.r.RewardApiController - Obtenint llista de recompenses disponibles
+2025-05-16 08:28:17 [http-nio-8080-exec-8] INFO  c.c.b.c.api.auth.AuthApiControllers - Petició per obtenir usuari complet amb email: ciclista@example.com
+2025-05-16 08:28:17 [http-nio-8080-exec-8] INFO  c.c.b.c.api.auth.AuthApiControllers - Usuari ciclista@example.com trobat correctament
+2025-05-16 08:28:32 [http-nio-8080-exec-6] INFO  c.c.b.c.api.auth.AuthApiControllers - Petició per obtenir DTO simple de l'usuari: ciclista@example.com
+2025-05-16 08:28:32 [http-nio-8080-exec-6] INFO  c.c.b.c.api.auth.AuthApiControllers - Usuari DTO retornat per: ciclista@example.com
+2025-05-16 08:28:33 [http-nio-8080-exec-1] INFO  c.c.b.c.a.r.RewardApiController - Obtenint llista de recompenses disponibles
+2025-05-16 08:28:38 [http-nio-8080-exec-2] INFO  c.c.b.c.api.auth.AuthApiControllers - Petició per obtenir usuari complet amb email: ciclista@example.com
+2025-05-16 08:28:38 [http-nio-8080-exec-2] INFO  c.c.b.c.api.auth.AuthApiControllers - Usuari ciclista@example.com trobat correctament

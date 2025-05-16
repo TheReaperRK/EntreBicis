@@ -1,0 +1,24 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_14_05_2025_9_10_[Changes]1" date="1747206629640" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_10_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 14/05/2025 9:10 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/classes/cat/copernic/backend/logic/RewardLogic.class" />
+    <option name="AFTER_PATH" value="../backend/target/classes/cat/copernic/backend/logic/RewardLogic.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_10_[Changes]1/RewardLogic.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/classes/cat/copernic/backend/logic/EmailLogic.class" />
+    <option name="AFTER_PATH" value="../backend/target/classes/cat/copernic/backend/logic/EmailLogic.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_10_[Changes]1/EmailLogic.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/EntreBicis-1.0-SNAPSHOT.jar" />
+    <option name="AFTER_PATH" value="../backend/target/EntreBicis-1.0-SNAPSHOT.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_10_[Changes]1/EntreBicis-1.0-SNAPSHOT.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../backend/target/classes/cat/copernic/backend/logic/RouteService.class" />
+    <option name="AFTER_PATH" value="../backend/target/classes/cat/copernic/backend/logic/RouteService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_05_2025_9_10_[Changes]1/RouteService.class" />
+  </binary>
+</changelist>

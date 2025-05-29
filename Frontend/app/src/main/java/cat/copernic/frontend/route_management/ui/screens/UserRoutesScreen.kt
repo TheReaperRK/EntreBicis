@@ -23,6 +23,7 @@ import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.navigation.NavController
+import cat.copernic.frontend.core.ui.theme.SecondaryGreen
 
 
 @Composable
@@ -41,7 +42,7 @@ fun LlistaRutesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PrimaryGreen)
+            .background(color = SecondaryGreen)
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {

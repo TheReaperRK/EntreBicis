@@ -25,21 +25,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ * Controlador per gestionar l’autenticació i registre d’usuaris per la interfície web.
+ * Inclou accés a les vistes de login i registre, validació de credencials d’administradors,
+ * creació de sessions i tancament de sessió.
+ * 
+ * Aquesta classe només s’utilitza per la part web (no per l’app mòbil).
+ * 
+ * Ruta base: /
+ * 
  * @author carlo
  */
 @Controller
 public class AuthController {
-    
+
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(AuthController.class);
+
     @Autowired
     private UserRepo userRepo;
-    
+
     @Autowired
     private BCryptPasswordEncoder encoder;
-    
+
     @Autowired
     private UserSessionLogic userSessionLogic;
-    
+
     @Autowired
     private UserLogic userLogic;
 
@@ -48,49 +57,89 @@ public class AuthController {
         this.encoder = encoder;
     }
 
+    /**
+     * Mostra la vista de login web.
+     * 
+     * @return ruta de la plantilla de login HTML
+     */
     @GetMapping("/login")
     public String login() {
-      //  userLogic.createSampleUser();
+        logger.info("Acceso a la vista de login");
         return "/auth/login";
     }
-    
+
+    /**
+     * Endpoint per processar el login des de l’entorn web.
+     * Només permet iniciar sessió si l’usuari té rol ADMIN.
+     *
+     * @param email correu electrònic introduït al formulari
+     * @param word contrasenya introduïda
+     * @return resposta amb claus de sessió si es valida, error 401 si les credencials no són vàlides
+     */
     @PostMapping("/login")
-    @ResponseBody 
+    @ResponseBody
     public ResponseEntity<?> loginWeb(@RequestParam String email, @RequestParam String word) {
+        logger.info("Intentando iniciar sesión para el usuario {}", email);
 
-        
-        User user = userLogic.authUser(email, word);
+        try {
+            User user = userLogic.authUser(email, word);
 
-        System.out.println(user);
-        if (user != null) {
-            System.out.println("in");
-            UserSession sessio = userSessionLogic.createSession(email);
-            return ResponseEntity.ok(Map.of(
-                    "email", email,
-                    "sessionKey", sessio.getSessionKey()
-            ));
+            if (user != null && user.getRole() == Role.ADMIN) {
+                logger.info("Autenticación exitosa para {}", email);
+                UserSession sessio = userSessionLogic.createSession(email);
+                return ResponseEntity.ok(Map.of(
+                        "email", email,
+                        "sessionKey", sessio.getSessionKey()
+                ));
+            } else {
+                logger.warn("Fallo de autenticación para {}", email);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales incorrectas"));
+            }
+        } catch (Exception e) {
+            logger.error("Error durante la autenticación de {}: {}", email, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error interno"));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenciales incorrectas"));
     }
-   
+
+    /**
+     * Mostra el formulari de registre d’usuari.
+     * 
+     * @param model model de la vista amb un usuari buit per al binding
+     * @return ruta de la plantilla de registre HTML
+     */
     @GetMapping("/register")
     public String registerForm(Model model) {
+        logger.info("Acceso a la vista de registro");
         model.addAttribute("user", new User());
         return "/auth/register";
     }
 
+    /**
+     * Endpoint per registrar un nou usuari des de la web.
+     * La contrasenya es codifica i s’assigna el rol per defecte USER.
+     *
+     * @param user objecte {@code User} provinent del formulari
+     * @return redirecció al login amb indicador de registre correcte
+     */
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
+        logger.info("Registrando nuevo usuario con email: {}", user.getMail());
         user.setWord(encoder.encode(user.getWord()));
-        user.setRole(Role.USER); // Por defecto
+        user.setRole(Role.USER);
         userRepo.save(user);
         return "redirect:/login?registered";
     }
-    
-    
+
+    /**
+     * Endpoint per tancar la sessió web de l’usuari.
+     * 
+     * @param session objecte {@code HttpSession} a invalidar
+     * @return redirecció a login amb paràmetre de logout
+     */
     @GetMapping("/auth/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // 🔐 Invalida la sessió
-        return "redirect:/login?logout"; // 🔁 Redirigeix al login
+        logger.info("Cierre de sesión");
+        session.invalidate();
+        return "redirect:/login?logout";
     }
 }

@@ -14,4 +14,5 @@ sealed class Screens(val route: String) {
     object EditUser : Screens("edit_user")
     object Route : Screens("start_route")
     object RouteList : Screens("route_list")
+    object RewardsListByUser : Screens("rewards_by_user_list")
 }

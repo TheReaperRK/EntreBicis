@@ -154,7 +154,7 @@ fun RewardDetailContent(reward: Reward, viewModel: RewardsViewModel, onBack: () 
                                     errorMessage.value = error
                                     showErrorDialog.value = true
                                 } else {
-                                    // TODO
+                                    onBack()
                                 }
                             }
                         }

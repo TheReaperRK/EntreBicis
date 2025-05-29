@@ -95,7 +95,7 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
 
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     ProfileButton("editar") { navController.navigate(Screens.EditUser.route) }
-                    ProfileButton("reserves") { /* TODO */ }
+                    ProfileButton("reserves") { navController.navigate(Screens.RewardsListByUser.route) }
                     ProfileButton("tancar sessió") {
                         navController.navigate(Screens.Login.route) {
                             popUpTo(0) { inclusive = true }
@@ -118,7 +118,11 @@ fun ProfileScreen(navController: NavController, sessionViewModel: UserSessionVie
             if (reservaActiva != null) {
                 Text("Reserva activa", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(8.dp))
-                ReservaActivaCard(reservaActiva)
+                ReservaActivaCard(reservaActiva) {
+                    navController.navigate("reward_detail/${reservaActiva.id}")
+                }
+            } else  {
+                Text("No tens cap reserva activa o per recollir", style = MaterialTheme.typography.titleMedium)
             }
         }
     } ?: run {
@@ -143,6 +147,7 @@ fun ProfileInfoField(text: String) {
             text = text,
             modifier = Modifier.padding(12.dp),
             style = MaterialTheme.typography.bodyMedium
+
         )
     }
 }

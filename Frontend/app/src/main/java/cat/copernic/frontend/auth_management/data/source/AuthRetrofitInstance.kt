@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object AuthRetrofitInstance {
 
     private const val BASE_URL = "http://10.0.2.2:8080/" // ✅ base limpia sin /api/auth
-
+    private const val URL_DOCKER = "http://52.70.222.133:8080/"
     // Logging para depurar peticiones/respuestas
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.NONE

@@ -65,3 +65,373 @@
 2025-05-16 08:24:43 [http-nio-8080-exec-10] INFO  c.c.b.controllers.UserController - Edició d'usuari: ciclista@example.com
 2025-05-16 08:24:43 [http-nio-8080-exec-10] INFO  c.c.b.controllers.UserController - Usuari editat correctament: ciclista@example.com
 2025-05-16 08:24:43 [http-nio-8080-exec-10] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 08:36:57 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Starting EntreBicis using Java 21.0.5 with PID 23248 (C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\target\classes started by carlo in C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend)
+2025-05-16 08:36:57 [restartedMain] INFO  cat.copernic.backend.EntreBicis - No active profile set, falling back to 1 default profile: "default"
+2025-05-16 08:36:58 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-16 08:36:58 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 6 JPA repository interfaces.
+2025-05-16 08:36:58 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-16 08:36:58 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-16 08:36:58 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-05-16 08:36:58 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-16 08:36:58 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 912 ms
+2025-05-16 08:36:58 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2025-05-16 08:36:58 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@35032b25
+2025-05-16 08:36:58 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2025-05-16 08:36:58 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true'
+2025-05-16 08:36:58 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-16 08:36:58 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-16 08:36:58 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-16 08:36:58 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-16 08:36:59 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-16 08:36:59 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-16 08:36:59 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+2025-05-16 08:36:59 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-16 08:36:59 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-05-16 08:36:59 [restartedMain] WARN  o.t.templatemode.TemplateMode - [THYMELEAF][restartedMain] Unknown Template Mode 'HTML5'. Must be one of: 'HTML', 'XML', 'TEXT', 'JAVASCRIPT', 'CSS', 'RAW'. Using default Template Mode 'HTML'.
+2025-05-16 08:36:59 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-16 08:36:59 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-16 08:36:59 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Started EntreBicis in 2.071 seconds (process running for 175.026)
+2025-05-16 08:36:59 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-05-16 08:41:29 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-16 08:41:29 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-16 08:41:29 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-16 08:41:29 [http-nio-8080-exec-2] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 08:54:26 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Starting EntreBicis using Java 21.0.5 with PID 1844 (C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\target\classes started by carlo in C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend)
+2025-05-16 08:54:26 [restartedMain] INFO  cat.copernic.backend.EntreBicis - No active profile set, falling back to 1 default profile: "default"
+2025-05-16 08:54:26 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-16 08:54:26 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-16 08:54:27 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-16 08:54:27 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 104 ms. Found 6 JPA repository interfaces.
+2025-05-16 08:54:28 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-16 08:54:28 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-16 08:54:28 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-16 08:54:28 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-05-16 08:54:28 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-16 08:54:28 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1811 ms
+2025-05-16 08:54:28 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-16 08:54:28 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@22f2bbf9
+2025-05-16 08:54:28 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-16 08:54:28 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true'
+2025-05-16 08:54:29 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-16 08:54:29 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-16 08:54:29 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-16 08:54:29 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-16 08:54:30 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-16 08:54:30 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-16 08:54:31 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-16 08:54:31 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+2025-05-16 08:54:31 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-16 08:54:31 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-05-16 08:54:32 [restartedMain] WARN  o.t.templatemode.TemplateMode - [THYMELEAF][restartedMain] Unknown Template Mode 'HTML5'. Must be one of: 'HTML', 'XML', 'TEXT', 'JAVASCRIPT', 'CSS', 'RAW'. Using default Template Mode 'HTML'.
+2025-05-16 08:54:32 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-16 08:54:32 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-16 08:54:32 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-16 08:54:32 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Started EntreBicis in 6.257 seconds (process running for 6.693)
+2025-05-16 08:55:23 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-16 08:55:23 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-16 08:55:23 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-16 08:56:00 [http-nio-8080-exec-3] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 08:56:06 [http-nio-8080-exec-7] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 08:56:08 [http-nio-8080-exec-9] INFO  c.c.b.controllers.UserController - Accés al formulari d'edició per a l'usuari: ciclista@example.com
+2025-05-16 08:56:09 [http-nio-8080-exec-2] INFO  c.c.b.controllers.RewardController - Visualització de recompenses per a l'usuari ciclista@example.com
+2025-05-16 08:56:12 [http-nio-8080-exec-3] INFO  c.c.b.controllers.RewardController - Recompensa amb id 7 acceptada per l'usuari ciclista@example.com
+2025-05-16 08:56:12 [http-nio-8080-exec-1] INFO  c.c.b.controllers.RewardController - Visualització de recompenses per a l'usuari ciclista@example.com
+2025-05-16 09:17:20 [http-nio-8080-exec-6] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 09:17:22 [http-nio-8080-exec-3] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 09:17:23 [http-nio-8080-exec-1] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 09:17:23 [http-nio-8080-exec-10] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 09:17:24 [http-nio-8080-exec-3] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 09:17:29 [http-nio-8080-exec-3] INFO  c.c.b.controllers.UserController - Accés al formulari d'edició per a l'usuari: ciclista@example.com
+2025-05-16 09:17:33 [http-nio-8080-exec-7] INFO  c.c.b.controllers.UserController - Edició d'usuari: ciclista@example.com
+2025-05-16 09:17:33 [http-nio-8080-exec-7] INFO  c.c.b.controllers.UserController - Usuari editat correctament: ciclista@example.com
+2025-05-16 09:17:33 [http-nio-8080-exec-7] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 09:22:42 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Starting EntreBicis using Java 21.0.5 with PID 23472 (C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\target\classes started by carlo in C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend)
+2025-05-16 09:22:42 [restartedMain] INFO  cat.copernic.backend.EntreBicis - No active profile set, falling back to 1 default profile: "default"
+2025-05-16 09:22:42 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-16 09:22:42 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-16 09:22:43 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-16 09:22:43 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 88 ms. Found 6 JPA repository interfaces.
+2025-05-16 09:22:44 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-16 09:22:44 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-16 09:22:44 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-16 09:22:44 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-05-16 09:22:44 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-16 09:22:44 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1720 ms
+2025-05-16 09:22:44 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-16 09:22:44 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@573195a8
+2025-05-16 09:22:44 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-16 09:22:44 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true'
+2025-05-16 09:22:44 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-16 09:22:45 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-16 09:22:45 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-16 09:22:45 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-16 09:22:46 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-16 09:22:46 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-16 09:22:47 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-16 09:22:47 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+2025-05-16 09:22:47 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-16 09:22:47 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-05-16 09:22:47 [restartedMain] WARN  o.t.templatemode.TemplateMode - [THYMELEAF][restartedMain] Unknown Template Mode 'HTML5'. Must be one of: 'HTML', 'XML', 'TEXT', 'JAVASCRIPT', 'CSS', 'RAW'. Using default Template Mode 'HTML'.
+2025-05-16 09:22:47 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-16 09:22:47 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-16 09:22:47 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-16 09:22:47 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Started EntreBicis in 5.813 seconds (process running for 6.269)
+2025-05-16 09:23:20 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-16 09:23:20 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-16 09:23:20 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-05-16 09:23:42 [http-nio-8080-exec-6] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 09:23:48 [http-nio-8080-exec-7] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:23:52 [http-nio-8080-exec-3] INFO  c.c.b.controllers.RewardController - Accés al formulari d'edició per la recompensa amb id 5
+2025-05-16 09:23:56 [http-nio-8080-exec-9] INFO  c.c.b.controllers.RewardController - Recompensa editada amb id 5
+2025-05-16 09:23:56 [http-nio-8080-exec-1] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:24:01 [http-nio-8080-exec-2] INFO  c.c.b.controllers.RewardController - Accés al formulari d'edició per la recompensa amb id 9
+2025-05-16 09:24:03 [http-nio-8080-exec-10] INFO  c.c.b.controllers.RewardController - Recompensa editada amb id 9
+2025-05-16 09:24:03 [http-nio-8080-exec-4] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:24:26 [http-nio-8080-exec-6] INFO  c.c.b.controllers.RewardController - Recompensa amb id 8 acceptada per l'usuari ciclista@example.com
+2025-05-16 09:24:26 [http-nio-8080-exec-4] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:30:44 [http-nio-8080-exec-10] INFO  c.c.b.controllers.RewardController - Accés al formulari d'edició per la recompensa amb id 8
+2025-05-16 09:30:48 [http-nio-8080-exec-8] INFO  c.c.b.controllers.RewardController - Recompensa editada amb id 8
+2025-05-16 09:30:48 [http-nio-8080-exec-4] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:30:49 [http-nio-8080-exec-3] INFO  c.c.b.controllers.RewardController - Accés al formulari d'edició per la recompensa amb id 5
+2025-05-16 09:30:51 [http-nio-8080-exec-7] INFO  c.c.b.controllers.RewardController - Recompensa editada amb id 5
+2025-05-16 09:30:51 [http-nio-8080-exec-10] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:30:52 [http-nio-8080-exec-1] INFO  c.c.b.controllers.RewardController - Accés al formulari d'edició per la recompensa amb id 7
+2025-05-16 09:30:55 [http-nio-8080-exec-5] INFO  c.c.b.controllers.RewardController - Recompensa editada amb id 7
+2025-05-16 09:30:55 [http-nio-8080-exec-3] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:31:23 [http-nio-8080-exec-2] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:31:26 [http-nio-8080-exec-10] INFO  c.c.b.controllers.RewardController - Recompensa amb id 8 acceptada per l'usuari ciclista@example.com
+2025-05-16 09:31:26 [http-nio-8080-exec-1] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 09:55:44 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m58s810ms740µs700ns).
+2025-05-16 10:32:01 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m32s838ms507µs800ns).
+2025-05-16 10:37:20 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m18s462ms569µs300ns).
+2025-05-16 10:48:28 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m37s894ms40µs700ns).
+2025-05-16 11:19:52 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=24m53s950ms844µs900ns).
+2025-05-16 11:33:48 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m56s182ms346µs900ns).
+2025-05-16 11:35:43 [http-nio-8080-exec-1] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 11:47:28 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Starting EntreBicis using Java 21.0.5 with PID 33320 (C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\target\classes started by carlo in C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend)
+2025-05-16 11:47:28 [restartedMain] INFO  cat.copernic.backend.EntreBicis - No active profile set, falling back to 1 default profile: "default"
+2025-05-16 11:47:28 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-16 11:47:28 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-16 11:47:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-16 11:47:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 116 ms. Found 6 JPA repository interfaces.
+2025-05-16 11:47:31 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-16 11:47:31 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-16 11:47:31 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-16 11:47:31 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-05-16 11:47:31 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-16 11:47:31 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2275 ms
+2025-05-16 11:47:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-16 11:47:31 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4b75269b
+2025-05-16 11:47:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-16 11:47:31 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true'
+2025-05-16 11:47:32 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-16 11:47:32 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-16 11:47:32 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-16 11:47:32 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-16 11:47:33 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-16 11:47:34 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-16 11:47:34 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-16 11:47:34 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+2025-05-16 11:47:34 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-16 11:47:34 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-05-16 11:47:35 [restartedMain] WARN  o.t.templatemode.TemplateMode - [THYMELEAF][restartedMain] Unknown Template Mode 'HTML5'. Must be one of: 'HTML', 'XML', 'TEXT', 'JAVASCRIPT', 'CSS', 'RAW'. Using default Template Mode 'HTML'.
+2025-05-16 11:47:35 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-16 11:47:35 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-16 11:47:35 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-16 11:47:35 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Started EntreBicis in 7.558 seconds (process running for 8.161)
+2025-05-16 11:48:45 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-16 11:48:45 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-16 11:48:45 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-16 11:53:08 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Starting EntreBicis using Java 21.0.5 with PID 32444 (C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend\target\classes started by carlo in C:\Users\carlo\Desktop\CFGS2\Proyectos\EntreBicis\backend)
+2025-05-16 11:53:08 [restartedMain] INFO  cat.copernic.backend.EntreBicis - No active profile set, falling back to 1 default profile: "default"
+2025-05-16 11:53:08 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-16 11:53:08 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-16 11:53:09 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-16 11:53:09 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 118 ms. Found 6 JPA repository interfaces.
+2025-05-16 11:53:10 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-16 11:53:10 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-16 11:53:10 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-16 11:53:10 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-05-16 11:53:10 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-16 11:53:10 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2068 ms
+2025-05-16 11:53:10 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-16 11:53:10 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@156fe5ee
+2025-05-16 11:53:10 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-16 11:53:10 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true'
+2025-05-16 11:53:11 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-16 11:53:11 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-16 11:53:11 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-16 11:53:11 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-16 11:53:12 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-16 11:53:13 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-16 11:53:13 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-16 11:53:13 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authProvider
+2025-05-16 11:53:13 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-16 11:53:13 [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-05-16 11:53:14 [restartedMain] WARN  o.t.templatemode.TemplateMode - [THYMELEAF][restartedMain] Unknown Template Mode 'HTML5'. Must be one of: 'HTML', 'XML', 'TEXT', 'JAVASCRIPT', 'CSS', 'RAW'. Using default Template Mode 'HTML'.
+2025-05-16 11:53:14 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-05-16 11:53:14 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-16 11:53:14 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-05-16 11:53:14 [restartedMain] INFO  cat.copernic.backend.EntreBicis - Started EntreBicis in 6.758 seconds (process running for 7.257)
+2025-05-16 11:53:41 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-16 11:53:41 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-16 11:53:41 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-05-16 11:56:47 [http-nio-8080-exec-4] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 11:57:13 [http-nio-8080-exec-5] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 11:57:24 [http-nio-8080-exec-9] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 11:57:30 [http-nio-8080-exec-7] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 11:58:33 [http-nio-8080-exec-7] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 12:00:39 [http-nio-8080-exec-7] INFO  c.c.b.controllers.RewardController - Accés al formulari d'edició per la recompensa amb id 8
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@156fe5ee (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@40747923 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5b4f2e37 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7b6a8e69 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3617f85e (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@55c932de (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@775580c6 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@58635183 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@51bf87d9 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:39 [http-nio-8080-exec-7] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4d7c10f2 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-05-16 12:00:58 [http-nio-8080-exec-5] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 12:01:01 [http-nio-8080-exec-2] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 12:01:03 [http-nio-8080-exec-1] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 12:01:09 [http-nio-8080-exec-7] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08S01
+2025-05-16 12:01:09 [http-nio-8080-exec-7] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - HikariPool-1 - Connection is not available, request timed out after 30012ms (total=0, active=0, idle=0, waiting=3)
+2025-05-16 12:01:09 [http-nio-8080-exec-7] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2025-05-16 12:01:09 [http-nio-8080-exec-7] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction] with root cause
+java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:153)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:121)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:945)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:815)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-05-16 12:01:28 [http-nio-8080-exec-5] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08S01
+2025-05-16 12:01:28 [http-nio-8080-exec-5] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - HikariPool-1 - Connection is not available, request timed out after 30001ms (total=0, active=0, idle=0, waiting=2)
+2025-05-16 12:01:28 [http-nio-8080-exec-5] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2025-05-16 12:01:28 [http-nio-8080-exec-5] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction] with root cause
+java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:153)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:121)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:945)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:815)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-05-16 12:01:31 [http-nio-8080-exec-2] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08S01
+2025-05-16 12:01:31 [http-nio-8080-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - HikariPool-1 - Connection is not available, request timed out after 30004ms (total=0, active=0, idle=0, waiting=1)
+2025-05-16 12:01:31 [http-nio-8080-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2025-05-16 12:01:31 [http-nio-8080-exec-2] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction] with root cause
+java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:153)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:121)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:945)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:815)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-05-16 12:01:33 [http-nio-8080-exec-1] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08S01
+2025-05-16 12:01:33 [http-nio-8080-exec-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - HikariPool-1 - Connection is not available, request timed out after 30006ms (total=0, active=0, idle=0, waiting=0)
+2025-05-16 12:01:33 [http-nio-8080-exec-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2025-05-16 12:01:33 [http-nio-8080-exec-1] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction] with root cause
+java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:153)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:121)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:945)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:815)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-05-16 12:01:51 [http-nio-8080-exec-6] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 12:01:55 [http-nio-8080-exec-4] INFO  c.c.b.controllers.UserController - Accés al formulari d'edició per a l'usuari: aaaaa@hdd
+2025-05-16 12:01:58 [http-nio-8080-exec-2] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 12:02:48 [http-nio-8080-exec-4] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 12:02:49 [http-nio-8080-exec-7] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 12:02:50 [http-nio-8080-exec-6] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 12:03:09 [http-nio-8080-exec-10] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 12:04:15 [http-nio-8080-exec-6] INFO  c.c.b.c.auth.AuthController - Cierre de sesión
+2025-05-16 12:04:16 [http-nio-8080-exec-2] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 12:04:19 [http-nio-8080-exec-8] INFO  c.c.b.c.auth.AuthController - Acceso a la vista de login
+2025-05-16 12:05:19 [http-nio-8080-exec-3] INFO  c.c.b.controllers.RewardController - Visualització de la llista de recompenses (admin)
+2025-05-16 12:08:32 [http-nio-8080-exec-1] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 12:08:33 [http-nio-8080-exec-4] INFO  c.c.b.controllers.RouteControllers - Visualització de detall de ruta amb id 11
+2025-05-16 12:10:24 [http-nio-8080-exec-9] INFO  c.c.b.controllers.RouteControllers - Consulta de llista completa de rutes
+2025-05-16 12:10:26 [http-nio-8080-exec-2] INFO  c.c.b.controllers.UserController - Accés a la llista d'usuaris
+2025-05-16 12:10:35 [http-nio-8080-exec-9] INFO  c.c.b.c.SystemParametersController - Accés al formulari de paràmetres del sistema

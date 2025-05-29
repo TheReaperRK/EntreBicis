@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cat.copernic.frontend.auth_management.data.management.UserSessionViewModel
+import cat.copernic.frontend.core.viewmodels.UiVisibilityViewModel
 import cat.copernic.frontend.navigation.Screens
 import cat.copernic.frontend.route_management.ui.components.MapaRuta
 import cat.copernic.frontend.route_management.ui.viewmodels.RouteViewModel
@@ -32,7 +33,11 @@ import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StartRouteScreen(navController: NavController, sessionViewModel: UserSessionViewModel) {
+fun StartRouteScreen(
+    navController: NavController,
+    sessionViewModel: UserSessionViewModel,
+    uiVisibilityViewModel: UiVisibilityViewModel
+) {
     val context = LocalContext.current
     val routeViewModel: RouteViewModel = viewModel()
     val fusedClient = remember { LocationServices.getFusedLocationProviderClient(context) }
@@ -81,6 +86,7 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
         } else {
             user?.let { routeViewModel.startRoute(it.mail) }
             isRecording = true
+            uiVisibilityViewModel.hideBar() // 👈 OCULTAR barra al iniciar
         }
     }
 
@@ -102,6 +108,7 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
             }
         } else {
             timerJob?.cancel()
+            uiVisibilityViewModel.showBar() // 👈 MOSTRAR barra al parar
         }
     }
 
@@ -163,7 +170,7 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
                             onStartRoutePressed()
                         } else {
                             routeViewModel.stopRoute()
-                            user?.let { user ->
+                            user?.let { _ ->
                                 routeViewModel.sendRoute(context) { success, _ ->
                                     snackbarMessage = if (success) {
                                         "Ruta enviada correctament"
@@ -171,6 +178,7 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
                                         "Error en enviar la ruta"
                                     }
                                     showSnackbar = true
+                                    uiVisibilityViewModel.showBar() // 👈 volver a mostrar barra tras envío
                                 }
                             }
                             isRecording = false
@@ -186,7 +194,10 @@ fun StartRouteScreen(navController: NavController, sessionViewModel: UserSession
                 }
             } else {
                 Button(
-                    onClick = { resetScreen() },
+                    onClick = {
+                        uiVisibilityViewModel.showBar() // 👈 aseguramos que se muestra
+                        resetScreen()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C08A)),
                     modifier = Modifier.fillMaxWidth()
                 ) {

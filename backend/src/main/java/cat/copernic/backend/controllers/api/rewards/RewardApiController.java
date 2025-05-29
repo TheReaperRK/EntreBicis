@@ -6,6 +6,7 @@ package cat.copernic.backend.controllers.api.rewards;
 
 import cat.copernic.backend.entity.Reward;
 import cat.copernic.backend.entity.User;
+import cat.copernic.backend.entity.enums.RewardStatus;
 import cat.copernic.backend.logic.RewardLogic;
 import cat.copernic.backend.logic.UserLogic;
 import cat.copernic.backend.repository.UserRepo;
@@ -26,14 +27,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controlador REST per gestionar les recompenses des del frontend mòbil.
- * Permet consultar recompenses disponibles, veure detalls, obtenir recompenses d’un usuari,
- * així com sol·licitar i recollir recompenses, sempre que l’usuari tingui prou saldo.
- * 
+ * Controlador REST per gestionar les recompenses des del frontend mòbil. Permet
+ * consultar recompenses disponibles, veure detalls, obtenir recompenses d’un
+ * usuari, així com sol·licitar i recollir recompenses, sempre que l’usuari
+ * tingui prou saldo.
+ *
  * Rutes base: /api/rewards
- * 
- * Aquest controlador utilitza l'autenticació per JWT per obtenir l'usuari autenticat.
- * 
+ *
+ * Aquest controlador utilitza l'autenticació per JWT per obtenir l'usuari
+ * autenticat.
+ *
  * @author carlo
  */
 @RestController
@@ -66,7 +69,8 @@ public class RewardApiController {
      * Obté la llista de totes les recompenses d’un usuari concret.
      *
      * @param mail correu electrònic de l’usuari
-     * @return llista de recompenses de l’usuari (reservades, assignades o recollides)
+     * @return llista de recompenses de l’usuari (reservades, assignades o
+     * recollides)
      */
     @GetMapping("/list/{mail}")
     public List<Reward> listUserRewards(@PathVariable String mail) {
@@ -90,11 +94,13 @@ public class RewardApiController {
     }
 
     /**
-     * Sol·licita una recompensa. Comprova que l’usuari tingui prou saldo i assigna la recompensa.
+     * Sol·licita una recompensa. Comprova que l’usuari tingui prou saldo i
+     * assigna la recompensa.
      *
      * @param id identificador de la recompensa
      * @param principal context de seguretat amb l'usuari autenticat (JWT)
-     * @return resposta 200 si es pot sol·licitar, o error si no té saldo suficient o es produeix un error
+     * @return resposta 200 si es pot sol·licitar, o error si no té saldo
+     * suficient o es produeix un error
      */
     @PostMapping("/{id}/request")
     @ResponseBody
@@ -105,6 +111,18 @@ public class RewardApiController {
 
             User user = userLogic.getUserByMail(userMail);
             Reward reward = rewardLogic.getRewardById(id);
+
+            // 🔁 NOVETAT: comprovem si ja té una recompensa activa
+            List<Reward> recompensesUsuari = rewardLogic.getAllUserRewards(user);
+            boolean teRecompensaActiva = recompensesUsuari.stream()
+                    .anyMatch(r -> r.getEstat() != null
+                    && (r.getEstat() == RewardStatus.PENDING || r.getEstat() == RewardStatus.ACCEPTED));
+
+            if (teRecompensaActiva) {
+                logger.warn("Usuari {} ja té una recompensa activa", userMail);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Ja tens una recompensa activa. No pots fer una nova reserva.");
+            }
 
             if (user.getBalance() < reward.getPreu()) {
                 logger.warn("Usuari {} no té prou saldo. Saldo: {}, Preu: {}", userMail, user.getBalance(), reward.getPreu());
@@ -151,4 +169,3 @@ public class RewardApiController {
         }
     }
 }
-

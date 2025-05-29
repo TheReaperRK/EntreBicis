@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- Appender que guarda los logs en archivo -->
+    <!-- Variables reutilizables -->
+    <property name="LOG_PATH" value="logs" />
+    <property name="WEB_LOG_FILE" value="${LOG_PATH}/entrebicisBackendWeb.log" />
+    <property name="API_LOG_PATTERN" value="${LOG_PATH}/entrebicisBackendApi.%d{yyyy-MM-dd}.log" />
+
+    <!-- Appender para archivo de logs generales (WEB) -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- Política de rotación por día -->
+        <file>${WEB_LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/entrebicisBackendWeb.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/entrebicisBackendWeb.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
+    <!-- Appender para archivo específico de API -->
     <appender name="API_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/entrebicisBackendApi.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${API_LOG_PATTERN}</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
+    <!-- Appender para salida por consola -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger específico para la API -->
     <logger name="cat.copernic.backend.controllers.api" level="INFO" additivity="false">
         <appender-ref ref="API_FILE" />
+        <appender-ref ref="STDOUT" />
     </logger>
 
-    <!-- Niveles de log global -->
+    <!-- Logger raíz (todo lo que no esté especificado va aquí) -->
     <root level="INFO">
         <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
     </root>
 
 </configuration>
-

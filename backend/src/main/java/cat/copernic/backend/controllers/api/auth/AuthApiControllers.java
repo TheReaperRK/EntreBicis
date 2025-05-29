@@ -98,7 +98,7 @@ public class AuthApiControllers {
      * @param email correu electrònic de l’usuari
      * @return objecte {@code ProfileDTO} amb totes les dades rellevants del perfil o error 404
      */
-    @GetMapping("/user/{email}")
+    /*@GetMapping("/user/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
         logger.info("Petició per obtenir usuari complet amb email: {}", email);
         try {
@@ -126,6 +126,36 @@ public class AuthApiControllers {
                     .body("Error en recuperar l'usuari: " + e.getMessage());
         }
     }
+    */
+    
+    @GetMapping("/user/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+        try {
+            User user = userLogic.getUserByMail(email);
+            
+            ProfileDTO userDto = new ProfileDTO();
+            
+            userDto.setName(user.getName());
+            userDto.setSurnames(user.getSurnames());
+            userDto.setMail(user.getMail());
+            userDto.setObservations(user.getObservations());
+            userDto.setPhone_number(user.getPhone_number());
+            userDto.setPopulation(user.getPopulation());
+            userDto.setReward(user.getReward());
+            userDto.setBalance(user.getBalance());
+            
+            
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuari no trobat");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error en recuperar l'usuari: " + e.getMessage());
+        }
+    }
+
 
     /**
      * Endpoint per obtenir una versió simplificada (nom + email) d’un usuari.

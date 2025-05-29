@@ -25,6 +25,7 @@ import cat.copernic.frontend.auth_management.ui.screens.recover.ResetWordScreen
 import cat.copernic.frontend.core.models.Reward
 import cat.copernic.frontend.core.ui.components.BottomNavigationBar
 import cat.copernic.frontend.core.ui.screens.HomeScreen
+import cat.copernic.frontend.core.viewmodels.UiVisibilityViewModel
 import cat.copernic.frontend.profile_management.management.UserRepo
 import cat.copernic.frontend.profile_management.management.UserRetrofitInstance
 import cat.copernic.frontend.profile_management.ui.screens.EditProfileScreen
@@ -60,6 +61,8 @@ fun AppNavigation() {
     val rewardsViewModel: RewardsViewModel = viewModel(factory = rewardsFactory)
 
     val routeViewModel: RouteViewModel = viewModel()
+
+    val uiVisibilityViewModel: UiVisibilityViewModel = viewModel()
 
 
     val factory = ProfileViewModelFactory(UserRepo(UserRetrofitInstance.getApi(context)))
@@ -122,7 +125,7 @@ fun AppNavigation() {
             }
 
             composable(Screens.Route.route) {
-                StartRouteScreen(navController, userSessionViewModel)
+                StartRouteScreen(navController, userSessionViewModel, uiVisibilityViewModel)
             }
 
             composable("final_route") {

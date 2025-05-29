@@ -147,6 +147,7 @@ fun ProfileInfoField(text: String) {
             text = text,
             modifier = Modifier.padding(12.dp),
             style = MaterialTheme.typography.bodyMedium
+
         )
     }
 }

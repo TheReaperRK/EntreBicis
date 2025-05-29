@@ -23,9 +23,9 @@ image::EntreBicisLogoClean.png[][width=25%]
 
 == Demo en vídeo
 
-++++
-<iframe width="560" height="315" src="https://www.youtube.com/embed/EQFoRr_s-do" frameborder="0" allowfullscreen></iframe>
-++++
+
+Mira el vídeo aquí: https://www.youtube.com/watch?v=EQFoRr_s-do[EntreBicis - Demo]
+
 
 [[introduccio]]
 === 1.1 Introducció

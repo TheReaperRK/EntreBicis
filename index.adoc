@@ -21,6 +21,12 @@ image::EntreBicisLogoClean.png[][width=25%]
 [[presentacio-idea-del-projecate]]
 == *1. Proposta de projecte: Entre bicis*
 
+== Demo en vídeo
+
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EQFoRr_s-do" frameborder="0" allowfullscreen></iframe>
+++++
+
 [[introduccio]]
 === 1.1 Introducció
 
@@ -265,3 +271,11 @@ image::trello_2.png[]
 === 5.3 Sprint 3 - Planning
 
 image::trello_3.png[]
+
+[[sprint-final-planning]]
+=== 5.3 Sprint final - 
+
+image::trello_5.png[]
+
+
+

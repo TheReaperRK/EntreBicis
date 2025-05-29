@@ -4,6 +4,7 @@
  */
 package cat.copernic.backend.logic;
 
+import cat.copernic.backend.entity.User;
 import cat.copernic.backend.entity.UserSession;
 import cat.copernic.backend.repository.UserSessionRepo;
 import java.time.LocalDateTime;

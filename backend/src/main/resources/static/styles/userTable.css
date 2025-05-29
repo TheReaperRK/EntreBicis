@@ -37,7 +37,6 @@ th:nth-child(6), td:nth-child(6) { /* Telèfon */
 th:nth-child(7), td:nth-child(7) { /* Rol */
     width: 80px;
     min-width: 70px;
-    text-transform: uppercase;
 }
 
 th:nth-child(8), td:nth-child(8) { /* Balanç */

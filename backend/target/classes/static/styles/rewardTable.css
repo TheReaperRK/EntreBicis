@@ -1,0 +1,74 @@
+
+/* Establece anchos mínimos o fijos para columnas clave */
+th:nth-child(1), td:nth-child(1) { /* Imatge */
+    width: 70px;
+    min-width: 70px;
+}
+
+th:nth-child(2), td:nth-child(2) { /* Correu */
+    width: 200px;
+    min-width: 200px;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th:nth-child(3), td:nth-child(3) { /* Nom */
+    width: 120px;
+    min-width: 100px;
+}
+
+th:nth-child(4), td:nth-child(4) { /* Cognoms */
+    width: 180px;
+    min-width: 150px;
+}
+
+th:nth-child(5), td:nth-child(5) { /* Població */
+    width: 140px;
+    min-width: 100px;
+}
+
+th:nth-child(6), td:nth-child(6) { /* Telèfon */
+    width: 130px;
+    min-width: 110px;
+}
+
+th:nth-child(7), td:nth-child(7) { /* Rol */
+    width: 80px;
+    min-width: 70px;
+    text-transform: uppercase;
+}
+
+
+/* Última columna: accions */
+th:last-child,
+td:last-child {
+    min-width: 240px; /* más espacio para botones */
+}
+
+.btn-accept {
+    background-color: #27C08A;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+    margin-left: 4px;
+}
+
+.btn-accept:hover {
+    background-color: #1ea374;
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.action-buttons {
+    min-width: 240px; /* ajusta este valor según necesidad */
+}

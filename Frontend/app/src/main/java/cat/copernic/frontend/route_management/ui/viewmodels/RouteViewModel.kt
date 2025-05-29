@@ -137,14 +137,20 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
             val gpsPoints = locationPoints.mapIndexed { index, location ->
+                val timestamp = java.time.Instant.ofEpochMilli(location.time)
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDateTime()
+                    .format(formatter)
+
                 GpsPointDTO(
-                    idRouteDTO = null, // aún no tienes el ID, se asignará en el backend
-                    idPunt = (index + 1).toLong(), // empieza en 1
+                    idRouteDTO = null,
+                    idPunt = (index + 1).toLong(),
                     latitud = BigDecimal(location.latitude),
                     longitud = BigDecimal(location.longitude),
-                    timestamp = LocalDateTime.now().format(formatter)
+                    timestamp = timestamp
                 )
             }
+
 
             val routeDTO = RouteDTO(
                 idRouteDTO = null,

@@ -22,4 +22,18 @@ class RewardRepo(private val api: RewardApiRest) {
     suspend fun solicitarRecompensa(id: Long): Response<Unit> {
         return api.solicitarRecompensa(id)
     }
+
+    suspend fun recollirRecompensa(id: Long): Response<Unit> {
+        return api.recollirRecompensa(id)
+    }
+
+    suspend fun getRewardsByUser(email: String): List<Reward> {
+        val response = api.getAllRewardsByUser(email)
+        if (response.isSuccessful) {
+            return response.body() ?: emptyList()
+        } else {
+            throw Exception("No s'han pogut obtenir les recompenses de l'usuari.")
+        }
+    }
+
 }

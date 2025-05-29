@@ -36,6 +36,10 @@ public class UserLogic {
     public User getUserByMail(String mail) {
         return userRepo.getById(mail);
     }
+    
+    public Optional<User> findUserByMail(String mail){
+        return userRepo.findById(mail);
+    }
 
     public void saveWithEncoder(User user){
         Optional<User> existingOpt = userRepo.findById(user.getMail());

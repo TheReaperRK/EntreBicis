@@ -1,9 +1,10 @@
-package cat.copernic.frontend.route_management.ui.components
-
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.location.Location
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -17,20 +18,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import cat.copernic.frontend.core.models.DTO.RouteDTO
 import cat.copernic.frontend.core.ui.theme.PrimaryGreen
+import cat.copernic.frontend.core.utils.calcularVelocitatsEntrePunts
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavController) {
     val cameraPositionState = rememberCameraPositionState()
@@ -44,6 +50,13 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+
+        val velocitats = remember(ruta.gpsPoints) {
+            calcularVelocitatsEntrePunts(ruta.gpsPoints)
+        }
+
+        val velocitatMaxima = velocitats.maxOfOrNull { it.second } ?: 0.0
+
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState
@@ -56,7 +69,6 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
                 )
             }
 
-            // Iconos personalizados
             val circleIcon = remember {
                 createCustomMarkerIconSafely(zoomLevel = cameraPositionState.position.zoom)
             }
@@ -67,7 +79,6 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
             }
 
-            // Inicio
             if (latLngList.isNotEmpty()) {
                 Marker(
                     state = MarkerState(position = latLngList.first()),
@@ -76,7 +87,6 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
                 )
             }
 
-            // Fin
             if (latLngList.size > 1) {
                 Marker(
                     state = MarkerState(position = latLngList.last()),
@@ -85,19 +95,18 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
                 )
             }
 
-            // Puntos intermedios
-            if (latLngList.size > 2) {
-                latLngList.subList(1, latLngList.lastIndex).forEach { point ->
-                    Marker(
-                        state = MarkerState(position = point),
-                        icon = circleIcon,
-                        title = null
-                    )
-                }
+            ruta.gpsPoints.subList(1, ruta.gpsPoints.lastIndex).forEachIndexed { index, gps ->
+                val point = LatLng(gps.latitud.toDouble(), gps.longitud.toDouble())
+                val velocitat = velocitats.getOrNull(index)?.second ?: 0.0
+                Marker(
+                    state = MarkerState(position = point),
+                    icon = circleIcon,
+                    title = "Punt ${index + 1} - %.2f km/h".format(velocitat),
+                    snippet = "Lat: %.5f, Lng: %.5f".format(point.latitude, point.longitude)
+                )
             }
         }
 
-        // Botón de retroceso
         IconButton(
             onClick = { navController.popBackStack() },
             modifier = Modifier
@@ -109,52 +118,56 @@ fun MapaRouteDetall(ruta: RouteDTO, context: Context, navController: NavControll
             Icon(Icons.Default.ArrowBack, contentDescription = "Tornar enrere", tint = Color.Black)
         }
 
-        // Isla inferior de resumen
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 24.dp)
                 .background(Color.White.copy(alpha = 0.98f), shape = RoundedCornerShape(24.dp))
-                .padding(vertical = 20.dp, horizontal = 24.dp)
+                .padding(vertical = 24.dp, horizontal = 24.dp)
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Distància recorreguda",
-                    fontSize = 14.sp,
-                    color = Color.Gray
+                    text = "Resum de la ruta",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = PrimaryGreen
                 )
-                Text(
-                    text = "${String.format("%.2f", ruta.distance)} km",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+
+                val formatterSortida = DateTimeFormatter.ofPattern("dd/MM/yyyy · HH:mm")
+
+                val dataRuta = ruta.startDate?.let {
+                    try {
+                        val data = LocalDateTime.parse(it.replace(" ", "T"))
+                        data.format(formatterSortida)
+                    } catch (e: Exception) {
+                        "Data no disponible"
+                    }
+                } ?: "Data no disponible"
+
+                InfoRow(label = "Data de la ruta:", value = dataRuta)
+                InfoRow(label = "Distància:", value = "${String.format("%.2f", ruta.distance)} km")
+                InfoRow(label = "Duració:", value = ruta.totalTime ?: "—")
+                InfoRow(
+                    label = "Velocitat mitjana:",
+                    value = "${String.format("%.2f", ruta.averageSpeed)} km/h"
                 )
-                Text(
-                    text = "Duració total: ${ruta.totalTime}",
-                    fontSize = 16.sp,
-                    color = Color.DarkGray
-                )
-                Text(
-                    text = "Velocitat mitjana: ${String.format("%.2f", ruta.averageSpeed)} km/h",
-                    fontSize = 16.sp,
-                    color = Color.DarkGray
+                InfoRow(
+                    label = "Velocitat màxima:",
+                    value = "${String.format("%.2f", velocitatMaxima)} km/h",
+                    valueColor = if (velocitatMaxima > 35) Color.Red else Color.Unspecified
                 )
             }
         }
     }
 }
 
-
-
-/**
- * Crea un marcador circular verde con borde blanco.
- */
 fun createCustomMarkerIconSafely(zoomLevel: Float): BitmapDescriptor {
-    val baseSize = 60f  // <-- Más grande
+    val baseSize = 60f
     val size = (baseSize * (zoomLevel / 15f).coerceIn(0.6f, 1.5f)).toInt()
 
     val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
@@ -166,7 +179,7 @@ fun createCustomMarkerIconSafely(zoomLevel: Float): BitmapDescriptor {
     }
 
     val fillPaint = Paint().apply {
-        color = android.graphics.Color.parseColor("#FF27C08A") // PrimaryGreen
+        color = android.graphics.Color.parseColor("#FF27C08A")
         isAntiAlias = true
     }
 
@@ -180,4 +193,22 @@ fun createCustomMarkerIconSafely(zoomLevel: Float): BitmapDescriptor {
     }
 }
 
+fun calcularDistanciaEntrePunts(
+    lat1: Double, lon1: Double,
+    lat2: Double, lon2: Double
+): Float {
+    val resultado = FloatArray(1)
+    Location.distanceBetween(lat1, lon1, lat2, lon2, resultado)
+    return resultado[0]
+}
 
+@Composable
+fun InfoRow(label: String, value: String, valueColor: Color = Color.Unspecified) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = label, fontSize = 15.sp, color = Color.Gray)
+        Text(text = value, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = valueColor)
+    }
+}

@@ -1,0 +1,189 @@
+Index: ../backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>cat\\copernic\\backend\\entity\\DTO\\GpsPointDTOLight.class\r\ncat\\copernic\\backend\\entity\\DTO\\RouteDTO.class\r\ncat\\copernic\\backend\\entity\\GpsPoint.class\r\ncat\\copernic\\backend\\entity\\DTO\\LoginResponse.class\r\ncat\\copernic\\backend\\entity\\DTO\\UserDTO.class\r\ncat\\copernic\\backend\\logic\\mapToRoute.class\r\ncat\\copernic\\backend\\repository\\GpsPointRepo.class\r\ncat\\copernic\\backend\\entity\\mappers\\RouteMapper.class\r\ncat\\copernic\\backend\\logic\\auth\\CustomUserDetailsService.class\r\ncat\\copernic\\backend\\logic\\EmailLogic.class\r\ncat\\copernic\\backend\\controllers\\SystemParametersController.class\r\ncat\\copernic\\backend\\entity\\DTO\\RouteDtoClear.class\r\ncat\\copernic\\backend\\entity\\UserSession.class\r\ncat\\copernic\\backend\\entity\\Route.class\r\ncat\\copernic\\backend\\config\\JwtConfig.class\r\ncat\\copernic\\backend\\config\\SecurityConfig.class\r\ncat\\copernic\\backend\\repository\\RouteRepo.class\r\ncat\\copernic\\backend\\entity\\DTO\\ProfileDTO.class\r\ncat\\copernic\\backend\\entity\\SystemParameters.class\r\ncat\\copernic\\backend\\EntreBicis.class\r\ncat\\copernic\\backend\\controllers\\auth\\AuthController.class\r\ncat\\copernic\\backend\\logic\\RewardLogic.class\r\ncat\\copernic\\backend\\entity\\User$UserBuilder.class\r\ncat\\copernic\\backend\\controllers\\RewardController.class\r\ncat\\copernic\\backend\\controllers\\RouteControllers.class\r\ncat\\copernic\\backend\\controllers\\api\\route\\RouteApiController.class\r\ncat\\copernic\\backend\\entity\\GpsPoint$GpsPointBuilderImpl.class\r\ncat\\copernic\\backend\\repository\\SystemParametersRepo.class\r\ncat\\copernic\\backend\\controllers\\api\\rewards\\RewardApiController.class\r\ncat\\copernic\\backend\\entity\\Route$RouteBuilderImpl.class\r\ncat\\copernic\\backend\\entity\\enums\\State.class\r\ncat\\copernic\\backend\\config\\JwtAuthenticationFilter.class\r\ncat\\copernic\\backend\\logic\\RouteService.class\r\ncat\\copernic\\backend\\logic\\UserSessionLogic.class\r\ncat\\copernic\\backend\\controllers\\api\\auth\\AuthApiControllers.class\r\ncat\\copernic\\backend\\logic\\SystemParametersLogic.class\r\ncat\\copernic\\backend\\repository\\UserSessionRepo.class\r\ncat\\copernic\\backend\\entity\\GpsPoint$GpsPointBuilder.class\r\ncat\\copernic\\backend\\entity\\enums\\Validation.class\r\ncat\\copernic\\backend\\entity\\User$UserBuilderImpl.class\r\ncat\\copernic\\backend\\logic\\UserLogic.class\r\ncat\\copernic\\backend\\entity\\User.class\r\ncat\\copernic\\backend\\repository\\UserRepo.class\r\ncat\\copernic\\backend\\entity\\DTO\\GpsPointDTO.class\r\ncat\\copernic\\backend\\entity\\enums\\Role.class\r\ncat\\copernic\\backend\\entity\\Reward$RewardBuilder.class\r\ncat\\copernic\\backend\\repository\\RewardRepo.class\r\ncat\\copernic\\backend\\entity\\DTO\\RouteUserSpeedDistanceDTO.class\r\ncat\\copernic\\backend\\entity\\Reward$RewardBuilderImpl.class\r\ncat\\copernic\\backend\\controllers\\UserController.class\r\ncat\\copernic\\backend\\config\\EmailConfig.class\r\ncat\\copernic\\backend\\entity\\enums\\RewardStatus.class\r\ncat\\copernic\\backend\\controllers\\api\\user\\UserApiController.class\r\ncat\\copernic\\backend\\config\\JwtKeyProvider.class\r\ncat\\copernic\\backend\\config\\JwtUtil.class\r\ncat\\copernic\\backend\\entity\\Reward.class\r\ncat\\copernic\\backend\\entity\\Route$RouteBuilder.class\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst b/../backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+--- a/../backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst	(revision ea16f51d34a7e4a922d7efe44290fb3f08c2846b)
++++ b/../backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst	(date 1747206008655)
+@@ -1,57 +1,0 @@
+-cat\copernic\backend\entity\DTO\GpsPointDTOLight.class
+-cat\copernic\backend\entity\DTO\RouteDTO.class
+-cat\copernic\backend\entity\GpsPoint.class
+-cat\copernic\backend\entity\DTO\LoginResponse.class
+-cat\copernic\backend\entity\DTO\UserDTO.class
+-cat\copernic\backend\logic\mapToRoute.class
+-cat\copernic\backend\repository\GpsPointRepo.class
+-cat\copernic\backend\entity\mappers\RouteMapper.class
+-cat\copernic\backend\logic\auth\CustomUserDetailsService.class
+-cat\copernic\backend\logic\EmailLogic.class
+-cat\copernic\backend\controllers\SystemParametersController.class
+-cat\copernic\backend\entity\DTO\RouteDtoClear.class
+-cat\copernic\backend\entity\UserSession.class
+-cat\copernic\backend\entity\Route.class
+-cat\copernic\backend\config\JwtConfig.class
+-cat\copernic\backend\config\SecurityConfig.class
+-cat\copernic\backend\repository\RouteRepo.class
+-cat\copernic\backend\entity\DTO\ProfileDTO.class
+-cat\copernic\backend\entity\SystemParameters.class
+-cat\copernic\backend\EntreBicis.class
+-cat\copernic\backend\controllers\auth\AuthController.class
+-cat\copernic\backend\logic\RewardLogic.class
+-cat\copernic\backend\entity\User$UserBuilder.class
+-cat\copernic\backend\controllers\RewardController.class
+-cat\copernic\backend\controllers\RouteControllers.class
+-cat\copernic\backend\controllers\api\route\RouteApiController.class
+-cat\copernic\backend\entity\GpsPoint$GpsPointBuilderImpl.class
+-cat\copernic\backend\repository\SystemParametersRepo.class
+-cat\copernic\backend\controllers\api\rewards\RewardApiController.class
+-cat\copernic\backend\entity\Route$RouteBuilderImpl.class
+-cat\copernic\backend\entity\enums\State.class
+-cat\copernic\backend\config\JwtAuthenticationFilter.class
+-cat\copernic\backend\logic\RouteService.class
+-cat\copernic\backend\logic\UserSessionLogic.class
+-cat\copernic\backend\controllers\api\auth\AuthApiControllers.class
+-cat\copernic\backend\logic\SystemParametersLogic.class
+-cat\copernic\backend\repository\UserSessionRepo.class
+-cat\copernic\backend\entity\GpsPoint$GpsPointBuilder.class
+-cat\copernic\backend\entity\enums\Validation.class
+-cat\copernic\backend\entity\User$UserBuilderImpl.class
+-cat\copernic\backend\logic\UserLogic.class
+-cat\copernic\backend\entity\User.class
+-cat\copernic\backend\repository\UserRepo.class
+-cat\copernic\backend\entity\DTO\GpsPointDTO.class
+-cat\copernic\backend\entity\enums\Role.class
+-cat\copernic\backend\entity\Reward$RewardBuilder.class
+-cat\copernic\backend\repository\RewardRepo.class
+-cat\copernic\backend\entity\DTO\RouteUserSpeedDistanceDTO.class
+-cat\copernic\backend\entity\Reward$RewardBuilderImpl.class
+-cat\copernic\backend\controllers\UserController.class
+-cat\copernic\backend\config\EmailConfig.class
+-cat\copernic\backend\entity\enums\RewardStatus.class
+-cat\copernic\backend\controllers\api\user\UserApiController.class
+-cat\copernic\backend\config\JwtKeyProvider.class
+-cat\copernic\backend\config\JwtUtil.class
+-cat\copernic\backend\entity\Reward.class
+-cat\copernic\backend\entity\Route$RouteBuilder.class
+Index: ../backend/target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.application.name=adme\r\n\r\n#============================================\r\n#mysql\r\n#============================================\r\n\r\nspring.datasource.url=jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true\r\nspring.datasource.username=root\r\nspring.datasource.password=123456\r\nspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.jpa.hibernate.ddl-auto=update\r\n\r\n\r\nspring.servlet.multipart.max-file-size=15MB\r\nspring.servlet.multipart.max-request-size=15MB\r\n\r\n#============================================\r\n#MailSender\r\n#============================================\r\nspring.mail.host=smtp.gmail.com\r\nspring.mail.port=587\r\n\r\nspring.mail.username=AdMeProject3@gmail.com\r\nspring.mail.password=oxza mtdt iewj hkxt\r\nspring.mail.properties.mail.smtp.xauth=true\r\nspring.mail.properties.mail.smtp.starttls.enable=true\r\nspring.mail.properties.mail.smtp.starttls.required=true\r\nspring.mail.properties.mail.smtp.connectiontimeout=5000\r\nspring.mail.properties.mail.smtp.timeout=5000\r\nspring.mail.properties.mail.smtp.writetimeout=5000\r\n\r\n#============================================\r\n#thymeleaf\r\n#============================================\r\n\r\nspring.thymeleaf.enabled=true\r\nspring.thymeleaf.prefix=classpath:/templates/\r\nspring.thymeleaf.suffix=.html\r\nspring.thymeleaf.mode=HTML5
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/../backend/target/classes/application.properties b/../backend/target/classes/application.properties
+--- a/../backend/target/classes/application.properties	(revision ea16f51d34a7e4a922d7efe44290fb3f08c2846b)
++++ b/../backend/target/classes/application.properties	(date 1747206425244)
+@@ -1,39 +1,45 @@
+-spring.application.name=adme
++    spring.application.name=adme
+ 
+-#============================================
+-#mysql
+-#============================================
++    #============================================
++    #mysql
++    #============================================
+ 
+-spring.datasource.url=jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true
+-spring.datasource.username=root
+-spring.datasource.password=123456
+-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.jpa.hibernate.ddl-auto=update
++    #spring.datasource.url=jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true
++    #spring.datasource.username=root
++    #spring.datasource.password=123456
++    #spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
++    #spring.jpa.hibernate.ddl-auto=update
+ 
++    spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/EntreBicisDataB?createDatabaseIfNotExist=true}
++    spring.datasource.username=${SPRING_DATASOURCE_USERNAME:root}
++    spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:123456}
++    spring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_NAME:com.mysql.cj.jdbc.Driver}
++    spring.jpa.hibernate.ddl-auto=${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+ 
+-spring.servlet.multipart.max-file-size=15MB
+-spring.servlet.multipart.max-request-size=15MB
++    spring.servlet.multipart.max-file-size=15MB
++    spring.servlet.multipart.max-request-size=15MB
++    server.port=8081
+ 
+-#============================================
+-#MailSender
+-#============================================
+-spring.mail.host=smtp.gmail.com
+-spring.mail.port=587
++    #============================================
++    #MailSender
++    #============================================
++    spring.mail.host=smtp.gmail.com
++    spring.mail.port=587
+ 
+-spring.mail.username=AdMeProject3@gmail.com
+-spring.mail.password=oxza mtdt iewj hkxt
+-spring.mail.properties.mail.smtp.xauth=true
+-spring.mail.properties.mail.smtp.starttls.enable=true
+-spring.mail.properties.mail.smtp.starttls.required=true
+-spring.mail.properties.mail.smtp.connectiontimeout=5000
+-spring.mail.properties.mail.smtp.timeout=5000
+-spring.mail.properties.mail.smtp.writetimeout=5000
++    spring.mail.username=AdMeProject3@gmail.com
++    spring.mail.password=oxza mtdt iewj hkxt
++    spring.mail.properties.mail.smtp.xauth=true
++    spring.mail.properties.mail.smtp.starttls.enable=true
++    spring.mail.properties.mail.smtp.starttls.required=true
++    spring.mail.properties.mail.smtp.connectiontimeout=5000
++    spring.mail.properties.mail.smtp.timeout=5000
++    spring.mail.properties.mail.smtp.writetimeout=5000
+ 
+-#============================================
+-#thymeleaf
+-#============================================
++    #============================================
++    #thymeleaf
++    #============================================
+ 
+-spring.thymeleaf.enabled=true
+-spring.thymeleaf.prefix=classpath:/templates/
+-spring.thymeleaf.suffix=.html
+-spring.thymeleaf.mode=HTML5
+\ No newline at end of file
++    spring.thymeleaf.enabled=true
++    spring.thymeleaf.prefix=classpath:/templates/
++    spring.thymeleaf.suffix=.html
++    spring.thymeleaf.mode=HTML5
+\ No newline at end of file
+Index: ../backend/src/main/resources/logback-spring.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<configuration>\r\n\r\n    <!-- Appender que guarda los logs en archivo -->\r\n    <appender name=\"FILE\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <!-- Política de rotación por día -->\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\r\n            <fileNamePattern>logs/entrebicisBackendWeb.%d{yyyy-MM-dd}.log</fileNamePattern>\r\n            <maxHistory>30</maxHistory>\r\n        </rollingPolicy>\r\n\r\n        <encoder>\r\n            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>\r\n        </encoder>\r\n    </appender>\r\n\r\n    <appender name=\"API_FILE\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\r\n            <fileNamePattern>logs/entrebicisBackendApi.%d{yyyy-MM-dd}.log</fileNamePattern>\r\n            <maxHistory>30</maxHistory>\r\n        </rollingPolicy>\r\n\r\n        <encoder>\r\n            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>\r\n        </encoder>\r\n    </appender>\r\n\r\n    <logger name=\"cat.copernic.backend.controllers.api\" level=\"INFO\" additivity=\"false\">\r\n        <appender-ref ref=\"API_FILE\" />\r\n    </logger>\r\n\r\n    <!-- Niveles de log global -->\r\n    <root level=\"INFO\">\r\n        <appender-ref ref=\"FILE\" />\r\n    </root>\r\n\r\n</configuration>\r\n\r\n
+===================================================================
+diff --git a/../backend/src/main/resources/logback-spring.xml b/../backend/src/main/resources/logback-spring.xml
+--- a/../backend/src/main/resources/logback-spring.xml	(revision ea16f51d34a7e4a922d7efe44290fb3f08c2846b)
++++ b/../backend/src/main/resources/logback-spring.xml	(date 1747205972648)
+@@ -34,5 +34,4 @@
+         <appender-ref ref="FILE" />
+     </root>
+ 
+-</configuration>
+-
++</configuration>
+\ No newline at end of file
+Index: ../backend/target/classes/logback-spring.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<configuration>\r\n\r\n    <!-- Appender que guarda los logs en archivo -->\r\n    <appender name=\"FILE\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <!-- Política de rotación por día -->\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\r\n            <fileNamePattern>logs/entrebicisBackendWeb.%d{yyyy-MM-dd}.log</fileNamePattern>\r\n            <maxHistory>30</maxHistory>\r\n        </rollingPolicy>\r\n\r\n        <encoder>\r\n            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>\r\n        </encoder>\r\n    </appender>\r\n\r\n    <appender name=\"API_FILE\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.TimeBasedRollingPolicy\">\r\n            <fileNamePattern>logs/entrebicisBackendApi.%d{yyyy-MM-dd}.log</fileNamePattern>\r\n            <maxHistory>30</maxHistory>\r\n        </rollingPolicy>\r\n\r\n        <encoder>\r\n            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>\r\n        </encoder>\r\n    </appender>\r\n\r\n    <logger name=\"cat.copernic.backend.controllers.api\" level=\"INFO\" additivity=\"false\">\r\n        <appender-ref ref=\"API_FILE\" />\r\n    </logger>\r\n\r\n    <!-- Niveles de log global -->\r\n    <root level=\"INFO\">\r\n        <appender-ref ref=\"FILE\" />\r\n    </root>\r\n\r\n</configuration>\r\n\r\n
+===================================================================
+diff --git a/../backend/target/classes/logback-spring.xml b/../backend/target/classes/logback-spring.xml
+--- a/../backend/target/classes/logback-spring.xml	(revision ea16f51d34a7e4a922d7efe44290fb3f08c2846b)
++++ b/../backend/target/classes/logback-spring.xml	(date 1747205972648)
+@@ -34,5 +34,4 @@
+         <appender-ref ref="FILE" />
+     </root>
+ 
+-</configuration>
+-
++</configuration>
+\ No newline at end of file

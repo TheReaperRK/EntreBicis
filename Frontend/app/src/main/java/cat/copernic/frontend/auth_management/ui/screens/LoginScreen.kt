@@ -143,9 +143,10 @@ fun LoginScreen(navController: NavController, sessionViewModel: UserSessionViewM
                                     .apply()
 
                                 sessionViewModel.setSession(loginResponse.user, loginResponse.token)
+                                sessionViewModel.markSessionAsRestored()
 
                                 navController.navigate(Screens.Home.route) {
-                                    popUpTo(Screens.Login.route) { inclusive = true }
+                                    popUpTo(0) { inclusive = true }
                                 }
                             }
                         } else {

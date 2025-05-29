@@ -39,8 +39,9 @@ class UserSessionViewModel : ViewModel() {
         _token.value = token
     }
 
-    var isSessionRestored by mutableStateOf(false)
-        private set
+    private val _isSessionRestored = MutableStateFlow(false)
+    val isSessionRestored = _isSessionRestored.asStateFlow()
+
 
     fun restoreSession(context: Context) {
         val prefs = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
@@ -49,8 +50,7 @@ class UserSessionViewModel : ViewModel() {
 
         Log.d("RESTORE", "Token en prefs: $token, email en prefs: $email")
 
-        if (!isSessionRestored) {
-
+        if (_isSessionRestored.value.not()) {
             if (!token.isNullOrBlank() && !email.isNullOrBlank()) {
                 _token.value = token
                 Log.d("RESTORE", "Lanzamos getUserByEmail al backend con email=$email")
@@ -69,20 +69,27 @@ class UserSessionViewModel : ViewModel() {
                             } else {
                                 Log.d("RESTORE", "response.body() es nulo")
                             }
-                            isSessionRestored = true
                         } else {
-                            Log.d("RESTORE", "La respuesta no es success. Code=${response.code()}")
+                            Log.d("RESTORE", "Respuesta no exitosa. Code=${response.code()}")
                         }
                     } catch (e: Exception) {
                         Log.e("RESTORE", "Excepción en getUserByEmail", e)
+                    } finally {
+                        // ✅ SIEMPRE marcar como restaurada, incluso si falló
+                        _isSessionRestored.value = true
                     }
                 }
             } else {
                 Log.d("RESTORE", "No había token o email en prefs")
+                _isSessionRestored.value = true // ✅ Sin datos: restauración fallida, pero finalizada
             }
         } else {
             Log.d("RESTORE", "isSessionRestored ya estaba en true")
         }
+    }
+
+    fun markSessionAsRestored() {
+        _isSessionRestored.value = true
     }
 
     fun refreshUserData(context: Context) {

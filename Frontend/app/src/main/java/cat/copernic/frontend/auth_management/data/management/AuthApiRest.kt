@@ -22,16 +22,6 @@ interface AuthApiRest {
         @Query("word") word: String
     ): Response<LoginResponse>
 
-    @Multipart
-    @POST("register")
-    suspend fun register(
-        @Part("name") name: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("phone") phone: RequestBody,
-        @Part("password") password: RequestBody,
-        @Part image: MultipartBody.Part?
-    ): Response<User>
-
     @FormUrlEncoded
     @POST("/api/auth/recover")
     suspend fun recoverMailSender(

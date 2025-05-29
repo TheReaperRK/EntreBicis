@@ -39,16 +39,6 @@ class RouteRepository {
         return user
     }
 
-    suspend fun getGpsPointsByRoute(routeId: Route, context: Context): List<GpsPointDTO> {
-        val api = RouteRetrofitInstance.getApi(context)
-        val response = api.getGpsPointsByRoute(routeId)
-
-        return if (response.isSuccessful && response.body() != null) {
-            response.body()!!
-        } else {
-            emptyList() //
-        }
-    }
 
     suspend fun getAllRoutesByUser(context: Context): List<RouteDtoClear> {
         val api = RouteRetrofitInstance.getApi(context)

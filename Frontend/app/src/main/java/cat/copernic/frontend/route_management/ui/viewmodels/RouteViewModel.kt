@@ -30,49 +30,68 @@ import java.time.LocalDateTime
 import java.time.LocalDateTime.now
 import java.time.format.DateTimeFormatter
 
+/**
+ * ViewModel encarregat de gestionar la lògica de gravació, finalització i enviament de rutes GPS.
+ *
+ * Controla l'estat d'una ruta activa, calcula distància, temps i velocitat, i envia les dades al backend.
+ * També proporciona accés a les ubicacions actuals, actualitzacions de localització i historial de rutes.
+ *
+ * @constructor Crea una instància de RouteViewModel amb accés a l'Application.
+ */
 class RouteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = RouteRepository()
 
+    /** Llista de rutes de l'usuari autenticat */
     private val _userRoutes = MutableStateFlow<List<RouteDtoClear>>(emptyList())
     val userRoutes: StateFlow<List<RouteDtoClear>> get() = _userRoutes
 
+    /** Llista observable dels punts GPS en format LatLng per visualitzar la ruta */
     private val _routePoints = MutableStateFlow<List<LatLng>>(emptyList())
     val routePoints: StateFlow<List<LatLng>> = _routePoints
 
+    /** Estat que indica si la gravació d'una ruta està activa */
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> get() = _isRecording
 
+    /** Llista interna de punts de localització recollits (amb altitud i temps) */
     private var locationPoints = mutableListOf<Location>()
+
+    /** Timestamp en mil·lisegons del moment d'inici de la ruta */
     private var startTimestamp: Long = 0
 
+    /** Estat que indica si la ruta ha estat finalitzada */
     private val _routeFinished = MutableStateFlow(false)
     val routeFinished: StateFlow<Boolean> = _routeFinished
 
+    /** Última ubicació obtinguda per Google Location API */
     private val _ubicacioActual = MutableStateFlow<Location?>(null)
     val ubicacioActual: StateFlow<Location?> = _ubicacioActual
 
+    /** Ubicació actual del dispositiu per mostrar en la UI */
     private val _currentLocation = MutableStateFlow<Location?>(null)
     val currentLocation: StateFlow<Location?> get() = _currentLocation
 
+    /** Ruta actual en procés de gravació */
     private var currentRoute: Route = Route()
+
+    /** Temps total de la ruta en format HH:mm:ss */
     private var totalTimeString: String = "00:00:00"
 
     init {
-        // Limpieza al iniciar ViewModel por seguridad
+        // Neteja inicial de punts de localització
         locationPoints.clear()
     }
 
     /**
-     * Inicia la grabación de una ruta.
+     * Inicia una nova ruta associada a l'usuari.
+     *
+     * @param userEmail Correu electrònic de l'usuari per associar la ruta.
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun startRoute(userEmail: String) {
         _isRecording.value = true
         startTimestamp = System.currentTimeMillis()
-
-        //locationPoints.clear() // Limpieza por si quedó algo anterior
-        //_routePoints.value = emptyList() // ← LIMPIA la línea anterior
 
         currentRoute = Route().apply {
             startDate = LocalDateTime.now().toString()
@@ -81,7 +100,9 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Agrega una nueva ubicación real.
+     * Afegeix una ubicació capturada a la ruta actual.
+     *
+     * @param location Objecte [Location] amb latitud, longitud i hora.
      */
     fun addLocation(location: Location) {
         locationPoints.add(location)
@@ -94,12 +115,8 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAllRoutesByUser() {
-
-    }
-
     /**
-     * Finaliza la ruta y calcula los valores.
+     * Finalitza la ruta actual, calcula el temps total, distància i velocitat mitjana.
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun stopRoute() {
@@ -129,7 +146,10 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Envía la ruta finalizada y los puntos GPS al backend.
+     * Construeix i envia la ruta finalitzada amb els punts GPS al backend.
+     *
+     * @param context Context per accedir a l'API amb token.
+     * @param onResult Callback que rep un booleà d'èxit i la ruta retornada.
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendRoute(context: Context, onResult: (Boolean, Route?) -> Unit) {
@@ -151,7 +171,6 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
                 )
             }
 
-
             val routeDTO = RouteDTO(
                 idRouteDTO = null,
                 startDate = currentRoute.startDate.format(formatter),
@@ -165,25 +184,18 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             )
 
             repository.sendRoute(routeDTO, context) { success, routeDTO ->
-                println("view model: " + success)
                 onResult(success, routeDTO)
-                /*if (success && routeDTO != null) {
-                    viewModelScope.launch {
-                        val gpsPointsFromBackend = repository.getGpsPointsByRoute(routeDTO, context)
-                        _routePoints.value = gpsPointsFromBackend.map {
-                            LatLng(it.latitud.toDouble(), it.longitud.toDouble())
-                        }
-                    }
-                }
-                onResult(success, routeDTO)
-
-                 */
             }
 
             _isRecording.value = false
         }
     }
 
+    /**
+     * Carrega totes les rutes de l'usuari actual des del repositori.
+     *
+     * @param context Context per accedir a l'API amb el token.
+     */
     fun carregarRutesUsuari(context: Context) {
         viewModelScope.launch {
             val rutes = repository.getAllRoutesByUser(context)
@@ -191,9 +203,13 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /** Callback i client de localització utilitzats per rebre actualitzacions */
     var locationCallback: LocationCallback? = null
     var fusedClient: FusedLocationProviderClient? = null
 
+    /**
+     * Atura manualment les actualitzacions de localització.
+     */
     fun stopLocationUpdates() {
         fusedClient?.let { client ->
             locationCallback?.let { callback ->
@@ -203,6 +219,11 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Obté la ubicació actual un cop des del sistema de localització.
+     *
+     * @param context Context per accedir a LocationServices.
+     */
     fun obtenirUbicacioActual(context: Context) {
         if (fusedClient == null) {
             fusedClient = LocationServices.getFusedLocationProviderClient(context)
@@ -228,24 +249,19 @@ class RouteViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-
+    /**
+     * S'executa quan s'obté una nova ubicació del sistema.
+     *
+     * @param result Objecte amb la nova localització.
+     */
     fun onLocationResult(result: LocationResult) {
         result.lastLocation?.let {
             _ubicacioActual.value = it
 
             if (isRecording.value) {
-                addLocation(it) // solo guarda si está grabando
+                addLocation(it)
             }
         }
     }
-
-    fun resetRoute() {
-        locationPoints.clear()
-        _routePoints.value = emptyList()
-        _isRecording.value = false
-        _routeFinished.value = false
-        currentRoute = Route()
-        totalTimeString = "00:00:00"
-    }
-
 }
+

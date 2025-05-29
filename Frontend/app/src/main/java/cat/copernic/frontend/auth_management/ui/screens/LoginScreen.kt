@@ -153,8 +153,7 @@ fun LoginScreen(navController: NavController, sessionViewModel: UserSessionViewM
                             errorMessage = "Credencials incorrectes"
                         }
                     } catch (e: Exception) {
-                        errorMessage = "Error de xarxa: ${e.message}"
-                        println(e.message)
+                        errorMessage = "Error de xarxa:"
                     }
                 }
             },

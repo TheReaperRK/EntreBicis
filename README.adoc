@@ -10,12 +10,6 @@
 :imagesdir: /images
 
  2DAMM 24-25
- 
- Equip docent 
-    · Manel Orós Cuenca
-    · Esther Sanchez Batlló
-    · Jordi Cardenas Guia
-    · Merce Sitges Querol
 
 image::EntreBicisLogoClean.png[][width=25%]
 [[presentacio-idea-del-projecate]]
